@@ -1,0 +1,4 @@
+.form-group()
+	h4 {{ 'DATA' | translate }}
+	input.form-control(id="newfileupload", type="file", file-input="$parent.files" style="margin-bottom:10px") 
+	.span {{files[0].name}}

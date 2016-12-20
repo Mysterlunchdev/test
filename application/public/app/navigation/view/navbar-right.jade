@@ -1,0 +1,14 @@
+
+ul.nav.navbar-nav.navbar-right(ng-controller="mvNavBarCtrl")
+		//- li(ng-click="clickToOpen()")
+			a.sec-font-color(href="" ng-click="clickToOpen()") Tutorial {{test}}
+		//- li(ng-class="{active: isActive('/dash')}")
+			a.sec-font-color(href="/dash" analytics-on="click" analytics-event="") Dashboard		
+		li(ng-class="{active: isActive('/events')}")
+			a.sec-font-color(href="/events" analytics-on="click" analytics-event="" ng-show="identity.currentUser.rights==1") Meine Events		
+		li(ng-class="{active: isActive('/jobs')}")
+			a.sec-font-color(href="/jobs" analytics-on="click" analytics-event="" ng-show="identity.currentUser.rights==0") Meine Jobs		
+		li(ng-class="{active: isActive('/profile')}")
+			a.sec-font-color(href="/profile" analytics-on="click" analytics-event="") Mein Profil	
+		li
+			a(href="" ng-click="signout()") Ausloggen	

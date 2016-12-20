@@ -1,0 +1,15 @@
+.header
+    i.fa.fa-angle-left(ng-click="previous()")
+    span {{month.format("MMMM, YYYY")}}
+    i.fa.fa-angle-right(ng-click="next()")
+.week.names
+    span.day So
+    span.day Mo
+    span.day Di
+    span.day Mi
+    span.day Do
+    span.day Fr
+    span.day Sa
+
+.week(ng-repeat="week in weeks")
+    span.day(ng-class="{ today: day.isToday, 'different-month': !day.isCurrentMonth, selected: day.date.isSame(selected) }" ng-click="select(day)" ng-repeat="day in week.days") {{day.number}}

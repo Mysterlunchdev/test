@@ -1,0 +1,110 @@
+doctype //if lt IE 7
+html.no-js.lt-ie9.lt-ie8.lt-ie7  
+//if IE 7
+html.no-js.lt-ie9.lt-ie8  
+//if IE 8
+	html.no-js.lt-ie9  
+// [if gt IE 8] <!
+|  
+html.no-js
+	// <![endif]
+	head
+		//
+			Basic Page Needs
+			==================================================
+		meta(charset='utf-8')
+		|         
+		title Promo-Match
+		|         
+		meta(name='description', content='')
+		//
+			Mobile Specific Metas
+			==================================================
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		// Place favicon.ico and apple-touch-icon.png in the root directory
+		//
+			CSS
+			==================================================
+		// Bootstrap
+		link(rel='stylesheet', href='/css/bootstrap.min.css')
+
+		link(rel='stylesheet', href='/css/font-awesome.min.css')
+
+		link(rel='stylesheet', href='/vendor/toastr/toastr.css')
+
+		link(href='/css/site.css', rel='stylesheet', type='text/css')
+		|  
+		script(type="text/javascript", src="/vendor/jquery/dist/jquery.min.js")
+	body(data-spy='scroll', data-target='.navbar-fixed-top' ng-app="app")
+		include currentUser
+
+		header#section_header.navbar-fixed-top.main-nav(role='banner')
+			.container
+				// <div class="row">
+				.navbar-header
+					button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+						span.sr-only Toggle navigation
+						|                             
+						span.icon-bar
+						|                             
+						span.icon-bar
+						|                             
+						span.icon-bar
+					|                         
+					a.navbar-brand(href='/')
+						h4 Logo
+				// Navbar header End
+				nav#bs-example-navbar-collapse-1.collapse.navbar-collapse.navigation(role='navigation')
+					div(ng-include="'/partials/navigation/view/navbar-right.jade'")
+		block main-content
+		include scripts
+	include footer
+
+//- doctype html
+//- html
+//- 	head
+//- 		title titel
+//- 		meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+//- 		meta(name="description" content="")
+//- 		meta(name="keywords", content="")
+//- 		meta(http-equiv="Content-Type" content="text/html; charset=iso-8859-1")
+//- 		link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+//- 		link(rel='stylesheet', href='/vendor/toastr/toastr.css')
+//- 		//- link(rel='stylesheet', href='/vendor/colpick/css/colpick.css')
+//- 		//- link(rel='stylesheet', href="/vendor/guillotine-master/css/jquery.guillotine.css")
+//- 		//- link(rel='stylesheet', href="/vendor/ngDialog/css/ngDialog.css")
+//- 		//- link(rel='stylesheet', href="/vendor/ngDialog/css/ngDialog-theme-default.css")
+//- 		//- link(rel='stylesheet', href='/vendor/ngImgCrop/compile/minified/ng-img-crop.css')
+//- 		//- link(rel='stylesheet', href="/vendor/angular-tooltips/dist/angular-tooltips.min.css")
+//- 		<!-- Custom Fonts -->
+//- 		//- link(href="/vendor/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet")
+//- 		//- link(rel='stylesheet', href='/vendor/datetimepicker-master/jquery.datetimepicker.css')
+//- 		link(rel='stylesheet', href='/css/site.css', css="cssLink" id="cssLink")
+//- 		//- script(type="text/javascript", src="//tinymce.cachefly.net/4.1/tinymce.min.js")
+//- 		//- script(src="http://maps.googleapis.com/maps/api/js")
+//- 		//- script(type="text/javascript", src="/vendor/colpick/js/colpick.js")
+//- 		//- script(type="text/javascript", src="/vendor/autofill-event/src/autofill-event.js")
+//- 	body(ng-app="app")
+
+//- 		.wrapper
+//- 				include currentUser
+//- 				block header
+//- 				.container.visible-lg.visible-md.visible-sm#navconti(style="")
+//- 					//- div(style="float:left;width:130px")
+//- 						img(src="../images/logo_splash.png" style="width:120px;")
+//- 					.navbar.navbar-default.navbar-top.def-color.sec-font.color()
+//- 						.container-fluid
+//- 							.navbar-header
+//- 								button(class="navbar-toggle collapsed" data-toggle="collapse", data-target="#navbar_drop")
+//- 									span.sr-only
+//- 									span.icon-bar
+//- 									span.icon-bar
+//- 									span.icon-bar
+//- 								//- a.navbar-brand
+//- 									span taxify24.com
+//- 							.collapse.navbar-collapse(id="navbar_drop")
+//- 								div(ng-include="'/partials/navigation/view/navbar-right.jade'")
+//- 				.container-fluid.nopadding(id="maincontent")
+//- 					block main-content
+//- 			.push
+//- 			
