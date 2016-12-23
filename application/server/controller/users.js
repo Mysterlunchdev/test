@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
 	userModel = mongoose.model('user'),
 	ingredients = mongoose.model('ingredients'),
 	days = mongoose.model('days'),
+	user = mongoose.model('alluser'),
 	meals = mongoose.model('meals'),
 	Busboy = require('busboy'),
 	mailer = require('../utilities/mailer'),
@@ -24,6 +25,68 @@ var mongoose = require('mongoose'),
 
 
 module.exports = {
+	createUserMeal: function(req,res) {
+		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.status(204).end();
+			} else {
+				var now = new user(req.body);
+				now.save(function(err){
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					res.status(204).end();
+				})
+			}
+		})
+	},
+	addMealToFavorite: function(req,res) {
+		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				meals.findOne({_id:req.params.mealid}).exec(function(err,data2) {
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					if (!!data) {
+						data.meals.push(data2);
+						data.save(function(err){
+							if (err) {
+								console.log("error" + err.toString());
+								res.status(400);
+								res.send({reason:err.toString()});
+								return res.end();
+							}
+							res.send({list:data.meals});
+						})
+					} else {
+						res.send({});
+						res.status(200).end();
+					}
+				})
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 	/**
 	 * @api {get} /api/meal get meals
 	 * @apiVersion 0.1.0

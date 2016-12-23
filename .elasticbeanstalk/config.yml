@@ -1,13 +1,14 @@
 branch-defaults:
   master:
-    environment: null
-    group_suffix: null
+    environment: mahlzeit-env
+environment-defaults:
+  mahlzeit-env:
+    branch: null
+    repository: null
 global:
   application_name: mahlzeit
-  branch: null
   default_ec2_keyname: null
-  default_platform: 64bit Amazon Linux 2015.09 v2.0.7 running Node.js
+  default_platform: 64bit Amazon Linux 2016.09 v3.2.0 running Node.js
   default_region: eu-central-1
-  profile: eb-cli
-  repository: null
+  profile: '360'
   sc: git

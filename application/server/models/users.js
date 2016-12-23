@@ -129,3 +129,17 @@ var createSchema = mongoose.Schema({
 
 // createSchema.index({email:1})
 var create = mongoose.model('days', createSchema);
+var createSchema = mongoose.Schema({
+   meals: [{
+        _mealid: mongoose.Schema.ObjectId,
+       name: String,
+       picture: String,
+       specs: [],
+   }],
+   deviceid: String,
+});
+
+
+
+// createSchema.index({email:1})
+var create = mongoose.model('alluser', createSchema);
