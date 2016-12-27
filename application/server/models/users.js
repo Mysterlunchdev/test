@@ -13,8 +13,6 @@ var createSchema = mongoose.Schema({
     name: String, 
     email: {
         type: String,
-        required: '{PATH} is required!',
-        unique: true
     },
     salt: String,
     activated: Boolean,
@@ -131,10 +129,25 @@ var createSchema = mongoose.Schema({
 var create = mongoose.model('days', createSchema);
 var createSchema = mongoose.Schema({
    meals: [{
-        _mealid: mongoose.Schema.ObjectId,
-       name: String,
+    alert: Boolean,
+        _mealid: {
+            type: mongoose.Schema.ObjectId,
+            unique :true,
+        } ,
+        description: {
+        de: String,
+        en: String
+    },
+        name: {
+        de: String,
+        en: String
+    },
        picture: String,
-       specs: [],
+       specs: [{
+        de: String,
+        en: String,
+        val: String,
+    }],
    }],
    deviceid: String,
 });
@@ -142,4 +155,4 @@ var createSchema = mongoose.Schema({
 
 
 // createSchema.index({email:1})
-var create = mongoose.model('alluser', createSchema);
+var create = mongoose.model('alldevices', createSchema);

@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 	userModel = mongoose.model('user'),
 	ingredients = mongoose.model('ingredients'),
 	days = mongoose.model('days'),
-	user = mongoose.model('alluser'),
+	user = mongoose.model('alldevices'),
 	meals = mongoose.model('meals'),
 	Busboy = require('busboy'),
 	mailer = require('../utilities/mailer'),
@@ -19,12 +19,28 @@ var mongoose = require('mongoose'),
 	http = require('https'),
 	crypto = require('crypto'),
 	mongoose = require('mongoose'),
-	user = mongoose.model('user'),
+	// user = mongoose.model('user'),
 	AWS = require('aws-sdk'),
 	request = require('request');
 
 
 module.exports = {
+	getFavorites: function(req,res) {
+		user.findOne({deviceid:req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send({list:data.meals});
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 	createUserMeal: function(req,res) {
 		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
 			if (err) {
@@ -34,9 +50,11 @@ module.exports = {
 				return res.end();
 			}
 			if (!!data) {
+				res.send({list:data.meals});
 				res.status(204).end();
 			} else {
 				var now = new user(req.body);
+				now.deviceid = req.params.id;
 				now.save(function(err){
 					if (err) {
 						console.log("error" + err.toString());
@@ -50,6 +68,7 @@ module.exports = {
 		})
 	},
 	addMealToFavorite: function(req,res) {
+		console.log("addMealToFavorite")
 		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -66,7 +85,13 @@ module.exports = {
 						return res.end();
 					}
 					if (!!data) {
-						data.meals.push(data2);
+						data.meals.push({
+							_mealid: data2._id,
+							name: data2.name,
+							description: data2.description,
+							picture: data2.picture,
+							specs: data2.specs,
+						})
 						data.save(function(err){
 							if (err) {
 								console.log("error" + err.toString());
@@ -77,11 +102,14 @@ module.exports = {
 							res.send({list:data.meals});
 						})
 					} else {
+						console.log("sending empty on addMealToFavorite: mealid undefined")
 						res.send({});
 						res.status(200).end();
 					}
+
 				})
 			} else {
+				console.log("send leer weil id nicht gefunden")
 				res.send({});
 				res.status(200).end();
 			}
