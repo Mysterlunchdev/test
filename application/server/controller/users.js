@@ -34,7 +34,7 @@ module.exports = {
 				return res.end();
 			}
 			if (!!data) {
-				res.send({list:data.meals});
+				res.send({list:data.meals,likes:data.likes});
 			} else {
 				res.send({});
 				res.status(200).end();
@@ -50,7 +50,7 @@ module.exports = {
 				return res.end();
 			}
 			if (!!data) {
-				res.send({list:data.meals});
+				res.send({list:data.meals, likes:data.likes});
 				res.status(204).end();
 			} else {
 				var now = new user(req.body);
@@ -64,6 +64,82 @@ module.exports = {
 					}
 					res.status(204).end();
 				})
+			}
+		})
+	},
+	getLikes: function(req,res) {
+		console.log("getlikes",req.params.id)
+		meals.findOne({_id:req.params.id}).exec(function(err,data) {
+			console.log("insiede")
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				console.log(JSON.stringify(data))
+				res.send({likes:data.likes});
+			} else {
+				res.send({});
+			}
+		})
+	},
+	likeMeal: function(req,res) {
+		console.log("addMealToFavorite")
+		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				meals.findOne({_id:req.params.mealid}).exec(function(err,data2) {
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					if (!!data2) {
+						console.log(data2.likes)
+						if (data2.likes==undefined) data2.likes=0;
+						var index = helper.findInArray(data.likes, req.params.mealid, "_mealid");
+						console.log(index)
+						if (index==-1) {
+							data2.likes++;
+							data.likes.push({
+								_mealid: req.params.mealid
+							})
+							data2.save(function(err) {
+								if (err) {
+									console.log("error" + err.toString());
+								}
+							});
+						}
+						console.log(data2.likes)
+
+						data.save(function(err){
+							if (err) {
+								console.log("error" + err.toString());
+								res.status(400);
+								res.send({reason:err.toString()});
+								return res.end();
+							}
+							res.send({list:data.meals, likes:data.likes});
+						})
+					} else {
+						console.log("sending empty on addMealToFavorite: mealid undefined")
+						res.send({});
+						res.status(200).end();
+					}
+
+				})
+			} else {
+				console.log("send leer weil id nicht gefunden")
+				res.send({});
+				res.status(200).end();
 			}
 		})
 	},
@@ -338,6 +414,7 @@ module.exports = {
 						number: req.body.number,
 						description: data.description,
 						specs: data.specs,
+						adds: data.adds,
 						picture: data.picture,
 						price: data.price,
 						fav: data.number

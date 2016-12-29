@@ -68,6 +68,11 @@ var createSchema = mongoose.Schema({
         en: String,
         val: Number
     }],
+    adds: [{
+        de: String,
+        en: String,
+        val: String,
+    }],
     picture: String,
     price: [{
         de: {
@@ -79,7 +84,8 @@ var createSchema = mongoose.Schema({
             price: String,
         }
     }],
-    fav: Number
+   fav: Number,
+    likes: Number,
 });
 
 
@@ -96,6 +102,12 @@ var createSchema = mongoose.Schema({
         de: String,
         en: String
     },
+        adds: [{
+        de: String,
+        en: String,
+        val: String,
+    }],
+
     ingredients: [{
         de: String,
         en: String
@@ -120,7 +132,7 @@ var createSchema = mongoose.Schema({
             price: String,
         }
     }],
-    fav: Number
+    
 });
 
 
@@ -128,6 +140,9 @@ var createSchema = mongoose.Schema({
 // createSchema.index({email:1})
 var create = mongoose.model('days', createSchema);
 var createSchema = mongoose.Schema({
+    likes: [{
+        _mealid: mongoose.Schema.ObjectId,
+    }],
    meals: [{
     alert: Boolean,
         _mealid: {
@@ -148,6 +163,12 @@ var createSchema = mongoose.Schema({
         en: String,
         val: String,
     }],
+        adds: [{
+        de: String,
+        en: String,
+        val: String,
+    }],
+
    }],
    deviceid: String,
 });

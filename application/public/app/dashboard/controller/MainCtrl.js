@@ -12,7 +12,33 @@ app.controller('MainCtrl', function($scope, delegator, Meals, Ingredients, Days,
 	// 1) Gluten, 2) Krebstiere, 3) Eier, 4) Fisch, 5) Erdnüsse, 6) Soja, 
 	// 7) Milchlaktose, 8) Schalenfrüchte, 9) Sellerie, 10) Senf, 11) Sesam, 
 	// 12) Schwefeldioxid, 13) Lupinen, 14) Weichtiere
+// a) Konservierungsstoff, b) Antioxidationsmittel, c) Geschmacksverstärker, d) Süßungsmittel, e) Farbstoff, f) Phosphat
 
+	$scope.adds = [{
+		de: 'Konservierungsstoff',
+		en: 'Konservierungsstoff',
+		val: 'a'
+	},{
+		de: 'Antioxidationsmittel',
+		en: 'Antioxidationsmittel',
+		val: 'b'
+	},{
+		de: 'Geschmacksverstärker',
+		en: 'Geschmacksverstärker',
+		val: 'c'
+	},{
+		de: 'Süßungsmittel',
+		en: 'Süßungsmittel',
+		val: 'd'
+	},{
+		de: 'Farbstoff',
+		en: 'Farbstoff',
+		val: 'e'
+	},{
+		de: 'Phosphat',
+		en: 'Phosphat',
+		val: 'f'
+	}]
 	$scope.specs = [{
 		de: 'Gluten',
 		en: 'Gluten',
@@ -101,6 +127,7 @@ app.controller('MainCtrl', function($scope, delegator, Meals, Ingredients, Days,
 			de: '',
 			en: ''
 		}, 
+		adds:[],
 		specs: [],
 		price: []
 	};
@@ -138,6 +165,7 @@ app.controller('MainCtrl', function($scope, delegator, Meals, Ingredients, Days,
 	}
 	$scope.getIngredients();
 
+ 	
 	/**
 	 * @ngdoc method
 	 * @name addIngredient
@@ -249,6 +277,11 @@ app.controller('MainCtrl', function($scope, delegator, Meals, Ingredients, Days,
 		else return false;
 	};
 	// FILTEr
+	$scope.isInsideAdds = function( item ) {
+		var index = findInArray($scope.meal.adds, item.val, 'val');
+		if (index==-1) return true;
+		else return false;
+	};
 	$scope.isInsideSpec = function( item ) {
 		var index = findInArray($scope.meal.specs, item.val, 'val');
 		if (index==-1) return true;
