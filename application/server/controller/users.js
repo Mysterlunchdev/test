@@ -42,6 +42,7 @@ module.exports = {
 		})
 	},
 	createUserMeal: function(req,res) {
+		console.log(req.params.id)
 		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -53,6 +54,7 @@ module.exports = {
 				res.send({list:data.meals, likes:data.likes});
 				res.status(204).end();
 			} else {
+				console.log("no data in createusermeal", data)
 				var now = new user(req.body);
 				now.deviceid = req.params.id;
 				now.save(function(err){

@@ -147,7 +147,6 @@ var createSchema = mongoose.Schema({
     alert: Boolean,
         _mealid: {
             type: mongoose.Schema.ObjectId,
-            unique :true,
         } ,
         description: {
         de: String,
