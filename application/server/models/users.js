@@ -49,6 +49,23 @@ var createSchema = mongoose.Schema({
 // createSchema.index({email:1})
 var create = mongoose.model('ingredients', createSchema);
 
+var createSchema = mongoose.Schema({
+    title: String,
+    picture: String,
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    text: String,
+    picture: String,
+    author: String,
+});
+
+
+
+// createSchema.index({email:1})
+var create = mongoose.model('news', createSchema);
+
 
 var createSchema = mongoose.Schema({
     name: {
@@ -83,6 +100,7 @@ var createSchema = mongoose.Schema({
             name: String,
             price: String,
         }
+
     }],
    fav: Number,
     likes: Number,
@@ -142,6 +160,31 @@ var create = mongoose.model('days', createSchema);
 var createSchema = mongoose.Schema({
     likes: [{
         _mealid: mongoose.Schema.ObjectId,
+    }],
+    menuplan: [{
+        day: String,
+        _mealid: {
+            type: mongoose.Schema.ObjectId,
+        },
+        description: {
+            de: String,
+            en: String
+        },
+            name: {
+            de: String,
+            en: String
+        },
+           picture: String,
+           specs: [{
+            de: String,
+            en: String,
+            val: String,
+        }],
+            adds: [{
+            de: String,
+            en: String,
+            val: String,
+        }],
     }],
    meals: [{
     alert: Boolean,

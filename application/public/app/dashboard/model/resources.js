@@ -37,3 +37,16 @@ app.factory('Ingredients', function($resource) {
 	return res;
 });
 
+app.factory('News', function($resource) {
+	var res = $resource('http://localhost:6060/api/news/:id', {id:"@id"},
+	{
+		get: {method: 'GET', isArray:false},
+		getSingle: {method: 'GET', isArray: true},
+		update: {method:'PUT', isArray:false},
+	});
+
+	
+
+	return res;
+});
+

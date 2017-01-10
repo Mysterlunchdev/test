@@ -3,6 +3,22 @@
 		.col-md-12.text-center
 			h1 Willkommen
 	.row
+		h5 Alle News
+		p
+			span(ng-repeat="item in allnews") {{item.text}} {{item.title}} {{item.date}} |\/| 
+				i.fa.fa-times(ng-click="deleteIngredient(item)")
+	.row
+		.col-sm-12
+			form
+				.form-group
+					input.form-control(ng-model="news.title" Placeholder='DE title')
+				.form-group
+					input.form-control(ng-model="news.text" Placeholder='EN text')
+				.form-group
+					input.form-control(ng-model="news.picture" Placeholder='EN pic')
+				.form-group
+					button.btn.btn-default(ng-click="addNews()") Hinzufügen
+	.row
 		h5 Alle Zutaten
 		p
 			span(ng-repeat="item in ingredients") DE: {{item.name.de}} / EN: {{item.name.en}} |\/|  

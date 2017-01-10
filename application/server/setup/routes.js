@@ -73,8 +73,13 @@ module.exports = function(router) {
 	router.get('/api/ingredients', auth.isAuth, users.getIngredients)
 	router.get('/api/days', users.getDay)
 	router.get('/api/fav/:id', users.getFavorites)
-	router.post('/api/fav/:id', users.createUserMeal)
 	router.post('/api/fav/:id/:mealid', users.addMealToFavorite)
+	router.get('/api/menu/:id', users.getMenu)
+	router.get('/api/news', users.getNews)
+	router.post('/api/news/', users.createNews)
+	
+	router.post('/api/menu/:id/:mealid', users.addMealToMenu)
+	router.post('/api/fav/:id', users.createUserMeal)
 	router.post('/api/like/:id/:mealid', users.likeMeal)
 
 

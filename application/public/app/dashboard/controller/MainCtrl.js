@@ -8,7 +8,7 @@
  *
  */
 
-app.controller('MainCtrl', function($scope, delegator, Meals, Ingredients, Days, $window, $location, mvIdentity, mvNotifier) {
+app.controller('MainCtrl', function($scope, News, delegator, Meals, Ingredients, Days, $window, $location, mvIdentity, mvNotifier) {
 	// 1) Gluten, 2) Krebstiere, 3) Eier, 4) Fisch, 5) Erdnüsse, 6) Soja, 
 	// 7) Milchlaktose, 8) Schalenfrüchte, 9) Sellerie, 10) Senf, 11) Sesam, 
 	// 12) Schwefeldioxid, 13) Lupinen, 14) Weichtiere
@@ -96,6 +96,11 @@ app.controller('MainCtrl', function($scope, delegator, Meals, Ingredients, Days,
 		en: 'Weichtiere',
 		val: '14'
 	}]
+
+	$scope.news = {
+		title: '',
+		text: '',
+	}
 
 	/**
 	 * @ngdoc property
@@ -293,6 +298,18 @@ app.controller('MainCtrl', function($scope, delegator, Meals, Ingredients, Days,
 		else return false;
 	};
 
+	News.get({}, function(data) {
+		$scope.allnews = data.list;
+	})
+
+
+	$scope.addNews = function() {
+		delegator.POST($scope.news, News, {}).then(function(data) {
+			$scope.news = {};
+		}, function(reason) {
+			mvNotifier.error(reason);
+		})
+	}
 
 
 })
