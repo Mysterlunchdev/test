@@ -87,6 +87,22 @@ module.exports = {
 			}
 		})
 	},
+	getAll: function(req,res) {
+		user.findOne({deviceid:req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send({list:data.meals,likes:data.likes, menu: data.menuplan});
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 	createUserMeal: function(req,res) {
 		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
 			if (err) {
@@ -238,6 +254,59 @@ module.exports = {
 			}
 		})
 	},
+	deleteMealToFavorite: function(req,res) {
+		console.log("addMealToFavorite")
+		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				meals.findOne({_id:req.params.mealid}).exec(function(err,data2) {
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					if (!!data) {
+						data2.likes--;
+						data2.save();
+						var index = helper.findInArray(data.meals, req.params.mealid, "_mealid");
+						console.log("deleteFav", index)
+						if (index!=-1) data.meals.splice(index,1);
+						// data.meals.push({
+						// 	_mealid: data2._id,
+						// 	name: data2.name,
+						// 	description: data2.description,
+						// 	picture: data2.picture,
+						// 	specs: data2.specs,
+						// })
+						data.save(function(err){
+							if (err) {
+								console.log("error" + err.toString());
+								res.status(400);
+								res.send({reason:err.toString()});
+								return res.end();
+							}
+							res.send({list:data.meals});
+						})
+					} else {
+						console.log("sending empty on addMealToFavorite: mealid undefined")
+						res.send({});
+						res.status(200).end();
+					}
+
+				})
+			} else {
+				console.log("send leer weil id nicht gefunden")
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 	addMealToMenu: function(req,res) {
 		console.log("addMealToFavorite")
 		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
@@ -256,15 +325,94 @@ module.exports = {
 						return res.end();
 					}
 					if (!!data) {
-						data.menuplan[req.body.index] = {
-							day: req.body.index,
-							_mealid: data2._id,
-							name: data2.name,
-							description: data2.description,
-							picture: data2.picture,
-							specs: data2.specs,
+						console.log("addMeal on index ", req.body.index)
+						console.log(data.menuplan)
+						var index = helper.findInArray(data.menuplan, req.body.index, "day");
+						console.log("index", index)
+						if (index!=-1) {
+							console.log("!=-1")
+						} else {
+							console.log("==-11")
+							data.menuplan.push({
+								day: req.body.index,
+								_mealid: data2._id,
+								name: data2.name,
+								description: data2.description,
+								picture: data2.picture,
+								specs: data2.specs,
+							})
+							
 						}
-						console.log(JSON.stringify(data.menuplan));
+						console.log("pushing done")
+						console.log("mneuplan", JSON.stringify(data.menuplan));
+						data.save(function(err){
+							if (err) {
+								console.log("error" + err.toString());
+								res.status(400);
+								res.send({reason:err.toString()});
+								return res.end();
+							}
+							res.send({list:data.menuplan});
+						})
+					} else {
+						console.log("sending empty on addMealToFavorite: mealid undefined")
+						res.send({});
+						res.status(200).end();
+					}
+
+				})
+			} else {
+				console.log("send leer weil id nicht gefunden")
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
+	getSpecMeal: function(req,res) {
+		meals.findOne({_id:req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send(data);
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
+	deleteMealToMenu: function(req,res) {
+		console.log("deleteMealToFavorite")
+		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				meals.findOne({_id:req.params.mealid}).exec(function(err,data2) {
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					if (!!data) {
+						console.log("in data meals")
+						console.log("got menuplan index: ", req.body);
+						console.log(data.menuplan)
+						var index = helper.findInArray(data.menuplan, req.body.index, "day");
+						console.log("index is ", index)
+						if (index!=-1) {
+							data.menuplan.splice(index,1);
+						} else {
+							
+							
+						}
 						data.save(function(err){
 							if (err) {
 								console.log("error" + err.toString());

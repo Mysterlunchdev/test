@@ -61,10 +61,10 @@ self = {
 		if (array==undefined) return -1;
 		for (var i=0;i<array.length;i++) {
 			
-			
-			if (array[i][prop]==find) {
-				return i;
-			}
+			if (array[i]!=undefined)
+				if (array[i][prop]==find) {
+					return i;
+				}
 		}
 		return -1;
 	},

@@ -1,5 +1,5 @@
 app.factory('Days', function($resource) {
-	var res = $resource('http://localhost:6060/api/days/:id', {id:"@id"},
+	var res = $resource('/api/days/:id', {id:"@id"},
 	{
 		get: {method: 'GET', isArray:false},
 		getSingle: {method: 'GET', isArray: true},
@@ -12,7 +12,7 @@ app.factory('Days', function($resource) {
 });
 
 app.factory('Meals', function($resource) {
-	var res = $resource('http://localhost:6060/api/meal/:id', {id:"@id"},
+	var res = $resource('/api/meal/:id', {id:"@id"},
 	{
 		get: {method: 'GET', isArray:false},
 		getSingle: {method: 'GET', isArray: true},
@@ -25,7 +25,7 @@ app.factory('Meals', function($resource) {
 });
 
 app.factory('Ingredients', function($resource) {
-	var res = $resource('http://localhost:6060/api/ingredients/:id', {id:"@id"},
+	var res = $resource('/api/ingredients/:id', {id:"@id"},
 	{
 		get: {method: 'GET', isArray:false},
 		getSingle: {method: 'GET', isArray: true},
@@ -38,7 +38,7 @@ app.factory('Ingredients', function($resource) {
 });
 
 app.factory('News', function($resource) {
-	var res = $resource('http://localhost:6060/api/news/:id', {id:"@id"},
+	var res = $resource('/api/news/:id', {id:"@id"},
 	{
 		get: {method: 'GET', isArray:false},
 		getSingle: {method: 'GET', isArray: true},
