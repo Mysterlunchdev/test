@@ -134,7 +134,17 @@ app.controller('MainCtrl', function($scope, News, delegator, Meals, Ingredients,
 		}, 
 		adds:[],
 		specs: [],
-		price: []
+		price: [{
+			de: {
+				name: 'Mitarbeiter',
+				price: '3 EUR'
+			}
+		},{
+			de: {
+				name: 'Gast',
+				price: '5 EUR'
+			}
+		}]
 	};
 	/**
 	 * @ngdoc property
@@ -237,7 +247,20 @@ app.controller('MainCtrl', function($scope, News, delegator, Meals, Ingredients,
 	$scope.addMeal = function() {
 		delegator.POST($scope.meal, Meals, {}).then(function(data) {
 			// success undefined - get new
-			$scope.meal = {};	
+			$scope.meal = {
+				specs: [],
+				price: [{
+			de: {
+				name: 'Mitarbeiter',
+				price: '3 EUR'
+			}
+		},{
+			de: {
+				name: 'Gast',
+				price: '5 EUR'
+			}
+		}]
+			};	
 			$scope.getMeals();
 		}, function(reason) {
 			mvNotifier.error(reason);

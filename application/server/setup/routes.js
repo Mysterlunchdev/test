@@ -74,6 +74,7 @@ module.exports = function(router) {
 	router.get('/api/ingredients', auth.isAuth, users.getIngredients)
 	router.get('/api/days', users.getDay)
 	router.get('/api/fav/:id', users.getFavorites)
+	router.get('/api/favdetail/:id', users.getFavoritesDetail)
 	router.post('/api/fav/:id/:mealid', users.addMealToFavorite)
 	router.delete('/api/fav/:id/:mealid', users.deleteMealToFavorite)
 	router.get('/api/menu/:id', users.getMenu)

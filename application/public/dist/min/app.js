@@ -703,79 +703,6 @@ angular.module('ui.tinymce', [])
 //         }
 //     };
 // }]); 
-/*
-	functions as controller for signin in and out
-	view navbar
-*/
-
-angular.module('app').controller('mvNavBarCtrl', ["$window", "$scope", "$interval", "$http", "delegator", "mvAuth", "$location", "$http", "mvIdentity", "mvNotifier", function($window, $scope, $interval, $http, delegator, mvAuth, $location, $http, mvIdentity, mvNotifier) {
-	// set identity for scope use
-	$scope.identity = mvIdentity;
-	console.log($scope.identity);
-	/**
-	 * signin function of scope
-	 *
-	 * @param String, String - username and password
-	 */
-	$scope.signin = function(username, password) {
-		// authenticate user
-		mvAuth.authenticateUser(username, password).then(function(success) {
-			// if success notify and collapse dropdown if activated
-			if (success) {
-				mvNotifier.notify('You have been signed in');
-				update();
-				if ($rootScope.mobile) {
-					$("#navbar_sc").collapse('hide');
-				}
-				// goto dashboard
-				$location.path('/dashboard');
-			} else {
-				// else error
-				mvNotifier.error('Nicht bestätigt oder falsche Eingabe!');
-				$scope.tries++;
-			}
-		});
-	}
-	/**
-	 * scope function for getting lost password
-	 *
-	 * @param String - email
-	 */
-	$scope.forgotPassword = function(email) {
-		$scope.showpass = false;
-		$http.post('/forgotpassword', {email: email}).
-		  success(function(data, status, headers, config) {
-		  	mvNotifier.notify("Mail gesendet");
-		  }).
-		  error(function(data, status, headers, config) {
-		  	mvNotifier.notify("Mailadresse nicht bekannt");
-		  	$scope.showPass = false;
-		  });
-	}
-	/**
-	 * Signs out the user by calling mvAuth logoutUser
-	 * if successful reset scope username and password, notify user and relocate
-	 *
-	 */
-	$scope.signout = function() {
-		mvAuth.logoutUser().then(function() {
-			// reset values in view
-			$scope.username = "";
-			$scope.password = "";
-			// notify user
-			mvIdentity=undefined;
-			mvNotifier.notify('Ausgeloggt!');
-			$window.location.href='/loggedout';
-		});
-	}
-
-	// bootstrap set active for navbar
-	$scope.isActive = function (viewLocation) { 
-        return ($location.path().indexOf(viewLocation)>-1);
-    };
-
-}]);
-
 /**
  * @ngdoc controller
  * @name app.controller:MainCtrl
@@ -912,7 +839,17 @@ app.controller('MainCtrl', ["$scope", "News", "delegator", "Meals", "Ingredients
 		}, 
 		adds:[],
 		specs: [],
-		price: []
+		price: [{
+			de: {
+				name: 'Mitarbeiter',
+				price: '3 EUR'
+			}
+		},{
+			de: {
+				name: 'Gast',
+				price: '5 EUR'
+			}
+		}]
 	};
 	/**
 	 * @ngdoc property
@@ -1015,7 +952,20 @@ app.controller('MainCtrl', ["$scope", "News", "delegator", "Meals", "Ingredients
 	$scope.addMeal = function() {
 		delegator.POST($scope.meal, Meals, {}).then(function(data) {
 			// success undefined - get new
-			$scope.meal = {};	
+			$scope.meal = {
+				specs: [],
+				price: [{
+			de: {
+				name: 'Mitarbeiter',
+				price: '3 EUR'
+			}
+		},{
+			de: {
+				name: 'Gast',
+				price: '5 EUR'
+			}
+		}]
+			};	
 			$scope.getMeals();
 		}, function(reason) {
 			mvNotifier.error(reason);
@@ -1145,6 +1095,79 @@ app.factory('News', ["$resource", function($resource) {
 	return res;
 }]);
 
+
+/*
+	functions as controller for signin in and out
+	view navbar
+*/
+
+angular.module('app').controller('mvNavBarCtrl', ["$window", "$scope", "$interval", "$http", "delegator", "mvAuth", "$location", "$http", "mvIdentity", "mvNotifier", function($window, $scope, $interval, $http, delegator, mvAuth, $location, $http, mvIdentity, mvNotifier) {
+	// set identity for scope use
+	$scope.identity = mvIdentity;
+	console.log($scope.identity);
+	/**
+	 * signin function of scope
+	 *
+	 * @param String, String - username and password
+	 */
+	$scope.signin = function(username, password) {
+		// authenticate user
+		mvAuth.authenticateUser(username, password).then(function(success) {
+			// if success notify and collapse dropdown if activated
+			if (success) {
+				mvNotifier.notify('You have been signed in');
+				update();
+				if ($rootScope.mobile) {
+					$("#navbar_sc").collapse('hide');
+				}
+				// goto dashboard
+				$location.path('/dashboard');
+			} else {
+				// else error
+				mvNotifier.error('Nicht bestätigt oder falsche Eingabe!');
+				$scope.tries++;
+			}
+		});
+	}
+	/**
+	 * scope function for getting lost password
+	 *
+	 * @param String - email
+	 */
+	$scope.forgotPassword = function(email) {
+		$scope.showpass = false;
+		$http.post('/forgotpassword', {email: email}).
+		  success(function(data, status, headers, config) {
+		  	mvNotifier.notify("Mail gesendet");
+		  }).
+		  error(function(data, status, headers, config) {
+		  	mvNotifier.notify("Mailadresse nicht bekannt");
+		  	$scope.showPass = false;
+		  });
+	}
+	/**
+	 * Signs out the user by calling mvAuth logoutUser
+	 * if successful reset scope username and password, notify user and relocate
+	 *
+	 */
+	$scope.signout = function() {
+		mvAuth.logoutUser().then(function() {
+			// reset values in view
+			$scope.username = "";
+			$scope.password = "";
+			// notify user
+			mvIdentity=undefined;
+			mvNotifier.notify('Ausgeloggt!');
+			$window.location.href='/loggedout';
+		});
+	}
+
+	// bootstrap set active for navbar
+	$scope.isActive = function (viewLocation) { 
+        return ($location.path().indexOf(viewLocation)>-1);
+    };
+
+}]);
 
 /*
 	factory for authentication, which interacts with the server for some controllers

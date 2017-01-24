@@ -71,6 +71,41 @@ module.exports = {
 			}
 		})
 	},
+	getFavoritesDetail: function(req,res) {
+		user.findOne({deviceid:req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				var tmp = {$or:[]}
+				for (var i = 0; i < data.meals.length; i++) {
+					var index = helper.findInArray(tmp, data.meals[i]._mealid, "_id");
+					if (index==-1)
+						tmp.$or.push({_id: data.meals[i]._mealid});
+				}
+				meals.find(tmp).exec(function(err,data) {
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					if (!!data) {
+						res.send({list:data});
+					} else {
+						res.send({});
+						res.status(200).end();
+					}
+				})
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 	getMenu: function(req,res) {
 		user.findOne({deviceid:req.params.id}).exec(function(err,data) {
 			if (err) {
