@@ -258,6 +258,7 @@ module.exports = {
 					}
 					if (!!data) {
 						data2.likes++;
+						console.log("likes", data2.likes)
 						data2.save();
 						data.meals.push({
 							_mealid: data2._id,
@@ -307,7 +308,8 @@ module.exports = {
 						return res.end();
 					}
 					if (!!data) {
-						data2.likes--;
+						if (data2.likes>0)
+							data2.likes--;
 						data2.save();
 						var index = helper.findInArray(data.meals, req.params.mealid, "_mealid");
 						console.log("deleteFav", index)

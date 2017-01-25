@@ -103,7 +103,9 @@ var createSchema = mongoose.Schema({
 
     }],
    fav: Number,
-    likes: Number,
+    likes: {
+        type:Number,
+        default: 0},
 });
 
 
