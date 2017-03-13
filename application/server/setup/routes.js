@@ -80,6 +80,7 @@ module.exports = function(router) {
 	router.get('/api/menu/:id', users.getMenu)
 	router.get('/api/all/:id', users.getAll)
 	router.get('/api/news', users.getNews)
+	router.get('/api/news/:id', users.getNewsDetail)
 	router.post('/api/news/', users.createNews)
 	
 	router.post('/api/menu/:id/:mealid', users.addMealToMenu)

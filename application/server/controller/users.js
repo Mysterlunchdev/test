@@ -55,6 +55,23 @@ module.exports = {
 			}
 		})
 	},
+	getNewsDetail: function(req,res) {
+		news.findOne({_id:req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				
+				res.send({news:data});
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 	getFavorites: function(req,res) {
 		user.findOne({deviceid:req.params.id}).exec(function(err,data) {
 			if (err) {

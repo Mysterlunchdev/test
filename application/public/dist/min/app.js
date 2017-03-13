@@ -843,11 +843,19 @@ app.controller('MainCtrl', ["$scope", "News", "delegator", "Meals", "Ingredients
 			de: {
 				name: 'Mitarbeiter',
 				price: '3 EUR'
+			},
+			en: {
+				name: 'Employee',
+				price: '3 EUR'
 			}
 		},{
 			de: {
 				name: 'Gast',
-				price: '5 EUR'
+				price: '6 EUR'
+			},
+			en: {
+				name: 'Guest',
+				price: '6 EUR'
 			}
 		}]
 	};
@@ -958,11 +966,19 @@ app.controller('MainCtrl', ["$scope", "News", "delegator", "Meals", "Ingredients
 			de: {
 				name: 'Mitarbeiter',
 				price: '3 EUR'
+			},
+			en: {
+				name: 'Employee',
+				price: '3 EUR'
 			}
 		},{
 			de: {
 				name: 'Gast',
-				price: '5 EUR'
+				price: '6 EUR'
+			},
+			en: {
+				name: 'Guest',
+				price: '6 EUR'
 			}
 		}]
 			};	

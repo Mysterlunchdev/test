@@ -129,17 +129,17 @@
 								span(style="padding:2px;margin-right:4px" ng-repeat="item in meal.ingredients | filter: isInside") {{item.de}}
 									i.fa.fa-minus(ng-click="meal.ingredients.splice($index,1)") 
 							h6 Zutaten offen:
-							p
-								span(style="padding:2px;margin-right:4px" ng-repeat="item in ingredients | filter: isInsideIngredients") {{item.name.de}}
-									i.fa.fa-plus(ng-click="meal.ingredients.push(item.name)") 
+							p(ng-click="meal.ingredients.push(item.name)")
+								span(style="padding:2px;margin-right:4px" ng-repeat="item in ingredients | filter: isInsideIngredients") {{$index}} {{item.name.de}}
+									i.fa.fa-plus() 
 						.row
 							h6 Zusätze hinzugefügt:
 							p
 								span(style="padding:2px;margin-right:4px" ng-repeat="item in meal.specs") {{item.de}}
 									i.fa.fa-minus(ng-click="meal.specs.splice($index,1)") 
 							h6 Zusätze offen:
-							p
-								span(style="padding:2px;margin-right:4px" ng-repeat="item in specs | filter: isInsideSpec") {{item.de}}
+							p()
+								span(style="padding:2px;margin-right:4px" ng-repeat="item in specs | filter: isInsideSpec") {{item.val}} {{item.de}}
 									i.fa.fa-plus(ng-click="meal.specs.push(item)") 
 						.row
 							h6 Additives hinzugefügt:
