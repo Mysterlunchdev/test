@@ -26,6 +26,44 @@ var mongoose = require('mongoose'),
 
 
 module.exports = {
+	getTwitter:function(req,res) {
+		// var ig = require('instagram-node').instagram({});
+		//   ig.use({ access_token: '2062016626.00fa5e6.17c1d1132fc04a0bacffd0c4a6d28454' });
+		// //  	ig.media_popular(function(err, medias, remaining, limit) {
+  // //   if (err) 
+  // //     console.log("error too");
+  // //   else 
+  // //     console.log(medias);
+  // // });
+		//   ig.user('e.on_se', function(err, result, remaining, limit) {
+		//   	if (err)
+		// 	  	console.log("error", err.code, err.status_code)
+		//   	console.log(result)
+		//   });
+		// // id for instagram 1740cfa0d0bc415eb1512d1e7151f750
+		var Twitter = require('twitter');
+		 
+		var client = new Twitter({
+		  consumer_key: 'wCehWNgy1tUVXEEBDFNHdWWjK',
+		  consumer_secret: '5VpKLS6FAVzXOiZPeiyoRqsDCFifmFohTX03NPtBPAWXXnXenS',
+		  access_token_key: '707214981419421696-lPEqdQ2wjxHhOoGui7lPzZe0UyFxq0A',
+		  access_token_secret: 'hPb6CGt4tFYxrvck3VfZvI4xMNimVaaHizZo1iKKxsDa9'
+		});
+		 
+		var params = {screen_name: 'eon_se_de'};
+		client.get('statuses/user_timeline', params, function(error, tweets, response) {
+		  if (!error) {
+		  		request('https://api.instagram.com/v1/users/self/media/recent/?access_token=2062016626.00fa5e6.17c1d1132fc04a0bacffd0c4a6d28454', function(error, response, body) {
+		  			// console.log(JSON.stringify(res, censor(response)))
+					  res.send({list:tweets, insta: JSON.parse(body)})
+		  		})
+		  } else {
+		  	
+			console.log(error)
+			  res.send(error)
+		  }
+		});
+	},
 	createNews: function(req,res) {
 		var now = new news(req.body);
 		now.save(function(err){
@@ -534,7 +572,6 @@ module.exports = {
 	 *     HTTP/1.1 400 Bad Request
 	 */
 	getMeal: function(req,res) {
-		
 		meals.find({}).exec(function(err,data) {
 			console.log("inside")
 			if (err) {
@@ -668,6 +705,58 @@ module.exports = {
 				return res.end();
 			}
 			res.status(204).end();
+		})
+	},
+	resetMeals: function() {
+		meals.find({}).exec(function(err,data) {
+			for ( var i = 0; i < data.length;i++) {
+				data[i].price = [{
+					de: {
+						name: 'Mitarbeiter',
+						price: '3 EUR'
+					},
+					en: {
+						name: 'Employee',
+						price: '3 EUR'
+					}
+				},{
+					de: {
+						name: 'Gast',
+						price: '6 EUR'
+					},
+					en: {
+						name: 'Guest',
+						price: '6 EUR'
+					}
+				}]
+				if (data[i]!=undefined)
+						data[i].save();
+			}
+		})
+		days.find({}).exec(function(err,data) {
+			for ( var i = 0; i < data.length;i++) {
+				data[i].price = [{
+					de: {
+						name: 'Mitarbeiter',
+						price: '3 EUR'
+					},
+					en: {
+						name: 'Employee',
+						price: '3 EUR'
+					}
+				},{
+					de: {
+						name: 'Gast',
+						price: '6 EUR'
+					},
+					en: {
+						name: 'Guest',
+						price: '6 EUR'
+					}
+				}]
+				if (data[i]!=undefined)
+					data[i].save();
+			}
 		})
 	},
 	/**
@@ -1374,4 +1463,20 @@ function makeid()
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
 
 	return text;
+}
+
+function censor(censor) {
+  var i = 0;
+
+  return function(key, value) {
+    if(i !== 0 && typeof(censor) === 'object' && typeof(value) == 'object' && censor == value) 
+      return '[Circular]'; 
+
+    if(i >= 29) // seems to be a harded maximum of 30 serialized objects?
+      return '[Unknown]';
+
+    ++i; // so we know we aren't using the original object anymore
+
+    return value;  
+  }
 }

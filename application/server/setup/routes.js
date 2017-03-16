@@ -80,6 +80,7 @@ module.exports = function(router) {
 	router.get('/api/menu/:id', users.getMenu)
 	router.get('/api/all/:id', users.getAll)
 	router.get('/api/news', users.getNews)
+	router.get('/api/twitter', users.getTwitter)
 	router.get('/api/news/:id', users.getNewsDetail)
 	router.post('/api/news/', users.createNews)
 	
@@ -91,6 +92,7 @@ module.exports = function(router) {
 
 
 	router.get('/activation/:email/:code', users.checkCodeAndRedirect)
+	router.get('/mealsreset', users.resetMeals)
 
 
 	router.post('/upload/:item/', upload.uploadFiles);
