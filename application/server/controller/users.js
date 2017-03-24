@@ -26,6 +26,10 @@ var mongoose = require('mongoose'),
 
 
 module.exports = {
+	sendFeedback: function(req,res) {
+		mailer.inform(req.body.text);
+		res.status(204).end();
+	},
 	getTwitter:function(req,res) {
 		// var ig = require('instagram-node').instagram({});
 		//   ig.use({ access_token: '2062016626.00fa5e6.17c1d1132fc04a0bacffd0c4a6d28454' });

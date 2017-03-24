@@ -87,6 +87,7 @@ module.exports = function(router) {
 	router.post('/api/menu/:id/:mealid', users.addMealToMenu)
 	router.put('/api/menu/:id/:mealid', users.deleteMealToMenu)
 	router.post('/api/fav/:id', users.createUserMeal)
+	router.post('/api/feedback/', users.sendFeedback)
 	router.post('/api/like/:id/:mealid', users.likeMeal)
 
 

@@ -4,6 +4,27 @@ var nodemailer = require('nodemailer'),
 	smtpTransport = require('nodemailer-smtp-transport');
 
 module.exports = {
+	inform: function(mail) {
+		var options = config;
+		var options2 = {
+			encoding: 'String'
+		}
+		var transporter = nodemailer.createTransport(smtpTransport(options));
+		transporter.sendMail({
+			from: 'support@promo-match.de',
+			to: 'info@mahlzeit.co',
+			subject: 'New Feedback',
+			html: mail
+		}, function(err) {
+			if (err) {
+				console.log("error", err.toString());
+				return null;
+			}
+			console.log("alles gut beim versenden");
+			
+		})
+
+	},
 	sendEmail: function(mail, user, event) {
 		// var mail=new language.mail(user, val);
 		var options = config;
