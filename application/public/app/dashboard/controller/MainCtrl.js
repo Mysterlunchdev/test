@@ -8,7 +8,7 @@
  *
  */
 
-app.controller('MainCtrl', function($scope, News, delegator, Meals, Ingredients, Days, $window, $location, mvIdentity, mvNotifier) {
+app.controller('MainCtrl', function($scope, Canteen, News, delegator, Meals, Ingredients, Days, $window, $location, mvIdentity, mvNotifier) {
 	// 1) Gluten, 2) Krebstiere, 3) Eier, 4) Fisch, 5) Erdnüsse, 6) Soja, 
 	// 7) Milchlaktose, 8) Schalenfrüchte, 9) Sellerie, 10) Senf, 11) Sesam, 
 	// 12) Schwefeldioxid, 13) Lupinen, 14) Weichtiere
@@ -243,6 +243,22 @@ app.controller('MainCtrl', function($scope, News, delegator, Meals, Ingredients,
 		})
 	}
 	$scope.getMeals();
+
+	$scope.getCanteens = function() {
+		Canteen.get({}, function(data) {
+			$scope.canteens = data.list;
+			console.log($scope.canteens)
+		})
+	}
+ 	$scope.getCanteens();
+
+ 	$scope.createCanteen = function(text) {
+ 		delegator.POST({name:text}, Canteen, {}).then(function(data) {
+ 			$scope.getCanteens();
+ 		}, function(reason) {
+ 			mvNotifier.error(reason);
+ 		})
+ 	} 
 
 	/**
 	 * @ngdoc method

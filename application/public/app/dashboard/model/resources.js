@@ -50,3 +50,16 @@ app.factory('News', function($resource) {
 	return res;
 });
 
+app.factory('Canteen', function($resource) {
+	var res = $resource('/api/canteen/:id', {id:"@id"},
+	{
+		get: {method: 'GET', isArray:false},
+		getSingle: {method: 'GET', isArray: true},
+		update: {method:'PUT', isArray:false},
+	});
+
+	
+
+	return res;
+});
+

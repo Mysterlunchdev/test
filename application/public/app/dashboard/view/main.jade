@@ -33,6 +33,18 @@
 				.form-group
 					button.btn.btn-default(ng-click="addIngredient()") Hinzufügen
 	.row
+		h5 Alle Kantinen
+		p
+			span(ng-repeat="item in canteens") {{item.name}}
+				//- i.fa.fa-times(ng-click="deleteIngredient(item)")
+	.row
+		.col-sm-12
+			form
+				.form-group
+					input.form-control(ng-model="canteen.text" Placeholder="Kantine name")
+				.form-group
+					button.btn.btn-default(ng-click="createCanteen(canteen.text)") Hinzufügen
+	.row
 		.col-sm-12
 			h5 Neuer Tag:
 			form
@@ -40,8 +52,8 @@
 					input.form-control(ng-model="day.day" Placeholder="Like yyyy,mm,dd")
 				.form-group
 					input.form-control(ng-model="day.number" Placeholder="Number day")
-				//- .form-group
-					input.form-control(ng-model="day.picture" Placeholder="picture link")
+				.form-group
+					select.form-control(ng-model="day._canteenid" ng-options="item._id as item.name for item in canteens")
 				.form-group
 					select.form-control(ng-model="day.id" ng-options="item._id as item.name.de for item in meals" Placeholder="Like dd.mm.yyyy")
 				button.btn.btn-default(ng-click="addDay()") Tag hinzufügen
@@ -51,7 +63,8 @@
 		.col-sm-12(ng-repeat="item in days")
 			p Am Tag {{item.day | date : 'dd.MM.yyyy'}} gibt es: 
 				div(ng-repeat="item in item.meals")
-					b {{item.name.de}}
+					b {{item.name.de}} 
+					//- p {{item._canteenid}}
 					i.fa.fa-times(ng-click="deleteDay(item)")
 					p Zutaten: {{}} 
 						span(ng-repeat="item in item.specs") {{item.val}},
@@ -80,6 +93,10 @@
 				.col-sm-12
 					h5 Neue Mahlzeit
 					form
+						.row
+							.col-sm-12
+								.form-group
+									select.form-control(ng-model="meal._canteenid" ng-options="item._id as item.name for item in canteens")
 						.row
 							.col-sm-12
 								.form-group

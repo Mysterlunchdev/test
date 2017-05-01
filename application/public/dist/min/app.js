@@ -713,7 +713,7 @@ angular.module('ui.tinymce', [])
  *
  */
 
-app.controller('MainCtrl', ["$scope", "News", "delegator", "Meals", "Ingredients", "Days", "$window", "$location", "mvIdentity", "mvNotifier", function($scope, News, delegator, Meals, Ingredients, Days, $window, $location, mvIdentity, mvNotifier) {
+app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "Ingredients", "Days", "$window", "$location", "mvIdentity", "mvNotifier", function($scope, Canteen, News, delegator, Meals, Ingredients, Days, $window, $location, mvIdentity, mvNotifier) {
 	// 1) Gluten, 2) Krebstiere, 3) Eier, 4) Fisch, 5) Erdnüsse, 6) Soja, 
 	// 7) Milchlaktose, 8) Schalenfrüchte, 9) Sellerie, 10) Senf, 11) Sesam, 
 	// 12) Schwefeldioxid, 13) Lupinen, 14) Weichtiere
@@ -949,6 +949,22 @@ app.controller('MainCtrl', ["$scope", "News", "delegator", "Meals", "Ingredients
 	}
 	$scope.getMeals();
 
+	$scope.getCanteens = function() {
+		Canteen.get({}, function(data) {
+			$scope.canteens = data.list;
+			console.log($scope.canteens)
+		})
+	}
+ 	$scope.getCanteens();
+
+ 	$scope.createCanteen = function(text) {
+ 		delegator.POST({name:text}, Canteen, {}).then(function(data) {
+ 			$scope.getCanteens();
+ 		}, function(reason) {
+ 			mvNotifier.error(reason);
+ 		})
+ 	} 
+
 	/**
 	 * @ngdoc method
 	 * @name addMeal
@@ -1111,79 +1127,19 @@ app.factory('News', ["$resource", function($resource) {
 	return res;
 }]);
 
+app.factory('Canteen', ["$resource", function($resource) {
+	var res = $resource('/api/canteen/:id', {id:"@id"},
+	{
+		get: {method: 'GET', isArray:false},
+		getSingle: {method: 'GET', isArray: true},
+		update: {method:'PUT', isArray:false},
+	});
 
-/*
-	functions as controller for signin in and out
-	view navbar
-*/
+	
 
-angular.module('app').controller('mvNavBarCtrl', ["$window", "$scope", "$interval", "$http", "delegator", "mvAuth", "$location", "$http", "mvIdentity", "mvNotifier", function($window, $scope, $interval, $http, delegator, mvAuth, $location, $http, mvIdentity, mvNotifier) {
-	// set identity for scope use
-	$scope.identity = mvIdentity;
-	console.log($scope.identity);
-	/**
-	 * signin function of scope
-	 *
-	 * @param String, String - username and password
-	 */
-	$scope.signin = function(username, password) {
-		// authenticate user
-		mvAuth.authenticateUser(username, password).then(function(success) {
-			// if success notify and collapse dropdown if activated
-			if (success) {
-				mvNotifier.notify('You have been signed in');
-				update();
-				if ($rootScope.mobile) {
-					$("#navbar_sc").collapse('hide');
-				}
-				// goto dashboard
-				$location.path('/dashboard');
-			} else {
-				// else error
-				mvNotifier.error('Nicht bestätigt oder falsche Eingabe!');
-				$scope.tries++;
-			}
-		});
-	}
-	/**
-	 * scope function for getting lost password
-	 *
-	 * @param String - email
-	 */
-	$scope.forgotPassword = function(email) {
-		$scope.showpass = false;
-		$http.post('/forgotpassword', {email: email}).
-		  success(function(data, status, headers, config) {
-		  	mvNotifier.notify("Mail gesendet");
-		  }).
-		  error(function(data, status, headers, config) {
-		  	mvNotifier.notify("Mailadresse nicht bekannt");
-		  	$scope.showPass = false;
-		  });
-	}
-	/**
-	 * Signs out the user by calling mvAuth logoutUser
-	 * if successful reset scope username and password, notify user and relocate
-	 *
-	 */
-	$scope.signout = function() {
-		mvAuth.logoutUser().then(function() {
-			// reset values in view
-			$scope.username = "";
-			$scope.password = "";
-			// notify user
-			mvIdentity=undefined;
-			mvNotifier.notify('Ausgeloggt!');
-			$window.location.href='/loggedout';
-		});
-	}
-
-	// bootstrap set active for navbar
-	$scope.isActive = function (viewLocation) { 
-        return ($location.path().indexOf(viewLocation)>-1);
-    };
-
+	return res;
 }]);
+
 
 /*
 	factory for authentication, which interacts with the server for some controllers
@@ -1442,4 +1398,76 @@ angular.module('app').factory('mvUser', ["$resource", function($resource) {
 	}
 
 	return userResource;
+}]);
+/*
+	functions as controller for signin in and out
+	view navbar
+*/
+
+angular.module('app').controller('mvNavBarCtrl', ["$window", "$scope", "$interval", "$http", "delegator", "mvAuth", "$location", "$http", "mvIdentity", "mvNotifier", function($window, $scope, $interval, $http, delegator, mvAuth, $location, $http, mvIdentity, mvNotifier) {
+	// set identity for scope use
+	$scope.identity = mvIdentity;
+	console.log($scope.identity);
+	/**
+	 * signin function of scope
+	 *
+	 * @param String, String - username and password
+	 */
+	$scope.signin = function(username, password) {
+		// authenticate user
+		mvAuth.authenticateUser(username, password).then(function(success) {
+			// if success notify and collapse dropdown if activated
+			if (success) {
+				mvNotifier.notify('You have been signed in');
+				update();
+				if ($rootScope.mobile) {
+					$("#navbar_sc").collapse('hide');
+				}
+				// goto dashboard
+				$location.path('/dashboard');
+			} else {
+				// else error
+				mvNotifier.error('Nicht bestätigt oder falsche Eingabe!');
+				$scope.tries++;
+			}
+		});
+	}
+	/**
+	 * scope function for getting lost password
+	 *
+	 * @param String - email
+	 */
+	$scope.forgotPassword = function(email) {
+		$scope.showpass = false;
+		$http.post('/forgotpassword', {email: email}).
+		  success(function(data, status, headers, config) {
+		  	mvNotifier.notify("Mail gesendet");
+		  }).
+		  error(function(data, status, headers, config) {
+		  	mvNotifier.notify("Mailadresse nicht bekannt");
+		  	$scope.showPass = false;
+		  });
+	}
+	/**
+	 * Signs out the user by calling mvAuth logoutUser
+	 * if successful reset scope username and password, notify user and relocate
+	 *
+	 */
+	$scope.signout = function() {
+		mvAuth.logoutUser().then(function() {
+			// reset values in view
+			$scope.username = "";
+			$scope.password = "";
+			// notify user
+			mvIdentity=undefined;
+			mvNotifier.notify('Ausgeloggt!');
+			$window.location.href='/loggedout';
+		});
+	}
+
+	// bootstrap set active for navbar
+	$scope.isActive = function (viewLocation) { 
+        return ($location.path().indexOf(viewLocation)>-1);
+    };
+
 }]);

@@ -12,7 +12,8 @@ var path = require('path'),
 module.exports = {
 	production: {
 		// db : 'mongodb://127.0.0.1:27017/default',
-		db: 'mongodb://user:usertest@ds011664.mlab.com:11664/default_mean',
+		// db: 'mongodb://user:usertest@ds011664.mlab.com:11664/default_mean',
+		db: 'mongodb://user:usertest@ds151060.mlab.com:51060/mahlzeit',
 		rootPath: rootPath,
 		mails: true,
 		port:  process.env.PORT || 6060,

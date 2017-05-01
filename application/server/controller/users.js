@@ -21,11 +21,40 @@ var mongoose = require('mongoose'),
 	crypto = require('crypto'),
 	mongoose = require('mongoose'),
 	// user = mongoose.model('user'),
+	canteen = mongoose.model('canteens'),
 	AWS = require('aws-sdk'),
 	request = require('request');
 
 
 module.exports = {
+	createCanteen: function(req,res) {
+		var now = new canteen(req.body);
+		now.save(function(err){
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			res.status(204).end();
+		});
+	},
+	getCanteens: function(req,res ){
+		canteen.find({}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send({list:data});
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 	sendFeedback: function(req,res) {
 		mailer.inform(req.body.text);
 		res.status(204).end();
@@ -115,7 +144,13 @@ module.exports = {
 		})
 	},
 	getFavorites: function(req,res) {
-		user.findOne({deviceid:req.params.id}).exec(function(err,data) {
+		// var token = req.body.token || req.query.token || req.headers['x-access-token'];
+		// if (token!=undefined) {
+
+		// }
+		if (req.user!=undefined) { var query = {userid: req.user._id}}
+		else var query = {deviceid:req.params.id}
+		user.findOne(query).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -131,7 +166,9 @@ module.exports = {
 		})
 	},
 	getFavoritesDetail: function(req,res) {
-		user.findOne({deviceid:req.params.id}).exec(function(err,data) {
+		if (req.user!=undefined) { var query = {userid: req.user._id}}
+		else var query = {deviceid:req.params.id}
+		user.findOne(query).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -166,7 +203,9 @@ module.exports = {
 		})
 	},
 	getMenu: function(req,res) {
-		user.findOne({deviceid:req.params.id}).exec(function(err,data) {
+		if (req.user!=undefined) { var query = {userid: req.user._id}}
+		else var query = {deviceid:req.params.id}
+		user.findOne(query).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -182,7 +221,9 @@ module.exports = {
 		})
 	},
 	getAll: function(req,res) {
-		user.findOne({deviceid:req.params.id}).exec(function(err,data) {
+		if (req.user!=undefined) { var query = {userid: req.user._id}}
+		else var query = {deviceid:req.params.id}
+		user.findOne(query).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -198,7 +239,9 @@ module.exports = {
 		})
 	},
 	createUserMeal: function(req,res) {
-		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
+		if (req.user!=undefined) { var query = {userid: req.user._id}}
+		else var query = {deviceid:req.params.id}
+		user.findOne(query).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -210,7 +253,8 @@ module.exports = {
 				res.status(204).end();
 			} else {
 				var now = new user(req.body);
-				now.deviceid = req.params.id;
+				if (req.user!=undefined) { now.userid= req.user._id}
+				else now.deviceid = req.params.id;
 				now.save(function(err){
 					if (err) {
 						console.log("error" + err.toString());
@@ -299,8 +343,10 @@ module.exports = {
 	},
 
 	addMealToFavorite: function(req,res) {
-		console.log("addMealToFavorite")
-		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
+		console.log("addMealToFavorite2")
+		if (req.user!=undefined) { var query = {userid: req.user._id}}
+		else var query = {deviceid:req.params.id}
+		user.findOne(query).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -343,15 +389,16 @@ module.exports = {
 
 				})
 			} else {
-				console.log("send leer weil id nicht gefunden")
+				console.log("send leer2 weil id nicht gefunden")
 				res.send({});
 				res.status(200).end();
 			}
 		})
 	},
 	deleteMealToFavorite: function(req,res) {
-		console.log("addMealToFavorite")
-		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
+		if (req.user!=undefined) { var query = {userid: req.user._id}}
+		else var query = {deviceid:req.params.id}
+		user.findOne(query).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -397,15 +444,16 @@ module.exports = {
 
 				})
 			} else {
-				console.log("send leer weil id nicht gefunden")
+				console.log("send leer3 weil id nicht gefunden")
 				res.send({});
 				res.status(200).end();
 			}
 		})
 	},
 	addMealToMenu: function(req,res) {
-		console.log("addMealToFavorite")
-		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
+		if (req.user!=undefined) { var query = {userid: req.user._id}}
+		else var query = {deviceid:req.params.id}
+		user.findOne(query).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -458,7 +506,7 @@ module.exports = {
 
 				})
 			} else {
-				console.log("send leer weil id nicht gefunden")
+				console.log("send leer4 weil id nicht gefunden")
 				res.send({});
 				res.status(200).end();
 			}
@@ -481,8 +529,9 @@ module.exports = {
 		})
 	},
 	deleteMealToMenu: function(req,res) {
-		console.log("deleteMealToFavorite")
-		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
+		if (req.user!=undefined) { var query = {userid: req.user._id}}
+		else var query = {deviceid:req.params.id}
+		user.findOne(query).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -797,6 +846,7 @@ module.exports = {
 					var now = new days({
 						day: new Date(req.body.day),
 						_mealid:req.params.id,
+						_canteenid: req.body._canteenid,
 						 name: {
 							de: data.name.de,
 							en: data.name.en
@@ -810,6 +860,7 @@ module.exports = {
 						price: data.price,
 						fav: data.number
 					})
+					console.log(now)
 					now.picture = data.picture;
 					now.save(function(err){
 						if (err) {
@@ -940,7 +991,9 @@ module.exports = {
 		console.log("getMeals")
 		var cutoff = new Date();
 		cutoff.setDate(cutoff.getDate());
-		days.find({}).sort({ day: 'asc' }).exec(function(err,data) {
+		if (req.params.canteen!=undefined) var query = {_canteenid:req.params.id};
+		else var query = {};
+		days.find(query).sort({ day: 'asc' }).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -948,6 +1001,7 @@ module.exports = {
 				return res.end();
 			}
 			if (!!data) {
+				console.log(data)
 				var tmp = [];
 				for (var i = 0; i < data.length; i ++) {
 					var item = data[i];
@@ -961,6 +1015,9 @@ module.exports = {
 						tmp[index].meals.push(item);
 					}
 				}
+				// var nowdate = new Date();
+				// nowdate.setDate(nowdate.getDate()-7);
+				// var index = helper.findInArrayDate(tmp, nowdate, "day");
 				res.send({list:tmp});
 			} else {
 				res.send({});

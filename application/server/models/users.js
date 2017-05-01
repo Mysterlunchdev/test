@@ -22,6 +22,7 @@ var createSchema = mongoose.Schema({
     lastName: String,
     code: String,
     url: String,
+    deviceid: String,
 });
 
 
@@ -48,6 +49,15 @@ var createSchema = mongoose.Schema({
 
 // createSchema.index({email:1})
 var create = mongoose.model('ingredients', createSchema);
+
+var createSchema = mongoose.Schema({
+    name: String,
+});
+
+
+
+// createSchema.index({email:1})
+var create = mongoose.model('canteens', createSchema);
 
 var createSchema = mongoose.Schema({
     title: String,
@@ -106,6 +116,7 @@ var createSchema = mongoose.Schema({
     likes: {
         type:Number,
         default: 0},
+        _canteenid: mongoose.Schema.ObjectId,
 });
 
 
@@ -117,6 +128,7 @@ var create = mongoose.model('meals', createSchema);
 var createSchema = mongoose.Schema({
     day: Date,
     _mealid: mongoose.Schema.ObjectId,
+    canteen: String,
     number: Number,
     name: {
         de: String,
@@ -152,6 +164,7 @@ var createSchema = mongoose.Schema({
             price: String,
         }
     }],
+    _canteenid: mongoose.Schema.ObjectId,
     
 });
 
@@ -215,6 +228,7 @@ var createSchema = mongoose.Schema({
 
    }],
    deviceid: String,
+   userid: mongoose.Schema.ObjectId
 });
 
 

@@ -64,6 +64,7 @@ module.exports = function(router) {
 	router.get('/api/meal', auth.isAuth, users.getMeal)
 	router.get('/api/meal/:id', users.getSpecMeal)
 	router.get('/api/days/:id', users.getLikes)
+	router.get('/api/days/:id/:canteen', users.getDay)
 	router.post('/api/meal', auth.isAuth, users.createMeal)
 	router.put('/api/meal/:id', auth.isAuth, users.changeMeal)
 	router.delete('/api/meal/:id', auth.isAuth, users.deleteMeal)
@@ -73,22 +74,27 @@ module.exports = function(router) {
 	router.delete('/api/days/:id', auth.isAuth, users.deleteDay)
 	router.get('/api/ingredients', auth.isAuth, users.getIngredients)
 	router.get('/api/days', users.getDay)
-	router.get('/api/fav/:id', users.getFavorites)
-	router.get('/api/favdetail/:id', users.getFavoritesDetail)
-	router.post('/api/fav/:id/:mealid', users.addMealToFavorite)
-	router.delete('/api/fav/:id/:mealid', users.deleteMealToFavorite)
+	// router.get('/api/daysCanteen', users.getDay)
+	router.get('/api/fav/:id', auth.isCORS, users.getFavorites)
+	router.get('/api/favdetail/:id', auth.isCORS, users.getFavoritesDetail)
+	router.post('/api/fav/:id/:mealid', auth.isCORS, users.addMealToFavorite)
+	router.delete('/api/fav/:id/:mealid', auth.isCORS, users.deleteMealToFavorite)
 	router.get('/api/menu/:id', users.getMenu)
-	router.get('/api/all/:id', users.getAll)
+	router.get('/api/all/:id', auth.isCORS, users.getAll)
 	router.get('/api/news', users.getNews)
 	router.get('/api/twitter', users.getTwitter)
 	router.get('/api/news/:id', users.getNewsDetail)
 	router.post('/api/news/', users.createNews)
 	
-	router.post('/api/menu/:id/:mealid', users.addMealToMenu)
-	router.put('/api/menu/:id/:mealid', users.deleteMealToMenu)
-	router.post('/api/fav/:id', users.createUserMeal)
+	router.post('/api/menu/:id/:mealid',auth.isCORS, users.addMealToMenu)
+	router.put('/api/menu/:id/:mealid',auth.isCORS, users.deleteMealToMenu)
+	router.post('/api/fav/:id', auth.isCORS, users.createUserMeal)
 	router.post('/api/feedback/', users.sendFeedback)
 	router.post('/api/like/:id/:mealid', users.likeMeal)
+
+	// Canteen pushing
+	router.get('/api/canteen/', users.getCanteens)
+	router.post('/api/canteen/', users.createCanteen)
 
 
 
@@ -102,6 +108,7 @@ module.exports = function(router) {
 
 	router.post('/register', users.createUserRedirect);
 	router.post('/login', auth.authenticate);
+	router.post('/login/auth', auth.isCORS);
 
 
 
@@ -142,6 +149,7 @@ module.exports = function(router) {
 				}
 				
 			} else {
+				console.log("else", req.user)
 				if (!!req.user) { res.render('index', {user:req.user}); console.log(req.user); } 
 				else
 					if (url=='') res.render('login')
