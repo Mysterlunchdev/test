@@ -528,6 +528,18 @@ module.exports = {
 			}
 		})
 	},
+	changeSpec: function(req,res) {
+		console.log("changespecs", req.body);
+		if (req.user.specs==undefined) {
+			req.user.specs = [];
+		}
+		var index = helper.findInArray(req.user.specs, req.body.val, "val");
+		if (index==-1) req.user.specs.push(req.body);
+		else req.user.specs.splice(index,1);
+		req.user.save();
+		res.send({specs: req.user.specs});
+		res.status(200).end();
+	},
 	deleteMealToMenu: function(req,res) {
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}

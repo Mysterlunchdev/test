@@ -120,7 +120,7 @@ exports.isCORS = function(req,res,next) {
 			user.findOne({_id:decoded._doc._id}).exec(function(err,data){
 				if (!!data) {
 					req.user = data;
-					console.log(req.user.email)
+					console.log(req.user)
 					// res.send({success:true, user:data});
 					next();
 				}

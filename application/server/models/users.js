@@ -23,6 +23,11 @@ var createSchema = mongoose.Schema({
     code: String,
     url: String,
     deviceid: String,
+    specs: [{
+        de: String,
+        en: String,
+        val: String,
+    }],
 });
 
 
