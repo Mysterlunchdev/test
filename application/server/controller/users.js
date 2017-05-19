@@ -22,11 +22,36 @@ var mongoose = require('mongoose'),
 	mongoose = require('mongoose'),
 	// user = mongoose.model('user'),
 	canteen = mongoose.model('canteens'),
+	count = mongoose.model('count'),
 	AWS = require('aws-sdk'),
 	request = require('request');
 
 
 module.exports = {
+	count: function(req,res) {
+		count.findOne({name: req.params.name}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				console.log("wert von " + req.params.name + " ist " + data.val)
+				if (data.val==undefined) data.val=0;
+				data.val++;
+				data.save();
+				res.status(204).end();
+			} else {
+				console.log("data gibts nicht")
+				var now = new count({
+					name:req.params.name
+				})
+				now.save();
+				res.status(204).end();
+			}
+		})
+	},
 	createCanteen: function(req,res) {
 		var now = new canteen(req.body);
 		now.save(function(err){
@@ -475,6 +500,14 @@ module.exports = {
 						console.log("index", index)
 						if (index!=-1) {
 							console.log("!=-1")
+							data.menuplan[index] ={
+								day: req.body.index,
+								_mealid: data2._id,
+								name: data2.name,
+								description: data2.description,
+								picture: data2.picture,
+								specs: data2.specs,
+							}
 						} else {
 							console.log("==-11")
 							data.menuplan.push({
@@ -527,6 +560,10 @@ module.exports = {
 				res.status(200).end();
 			}
 		})
+	},
+	getSpec: function(req,res) {
+		res.send({specs: req.users.specs});
+		res.status(200).end();
 	},
 	changeSpec: function(req,res) {
 		console.log("changespecs", req.body);

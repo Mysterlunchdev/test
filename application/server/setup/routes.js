@@ -89,6 +89,7 @@ module.exports = function(router) {
 	router.post('/api/menu/:id/:mealid',auth.isCORS, users.addMealToMenu)
 	router.put('/api/menu/:id/:mealid',auth.isCORS, users.deleteMealToMenu)
 	router.post('/api/fav/:id', auth.isCORS, users.createUserMeal)
+	router.get('/api/specs/', auth.isCORS, users.getSpec)
 	router.put('/api/specs/', auth.isCORS, users.changeSpec)
 	router.post('/api/feedback/', users.sendFeedback)
 	router.post('/api/like/:id/:mealid', users.likeMeal)
@@ -104,6 +105,7 @@ module.exports = function(router) {
 
 
 	router.post('/upload/:item/', upload.uploadFiles);
+	router.post('/api/count/:name/', users.count);
 	router.put('/cut/', upload.cutLogo);
 
 

@@ -107,7 +107,7 @@ exports.isCORS = function(req,res,next) {
 	// console.log("token", token);
 	// decode token
 	if (token) {
-		console.log("token set")
+		console.log("token set", token)
 		jwt.verify(token, 'secret', function(err, decoded) {      
 			if (err) {
 				console.log("failed to auth")

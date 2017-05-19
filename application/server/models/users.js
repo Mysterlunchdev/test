@@ -63,6 +63,15 @@ var createSchema = mongoose.Schema({
 
 // createSchema.index({email:1})
 var create = mongoose.model('canteens', createSchema);
+var createSchema = mongoose.Schema({
+    name: String,
+    val: Number
+});
+
+
+
+// createSchema.index({email:1})
+var create = mongoose.model('count', createSchema);
 
 var createSchema = mongoose.Schema({
     title: String,
