@@ -562,7 +562,8 @@ module.exports = {
 		})
 	},
 	getSpec: function(req,res) {
-		res.send({specs: req.users.specs});
+		console.log("getting spec")
+		res.send({specs: req.user.specs});
 		res.status(200).end();
 	},
 	changeSpec: function(req,res) {
@@ -1136,6 +1137,7 @@ module.exports = {
 				res.send({reason:err.toString()});
 				return res.end();
 			}
+			console.log("everthing fine while savgi", user)
 			return res.status(204).end();
 		})
 		
