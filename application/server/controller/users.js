@@ -1089,21 +1089,19 @@ module.exports = {
 	checkCodeAndRedirect: function(req,res) {
 		userModel.findOne({email:req.params.email}).exec(function(err,data) {
 			if (!!data) {
-				if (req.params.code==data.code)
-					if (data.rights==0) {
-						data.activated=true;
-						data.save();
-						return req.logIn(data, function(err) {
-							console.log("login");
-							if (err) { return console.log(err.toString());}
-							res.redirect('/profile/first');
-							return res.end();
-						});
-						res.render('login')
-						// return res.render('promoFulfill', {code: data.code, mail:data.email})
-					} else {
-						// return res.render('clientFulfill', {code: data.code, mail:data.email})
-					}
+				if (req.params.code==data.code) {
+					data.activated=true;
+					data.save();
+					return req.logIn(data, function(err) {
+						console.log("login");
+						if (err) { return console.log(err.toString());}
+						res.redirect('https://www.eon.de/de/pk.html');
+						return res.end();
+					});
+					res.render('login')
+					// return res.render('promoFulfill', {code: data.code, mail:data.email})
+					
+				}
 			}
 			res.status(404).end();
 		});
@@ -1127,7 +1125,10 @@ module.exports = {
 		console.log("createUser", req.body);
 		var user = new userModel(req.body);
 		user.email = req.body.email.toLowerCase();
+		// if (user.email.indexOf('@eon')==-1) return res.status(400).end();
 		user.salt = crypt.createSalt();
+		user.code = generateUUID();
+		mailer.sendEmail('code', user);
 		user.hashed_pwd = crypt.hashpwd(user.salt, req.body.password);
 		user.save(function(err) {
 			// if err print stacktrace and send status 400 to user

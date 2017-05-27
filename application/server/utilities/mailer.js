@@ -43,7 +43,7 @@ module.exports = {
 				var string = data.replace(/\(TEXT\)/g, data2);
 				string = string.replace(/\(CODE\)/g, user.code);
 				string = string.replace(/\(USERCODE\)/g, user.activationCode);
-				string = string.replace(/\(EMAIL\)/g, user.email);
+				string = string.replace(/\(MAIL\)/g, user.email);
 				string = string.replace(/\(LINK\)/g, '');
 
 				var mailfrom = 'support@promo-match.de';
