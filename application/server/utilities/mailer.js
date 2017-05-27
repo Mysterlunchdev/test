@@ -46,7 +46,7 @@ module.exports = {
 				string = string.replace(/\(MAIL\)/g, user.email);
 				string = string.replace(/\(LINK\)/g, '');
 
-				var mailfrom = 'support@promo-match.de';
+				var mailfrom = 'willkommen@mahlzeit.co';
 				console.log(mailfrom);
 				console.log("sending mail", user.email);
 				var transporter = nodemailer.createTransport(smtpTransport(options));

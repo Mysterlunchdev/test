@@ -1121,11 +1121,29 @@ module.exports = {
 			res.status(204).end();
 		})
 	},
+	sendtestmail: function(req,res) {
+		userModel.find({"email": "markus.egon.kuhn@gmail.com"}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				mailer.sendEmail('code', {
+					"email": "markus.egon.kuhn@gmail.com",
+					"code": "1",
+				});
+				res.status(200).end();
+			}
+		})
+
+	},
 	createUser: function(req,res) {
 		console.log("createUser", req.body);
 		var user = new userModel(req.body);
 		user.email = req.body.email.toLowerCase();
-		// if (user.email.indexOf('@eon')==-1) return res.status(400).end();
+		if (user.email.indexOf('@eon')==-1) return res.status(400).end();
 		user.salt = crypt.createSalt();
 		user.code = generateUUID();
 		mailer.sendEmail('code', user);

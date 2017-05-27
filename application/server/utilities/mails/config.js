@@ -7,12 +7,12 @@
 
 
 module.exports = {
-	host: 'server32.webgo24.de',
-	port: 25,
+	host: 'blue.host-care.com',
+	port: 465,
 	auth: {
-		user: 'web138p1',
+		user: 'markus.kuhn@mahlzeit.co',
 		pass: '1ki6s5ivf'
 	},
-    secure:false,
-    tls: {rejectUnauthorized: false}
+    secure:true,
+    // tls: {rejectUnauthorized: false}
 }
