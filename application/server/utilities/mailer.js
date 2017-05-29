@@ -42,7 +42,7 @@ module.exports = {
 				var subject2 = 'Herzlich Willkommen';
 				var string = data.replace(/\(TEXT\)/g, data2);
 				string = string.replace(/\(CODE\)/g, user.code);
-				string = string.replace(/\(USERCODE\)/g, user.activationCode);
+				// string = string.replace(/\(USERCODE\)/g, user.activationCode);
 				string = string.replace(/\(MAIL\)/g, user.email);
 				string = string.replace(/\(LINK\)/g, '');
 
