@@ -2,19 +2,18 @@ branch-defaults:
   master:
     environment: mahlzeitv2-env
 environment-defaults:
-  mahlzeitv3-env:
+  mahlzeitv2-env:
     branch: null
     repository: null
 global:
   application_name: mahlzeitV2
-  default_ec2_keyname: null
-  default_platform: 64bit Amazon Linux 2016.09 v3.2.0 running Node.js
+  default_ec2_keyname: awsebglown
+  default_platform: arn:aws:elasticbeanstalk:eu-central-1::platform/Node.js running
+    on 64bit Amazon Linux/4.0.1
   default_region: eu-central-1
   instance_profile: null
   platform_name: null
   platform_version: null
-  profile: '360'
+  profile: eb-cli
   sc: git
   workspace_type: Application
-
-
