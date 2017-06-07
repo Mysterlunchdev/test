@@ -19,6 +19,8 @@ var createSchema = mongoose.Schema({
     hashed_pwd: String,
     rights: Number,
     firstName: String,
+    veggie: Boolean,
+    vegan: Boolean,
     lastName: String,
     code: String,
     url: String,

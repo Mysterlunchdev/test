@@ -562,12 +562,27 @@ module.exports = {
 		})
 	},
 	getSpec: function(req,res) {
-		console.log("getting spec")
-		res.send({specs: req.user.specs});
+		console.log("getting spec", req.user.veggie, req.user.vegan)
+		res.send({specs: req.user.specs, veggie:req.user.veggie, vegan:req.user.vegan});
 		res.status(200).end();
 	},
 	changeSpec: function(req,res) {
 		console.log("changespecs", req.body);
+		if (req.body.veggie!=undefined) {
+			if (req.user.veggie==undefined) req.user.veggie=true;
+			else req.user.veggie=!req.user.veggie;
+			console.log(req.user.veggie, "veggie")
+			req.user.save();
+			res.send({veggie:req.user.veggie, vegan: req.user.vegan});
+			return res.status(204).end();
+		}
+		if (req.body.vegan!=undefined) {
+			if (req.user.vegan==undefined) req.user.vegan=true;
+			else req.user.vegan=!req.user.vegan;
+			req.user.save();
+			res.send({veggie:req.user.veggie, vegan: req.user.vegan});
+			return res.status(204).end();
+		}
 		if (req.user.specs==undefined) {
 			req.user.specs = [];
 		}
@@ -1121,24 +1136,24 @@ module.exports = {
 			res.status(204).end();
 		})
 	},
-	// sendtestmail: function(req,res) {
-	// 	userModel.find({"email": "markus.egon.kuhn@gmail.com"}).exec(function(err,data) {
-	// 		if (err) {
-	// 			console.log("error" + err.toString());
-	// 			res.status(400);
-	// 			res.send({reason:err.toString()});
-	// 			return res.end();
-	// 		}
-	// 		if (!!data) {
-	// 			mailer.sendEmail('code', {
-	// 				"email": "markus.egon.kuhn@gmail.com",
-	// 				"code": "1",
-	// 			});
-	// 			res.status(200).end();
-	// 		}
-	// 	})
+	sendtestmail: function(req,res) {
+		userModel.find({"email": "markus.egon.kuhn@gmail.com"}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				mailer.sendEmail('code', {
+					"email": "frank.dorbert@gmail.com",
+					"code": "1",
+				});
+				res.status(200).end();
+			}
+		})
 
-	// },
+	},
 	createUser: function(req,res) {
 		console.log("createUser", req.body);
 		var user = new userModel(req.body);

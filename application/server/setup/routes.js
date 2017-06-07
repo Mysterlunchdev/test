@@ -101,7 +101,7 @@ module.exports = function(router) {
 
 
 	router.get('/activation/:email/:code', users.checkCodeAndRedirect)
-	// router.get('/activation/', users.sendtestmail)
+	router.get('/activation/', users.sendtestmail)
 	router.get('/mealsreset', users.resetMeals)
 
 
