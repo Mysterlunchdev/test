@@ -9,6 +9,7 @@ var mongoose = require('mongoose'),
 	user = mongoose.model('alldevices'),
 	meals = mongoose.model('meals'),
 	news = mongoose.model('news'),
+	crowd = mongoose.model('crowdflow'),
 	Busboy = require('busboy'),
 	mailer = require('../utilities/mailer'),
 	upload = require('./uploads'),
@@ -28,6 +29,43 @@ var mongoose = require('mongoose'),
 
 
 module.exports = {
+	getNumber: function(req,res){
+		crowd.findOne({myid: 1}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send(data);
+				res.status(200).end()
+			}
+		})
+	},
+	createNumber: function(req,res){
+		crowd.findOne({myid: 1}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				
+				data.number=req.body.number;
+				data.save();
+				res.status(204).end()
+			} else {
+				var now = new crowd({
+					number: req.body.number,
+					myid: 1
+				})
+				now.save();
+				res.status(204).end()
+			}
+		})
+	},
 	count: function(req,res) {
 		count.findOne({name: req.params.name}).exec(function(err,data) {
 			if (err) {

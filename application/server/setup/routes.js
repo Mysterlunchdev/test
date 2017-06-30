@@ -98,6 +98,9 @@ module.exports = function(router) {
 	router.get('/api/canteen/', users.getCanteens)
 	router.post('/api/canteen/', users.createCanteen)
 
+	router.get('/api/crowd/', users.getNumber)
+	router.post('/api/crowd/', users.createNumber)
+
 
 
 	router.get('/activation/:email/:code', users.checkCodeAndRedirect)

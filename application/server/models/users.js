@@ -57,6 +57,25 @@ var createSchema = mongoose.Schema({
 // createSchema.index({email:1})
 var create = mongoose.model('ingredients', createSchema);
 
+
+
+var createSchema = mongoose.Schema({
+    number: Number,
+    myid: Number,
+    stamp: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+
+
+// createSchema.index({email:1})
+var create = mongoose.model('crowdflow', createSchema);
+
+
+
+
 var createSchema = mongoose.Schema({
     name: String,
 });
