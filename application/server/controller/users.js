@@ -30,7 +30,7 @@ var mongoose = require('mongoose'),
 
 module.exports = {
 	getNumber: function(req,res){
-		crowd.findOne({myid: 1}).exec(function(err,data) {
+		crowd.find({}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -44,27 +44,12 @@ module.exports = {
 		})
 	},
 	createNumber: function(req,res){
-		crowd.findOne({myid: 1}).exec(function(err,data) {
-			if (err) {
-				console.log("error" + err.toString());
-				res.status(400);
-				res.send({reason:err.toString()});
-				return res.end();
-			}
-			if (!!data) {
-				
-				data.number=req.body.number;
-				data.save();
-				res.status(204).end()
-			} else {
 				var now = new crowd({
 					number: req.body.number,
 					myid: 1
 				})
 				now.save();
 				res.status(204).end()
-			}
-		})
 	},
 	count: function(req,res) {
 		count.findOne({name: req.params.name}).exec(function(err,data) {
