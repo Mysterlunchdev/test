@@ -131,8 +131,9 @@ module.exports = {
 		  access_token_secret: 'hPb6CGt4tFYxrvck3VfZvI4xMNimVaaHizZo1iKKxsDa9'
 		});
 		 
-		var params = {screen_name: 'eon_se_de'};
+		var params = {screen_name: 'eon_de'};
 		client.get('statuses/user_timeline', params, function(error, tweets, response) {
+		 	console.log("twitternews", response)
 		  if (!error) {
 		  		request('https://api.instagram.com/v1/users/self/media/recent/?access_token=2062016626.00fa5e6.17c1d1132fc04a0bacffd0c4a6d28454', function(error, response, body) {
 		  			// console.log(JSON.stringify(res, censor(response)))
@@ -140,7 +141,7 @@ module.exports = {
 		  		})
 		  } else {
 		  	
-			console.log(error)
+			console.log("error witter", error)
 			  res.send(error)
 		  }
 		});
