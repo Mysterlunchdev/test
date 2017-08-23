@@ -69,6 +69,7 @@ module.exports = function(router) {
 	router.put('/api/meal/:id', auth.isAuth, users.changeMeal)
 	router.delete('/api/meal/:id', auth.isAuth, users.deleteMeal)
 	router.post('/api/days/:id', auth.isAuth, users.createDay)
+	router.put('/api/days', auth.isAuth, users.updateDay)
 	router.post('/api/ingredients', auth.isAuth, users.createIngredient)
 	router.delete('/api/ingredients/:id', auth.isAuth, users.deleteIngredient)
 	router.delete('/api/days/:id', auth.isAuth, users.deleteDay)

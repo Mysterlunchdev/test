@@ -52,6 +52,8 @@ module.exports = {
 				res.status(204).end()
 	},
 	count: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		count.findOne({name: req.params.name}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -76,6 +78,8 @@ module.exports = {
 		})
 	},
 	createCanteen: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		var now = new canteen(req.body);
 		now.save(function(err){
 			if (err) {
@@ -104,10 +108,14 @@ module.exports = {
 		})
 	},
 	sendFeedback: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		mailer.inform(req.body.text);
 		res.status(204).end();
 	},
 	getTwitter:function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		// var ig = require('instagram-node').instagram({});
 		//   ig.use({ access_token: '2062016626.00fa5e6.17c1d1132fc04a0bacffd0c4a6d28454' });
 		// //  	ig.media_popular(function(err, medias, remaining, limit) {
@@ -147,6 +155,8 @@ module.exports = {
 		});
 	},
 	createNews: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		var now = new news(req.body);
 		now.save(function(err){
 			if (err) {
@@ -159,6 +169,8 @@ module.exports = {
 		})
 	},
 	getNews: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		news.find({}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -176,6 +188,8 @@ module.exports = {
 		})
 	},
 	getNewsDetail: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		news.findOne({_id:req.params.id}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -193,6 +207,8 @@ module.exports = {
 		})
 	},
 	getFavorites: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		// var token = req.body.token || req.query.token || req.headers['x-access-token'];
 		// if (token!=undefined) {
 
@@ -215,6 +231,8 @@ module.exports = {
 		})
 	},
 	getFavoritesDetail: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -252,6 +270,8 @@ module.exports = {
 		})
 	},
 	getMenu: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -270,6 +290,8 @@ module.exports = {
 		})
 	},
 	getAll: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -288,6 +310,8 @@ module.exports = {
 		})
 	},
 	createUserMeal: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -317,6 +341,8 @@ module.exports = {
 		})
 	},
 	getLikes: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		console.log("getlikes",req.params.id)
 		meals.findOne({_id:req.params.id}).exec(function(err,data) {
 			console.log("insiede")
@@ -334,6 +360,8 @@ module.exports = {
 		})
 	},
 	likeMeal: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		console.log("addMealToFavorite")
 		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
 			if (err) {
@@ -392,6 +420,8 @@ module.exports = {
 	},
 
 	addMealToFavorite: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		console.log("addMealToFavorite2")
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
@@ -445,6 +475,8 @@ module.exports = {
 		})
 	},
 	deleteMealToFavorite: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -500,6 +532,10 @@ module.exports = {
 		})
 	},
 	addMealToMenu: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -570,6 +606,8 @@ module.exports = {
 		})
 	},
 	getSpecMeal: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		meals.findOne({_id:req.params.id}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -586,11 +624,15 @@ module.exports = {
 		})
 	},
 	getSpec: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		console.log("getting spec", req.user.veggie, req.user.vegan)
 		res.send({specs: req.user.specs, veggie:req.user.veggie, vegan:req.user.vegan});
 		res.status(200).end();
 	},
 	changeSpec: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		console.log("changespecs", req.body);
 		if (req.body.veggie!=undefined) {
 			if (req.user.veggie==undefined) req.user.veggie=true;
@@ -618,6 +660,8 @@ module.exports = {
 		res.status(200).end();
 	},
 	deleteMealToMenu: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -714,6 +758,8 @@ module.exports = {
 	 *     HTTP/1.1 400 Bad Request
 	 */
 	getMeal: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		meals.find({}).exec(function(err,data) {
 			console.log("inside")
 			if (err) {
@@ -761,6 +807,8 @@ module.exports = {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	createMeal: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		var now = new meals(req.body);
 		now.save(function(err){
 			if (err) {
@@ -794,6 +842,8 @@ module.exports = {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	changeMeal: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		meals.get({_id:req.params.id}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -839,6 +889,8 @@ module.exports = {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	deleteMeal: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		meals.remove({_id:req.params.id}).exec(function(err) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -924,6 +976,8 @@ module.exports = {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	createDay: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		meals.findOne({_id:req.params.id}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -966,7 +1020,41 @@ module.exports = {
 			}
 		})
 	},
+	updateDay: function(req,res) {
+		// console.log(req.body)
+		// return ;
+		days.find({}).exec(function(err, data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			} else {
+				console.log("okay")
+				for (var i = 0; i < req.body.meals.length; i++) {
+					console.log(req.body.meals[i])
+					var index = helper.findInArray(data, req.body.meals[i]._mealid, "_mealid");
+					if (index!=-1)
+						data[index].day=req.body.day2;
+					console.log(index)
+					data[index].save(function(err) {
+						if (err) {
+							console.log("error" + err.toString());
+							res.status(400);
+							res.send({reason:err.toString()});
+							return res.end();
+						} else {
+							res.status(204).end();
+						}
+					})
+				}
+			}
+			
+		})
+	},
 	changeDate: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 
 	},
 	/**
@@ -994,6 +1082,8 @@ module.exports = {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	getIngredients:function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		console.log("yo")
 		ingredients.find({}).exec(function(err,data) {
 			if (err) {
@@ -1030,6 +1120,8 @@ module.exports = {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	createIngredient: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		console.log(req.body)
 		var now = new ingredients(req.body);
 		now.save(function(err){
@@ -1043,6 +1135,8 @@ module.exports = {
 		})
 	},
 	deleteIngredient: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		ingredients.remove({_id:req.params.id}).exec(function(err) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -1054,6 +1148,8 @@ module.exports = {
 		})
 	},
 	changeIngredient: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 
 	},
 	/**
@@ -1077,6 +1173,8 @@ module.exports = {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	getDay: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		console.log("getMeals")
 		var cutoff = new Date();
 		cutoff.setDate(cutoff.getDate());
@@ -1126,6 +1224,8 @@ module.exports = {
 		})
 	},
 	checkCodeAndRedirect: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		userModel.findOne({email:req.params.email}).exec(function(err,data) {
 			if (!!data) {
 				if (req.params.code==data.code) {
@@ -1146,6 +1246,8 @@ module.exports = {
 		});
 	},
 	updateUser: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		for (var key in req.body) {
 			req.user[key] = req.body[key];
 		}
@@ -1161,6 +1263,8 @@ module.exports = {
 		})
 	},
 	sendtestmail: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		userModel.find({"email": "markus.egon.kuhn@gmail.com"}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -1179,6 +1283,8 @@ module.exports = {
 
 	},
 	createUser: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		console.log("createUser", req.body);
 		var user = new userModel(req.body);
 		user.email = req.body.email.toLowerCase();
@@ -1201,6 +1307,8 @@ module.exports = {
 		
 	}, 
 	fulfillUserClient: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 			AWS.config.region = 'eu-central-1';
 			var s3bucket = new AWS.S3({params: {Bucket: 'promoplattform'}});
 
@@ -1422,6 +1530,8 @@ module.exports = {
 			// })
 	},
 	fulfillUser: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		 userModel.findOne({email:req.params.mail}).exec(function(err,data) {
 				// if err print stacktrace and send status 400 to user
 				if (err) {
@@ -1515,6 +1625,8 @@ module.exports = {
 			})
 	},
 	newMail: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		userModel.findOne({email:req.params.email}).exec(function(err,data) {
 			if (!!data) {
 				mailer.sendEmail('activate', data);
@@ -1523,6 +1635,8 @@ module.exports = {
 		})
 	},
 	createUserRedirect: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		console.log("createUser", req.body);
 		var user = new userModel(req.body);
 		user.email = req.body.email.toLowerCase();
@@ -1550,6 +1664,8 @@ module.exports = {
 		res.status(200).end();
 	},
 	getUser: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		userModel.findOne({email:req.params.email}).exec(function(err,data) {
 			// if err print stacktrace and send status 400 to user
 			if (err) {
@@ -1569,6 +1685,8 @@ module.exports = {
 
 	},
 	getUserById: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 		userModel.findOne({_id:req.params.id}, '-salt -hashed_pwd').exec(function(err,data) {
 			// if err print stacktrace and send status 400 to user
 			if (err) {
@@ -1588,6 +1706,8 @@ module.exports = {
 
 	},
 	deleteUser: function(req,res) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
 
 	}
 }

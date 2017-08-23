@@ -29,13 +29,13 @@ exports.authenticate = function(req, res, next) {
 
 				if (!user) {
 					res.status(404);
-					res.json({ success: false, message: 'Authentication failed. User not found.' });
+					res.json({ success: false, type: "user", message: 'Authentication failed. User not found.' });
 				} else if (user) {
 
 					// check if password matches
 					if (!user.authenticate(req.body.password)) {
 						res.status(401);
-						res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+						res.json({ success: false, type:"password",  message: 'Authentication failed. Wrong password.' });
 					} else {
 						console.log("deviceid beim auth")
 						user.deviceid=req.body.deviceid;
@@ -105,6 +105,7 @@ exports.isCORS = function(req,res,next) {
 	// check header or url parameters or post parameters for token
 	var token =  req.headers['x-access-token'];
 	// console.log("token", token);
+	console.log("header", req.headers["official"]);
 	// decode token
 	if (token) {
 		console.log("token set", token)

@@ -21,6 +21,7 @@ var createSchema = mongoose.Schema({
     firstName: String,
     veggie: Boolean,
     vegan: Boolean,
+    official: String,
     lastName: String,
     code: String,
     url: String,
@@ -78,6 +79,7 @@ var create = mongoose.model('crowdflow', createSchema);
 
 var createSchema = mongoose.Schema({
     name: String,
+    official: String,
 });
 
 
@@ -86,7 +88,8 @@ var createSchema = mongoose.Schema({
 var create = mongoose.model('canteens', createSchema);
 var createSchema = mongoose.Schema({
     name: String,
-    val: Number
+    val: Number,
+    official: String,
 });
 
 
@@ -102,6 +105,7 @@ var createSchema = mongoose.Schema({
         default: Date.now
     },
     text: String,
+    official: String,
     picture: String,
     author: String,
 });
@@ -113,6 +117,7 @@ var create = mongoose.model('news', createSchema);
 
 
 var createSchema = mongoose.Schema({
+    official: String,
     name: {
         de: String,
         en: String
@@ -128,7 +133,7 @@ var createSchema = mongoose.Schema({
     specs: [{
         de: String,
         en: String,
-        val: Number
+        val: String,
     }],
     adds: [{
         de: String,
@@ -164,7 +169,8 @@ var createSchema = mongoose.Schema({
     day: Date,
     _mealid: mongoose.Schema.ObjectId,
     canteen: String,
-    number: Number,
+     official: String,
+   number: Number,
     name: {
         de: String,
         en: String
@@ -262,7 +268,8 @@ var createSchema = mongoose.Schema({
     }],
 
    }],
-   deviceid: String,
+     official: String,
+  deviceid: String,
    userid: mongoose.Schema.ObjectId
 });
 

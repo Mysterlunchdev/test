@@ -15,86 +15,118 @@ app.controller('MainCtrl', function($scope, Canteen, News, delegator, Meals, Ing
 // a) Konservierungsstoff, b) Antioxidationsmittel, c) Geschmacksverstärker, d) Süßungsmittel, e) Farbstoff, f) Phosphat
 
 	$scope.adds = [{
-		de: 'Konservierungsstoff',
-		en: 'Konservierungsstoff',
-		val: 'a'
+		de: 'mit Farbstoff',
+		en: '',
+		val: '01'
 	},{
-		de: 'Antioxidationsmittel',
-		en: 'Antioxidationsmittel',
-		val: 'b'
+		de: 'mit Konservierungsstoff',
+		en: '',
+		val: '02'
 	},{
-		de: 'Geschmacksverstärker',
-		en: 'Geschmacksverstärker',
-		val: 'c'
+		de: 'mit Antioxidationsmittel',
+		en: '',
+		val: '03'
 	},{
-		de: 'Süßungsmittel',
-		en: 'Süßungsmittel',
-		val: 'd'
+		de: 'mit Geschmacksverstärker',
+		en: '',
+		val: '04'
 	},{
-		de: 'Farbstoff',
-		en: 'Farbstoff',
-		val: 'e'
+		de: 'geschwefelt',
+		en: '',
+		val: '05'
 	},{
-		de: 'Phosphat',
-		en: 'Phosphat',
-		val: 'f'
-	}]
+		de: 'geschwärzt',
+		en: '',
+		val: '06'
+	},{
+		de: 'mit Süßungsmittel(n)',
+		en: '',
+		val: '07'
+	},{
+		de: 'mit einer Zuckerart und Süßungsmittel(n)',
+		en: '',
+		val: '08'
+	},{
+		de: 'koffeinhaltig',
+		en: '',
+		val: '09'
+	},{
+		de: 'chininhaltig',
+		en: '',
+		val: '10'
+	},{
+		de: 'mit Phosphat',
+		en: '',
+		val: '11'
+	},{
+		de: 'gewachst',
+		en: '',
+		val: '12'
+	},{
+		de: 'enthält eine Phenylalaninquelle',
+		en: '',
+		val: '13'
+	},{
+		de: 'genetisch verändert',
+		en: '',
+		val: '14'
+	},]
 	$scope.specs = [{
 		de: 'Gluten',
 		en: 'Gluten',
-		val: '1'
+		val: 'a'
+	},{
+		de: 'Milch',
+		en: 'Milch',
+		val: 'b'
 	},{
 		de: 'Krebstiere',
 		en: 'Krebstiere',
-		val: '2'
+		val: 'c'
 	},{
 		de: 'Eier',
 		en: 'Eier',
-		val: '3'
+		val: 'd'
 	},{
 		de: 'Fisch',
 		en: 'Fisch',
-		val: '4'
+		val: 'e'
 	},{
 		de: 'Erdnüsse',
 		en: 'Erdnüsse',
-		val: '5'
+		val: 'f'
 	},{
 		de: 'Soja',
 		en: 'Soja',
-		val: '6'
-	},{
-		de: 'Milchlaktose',
-		en: 'Milchlaktose',
-		val: '7'
+		val: 'g'
 	},{
 		de: 'Schalenfrüchte',
 		en: 'Schalenfrüchte',
-		val: '8'
+		val: 'h'
 	},{
 		de: 'Sellerie',
 		en: 'Sellerie',
-		val: '9'
+		val: 'i'
 	},{
 		de: 'Senf',
 		en: 'Senf',
-		val: '10'
+		val: 'k'
 	},{
 		de: 'Sesam',
 		en: 'Sesam',
-		val: '11'
+		val: 'l'
 	},{
 		de: 'Schwefeldioxid',
 		en: 'Schwefeldioxid',
-		val: '12'
+		val: 'm'
 	},{
 		de: 'Lupinen',
 		en: 'Lupinen',
-		val: '13'
+		val: 'n'
 	},{
 		de: 'Weichtiere',
 		en: 'Weichtiere',
-		val: '14'
+		val: 'o'
 	}]
 
 	$scope.news = {
@@ -310,6 +342,15 @@ app.controller('MainCtrl', function($scope, Canteen, News, delegator, Meals, Ing
 		delegator.POST($scope.day, Days, {id: $scope.day.id}).then(function(data) {
 			$scope.days = {};
 			$scope.getDays();
+		}, function(reason) {
+			mvNotifier.error(reason);
+		})
+	}
+
+	$scope.updateDay = function(item) {
+		// console.log("updat day")
+		delegator.PUT(item, Days, {id:item._id}).then(function(data) {
+			console.log("yes");
 		}, function(reason) {
 			mvNotifier.error(reason);
 		})

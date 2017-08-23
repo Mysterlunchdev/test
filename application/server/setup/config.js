@@ -13,7 +13,8 @@ module.exports = {
 	production: {
 		// db : 'mongodb://127.0.0.1:27017/default',
 		// db: 'mongodb://user:usertest@ds011664.mlab.com:11664/default_mean',
-		db: 'mongodb://user:usertest@ds151060.mlab.com:51060/mahlzeit',
+		// db: 'mongodb://user:usertest@ds151060.mlab.com:51060/mahlzeit',
+		db: 'mongodb://user:usertest@ds161012.mlab.com:61012/bmwmahlzeit',
 		rootPath: rootPath,
 		mails: true,
 		port:  process.env.PORT || 6060,
