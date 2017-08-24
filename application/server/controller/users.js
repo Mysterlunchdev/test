@@ -998,6 +998,7 @@ module.exports = {
 						number: req.body.number,
 						description: data.description,
 						specs: data.specs,
+						meats: data.meats,
 						adds: data.adds,
 						picture: data.picture,
 						price: data.price,
