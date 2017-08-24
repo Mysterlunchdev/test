@@ -331,6 +331,8 @@ app.controller('MainCtrl', function($scope, Canteen, News, delegator, Meals, Ing
 			// success undefined - get new
 			$scope.meal = {
 				specs: [],
+				adds: [],
+				meats: [],
 				price: [{
 			de: {
 				name: 'Mitarbeiter',
