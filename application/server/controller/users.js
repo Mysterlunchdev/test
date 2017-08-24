@@ -1333,7 +1333,6 @@ module.exports = {
 		console.log("createUser", req.body);
 		var user = new userModel(req.body);
 		user.email = req.body.email.toLowerCase();
-		if (user.email.indexOf('@eon')==-1) return res.status(400).end();
 		user.salt = crypt.createSalt();
 		user.code = generateUUID();
 		mailer.sendEmail('code', user);
