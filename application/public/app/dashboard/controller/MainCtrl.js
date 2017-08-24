@@ -190,6 +190,7 @@ app.controller('MainCtrl', function($scope, Canteen, News, delegator, Meals, Ing
 			en: ''
 		}, 
 		adds:[],
+		meats:[],
 		specs: [],
 		price: [{
 			de: {

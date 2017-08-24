@@ -167,7 +167,7 @@
 									i.fa.fa-minus(ng-click="meal.adds.splice($index,1)") 
 							h6 Additives offen:
 							p
-								span(style="padding:2px;margin-right:4px" ng-repeat="item in adds | filter: isInsideAdds") {{item.de}}
+								span(style="padding:2px;margin-right:4px" ng-repeat="item in adds | filter: isInsideAdds") {{item.val}} {{item.de}}
 									i.fa.fa-plus(ng-click="meal.adds.push(item)") 
 						.row
 							h6 Meats hinzugefügt:
@@ -176,7 +176,7 @@
 									i.fa.fa-minus(ng-click="meal.meats.splice($index,1)") 
 							h6 Meats offen:
 							p
-								span(style="padding:2px;margin-right:4px" ng-repeat="item in adds | filter: isInsideMeats") {{item.de}}
+								span(style="padding:2px;margin-right:4px" ng-repeat="item in meats") {{item.val}} {{item.de}}
 									i.fa.fa-plus(ng-click="meal.meats.push(item)") 
 						.row
 							.col-sm-12

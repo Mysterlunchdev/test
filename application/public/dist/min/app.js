@@ -718,7 +718,32 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 	// 7) Milchlaktose, 8) Schalenfrüchte, 9) Sellerie, 10) Senf, 11) Sesam, 
 	// 12) Schwefeldioxid, 13) Lupinen, 14) Weichtiere
 // a) Konservierungsstoff, b) Antioxidationsmittel, c) Geschmacksverstärker, d) Süßungsmittel, e) Farbstoff, f) Phosphat
-
+	
+	$scope.meats = [{
+		de: 'Geflügel',
+		en: '',
+		val: 'G'
+	},{
+		de: 'Kalb',
+		en: '',
+		val: 'K'
+	},{
+		de: 'Lamm',
+		en: '',
+		val: 'L'
+	},{
+		de: 'Rind',
+		en: '',
+		val: 'R'
+	},{
+		de: 'Schwein',
+		en: '',
+		val: 'S'
+	},{
+		de: 'Wild',
+		en: '',
+		val: 'W'
+	}]
 	$scope.adds = [{
 		de: 'mit Farbstoff',
 		en: '',
@@ -870,6 +895,7 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 			en: ''
 		}, 
 		adds:[],
+		meats:[],
 		specs: [],
 		price: [{
 			de: {
@@ -1085,6 +1111,11 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 	// FILTEr
 	$scope.isInsideAdds = function( item ) {
 		var index = findInArray($scope.meal.adds, item.val, 'val');
+		if (index==-1) return true;
+		else return false;
+	};
+	$scope.isInsideMeats = function( item ) {
+		var index = findInArray($scope.meal.meats, item.val, 'val');
 		if (index==-1) return true;
 		else return false;
 	};
