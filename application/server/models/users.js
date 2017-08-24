@@ -140,6 +140,7 @@ var createSchema = mongoose.Schema({
         en: String,
         val: String,
     }],
+    ampel: String,
     meats: [{
         de: String,
         en: String,
@@ -205,6 +206,7 @@ var createSchema = mongoose.Schema({
         en: String,
         val: String,
     }],
+    ampel: String,
     picture: String,
     price: [{
         de: {
@@ -233,6 +235,7 @@ var createSchema = mongoose.Schema({
         _mealid: {
             type: mongoose.Schema.ObjectId,
         },
+        ampel: String,
         description: {
             de: String,
             en: String
@@ -264,6 +267,7 @@ var createSchema = mongoose.Schema({
         _mealid: {
             type: mongoose.Schema.ObjectId,
         } ,
+        ampel: String,
         description: {
         de: String,
         en: String

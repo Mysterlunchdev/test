@@ -68,11 +68,16 @@
 				b {{item.name.de}}
 				br
 				p {{item.description.de}}
+				input(ng-model="item.ampel" ng-enter="updateMeal(item)")
 				p
 					span(ng-repeat="item in item.price") {{item.de.name}}: {{item.de.price}}
 						br
 				p Zutaten: 
 					span(ng-repeat="item in item.specs") {{item.val}},
+				p Zutaten: 
+					span(ng-repeat="item in item.adds") {{item.val}},
+				p Zutaten: 
+					span(ng-repeat="item in item.meats") {{item.val}},
 
 		.col-sm-12
 			h4.text-center Mahlzeiten
@@ -88,6 +93,10 @@
 							.col-sm-12
 								.form-group
 									input.form-control(ng-model="meal.picture" Placeholder="picture link")
+						.row
+							.col-sm-12
+								.form-group
+									input.form-control(ng-model="meal.ampel" Placeholder="Ampelwert 1 grün 2 gelb 3 rot")
 						.row
 							.col-xs-6
 								.form-group

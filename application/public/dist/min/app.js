@@ -889,6 +889,7 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 			de:'',
 			en:''
 		},
+		ampel: '',
 		ingredients:[],
 		description: {
 			de: '',
@@ -1038,6 +1039,7 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 				specs: [],
 				adds: [],
 				meats: [],
+				ampel: '',
 				price: [{
 			de: {
 				name: 'Mitarbeiter',
@@ -1083,6 +1085,14 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 	$scope.updateDay = function(item) {
 		// console.log("updat day")
 		delegator.PUT(item, Days, {id:item._id}).then(function(data) {
+			console.log("yes");
+		}, function(reason) {
+			mvNotifier.error(reason);
+		})
+	}
+	$scope.updateMeal = function(item) {
+		// console.log("updat day")
+		delegator.PUT(item, Meals, {id:item._id}).then(function(data) {
 			console.log("yes");
 		}, function(reason) {
 			mvNotifier.error(reason);

@@ -999,6 +999,7 @@ module.exports = {
 						description: data.description,
 						specs: data.specs,
 						meats: data.meats,
+						ampel: data.ampel,
 						adds: data.adds,
 						picture: data.picture,
 						price: data.price,
@@ -1051,6 +1052,49 @@ module.exports = {
 				}
 			}
 			
+		})
+	},
+	updateMeal: function(req,res) {
+		meals.findOne({_id:req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				data.ampel = req.body.ampel;
+				days.find({"_mealid":data._id}).exec(function(err,data2) {
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					if (!!data) {
+						for (var i = 0; i < data2.length; i++) {
+							console.log("updateDay")
+							data2[i].ampel = data.ampel;
+							data2[i].save();
+						}
+					} else {
+						res.send({});
+						res.status(200).end();
+					}
+				});
+				data.save(function(err){
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					res.status(204).end();
+				})
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
 		})
 	},
 	changeDate: function(req,res) {
