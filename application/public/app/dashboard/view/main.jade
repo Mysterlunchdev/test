@@ -7,7 +7,7 @@
 		p
 			span(ng-repeat="item in allnews") {{item.text}} {{item.title}} {{item.date}} |\/| 
 				i.fa.fa-times(ng-click="deleteIngredient(item)")
-	.row
+		.row
 		.col-sm-12
 			form
 				.form-group
@@ -169,6 +169,15 @@
 							p
 								span(style="padding:2px;margin-right:4px" ng-repeat="item in adds | filter: isInsideAdds") {{item.de}}
 									i.fa.fa-plus(ng-click="meal.adds.push(item)") 
+						.row
+							h6 Meats hinzugefügt:
+							p
+								span(style="padding:2px;margin-right:4px" ng-repeat="item in meal.meats") {{item.de}}
+									i.fa.fa-minus(ng-click="meal.meats.splice($index,1)") 
+							h6 Meats offen:
+							p
+								span(style="padding:2px;margin-right:4px" ng-repeat="item in adds | filter: isInsideMeats") {{item.de}}
+									i.fa.fa-plus(ng-click="meal.meats.push(item)") 
 						.row
 							.col-sm-12
 								button.btn.btn-default(ng-click="addMeal()") Meal hinzufügen

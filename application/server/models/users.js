@@ -140,6 +140,11 @@ var createSchema = mongoose.Schema({
         en: String,
         val: String,
     }],
+    meats: [{
+        de: String,
+        en: String,
+        val: String,
+    }],
     picture: String,
     price: [{
         de: {
@@ -180,6 +185,12 @@ var createSchema = mongoose.Schema({
         en: String,
         val: String,
     }],
+        meats: [{
+        de: String,
+        en: String,
+        val: String,
+    }],
+
 
     ingredients: [{
         de: String,
@@ -241,6 +252,12 @@ var createSchema = mongoose.Schema({
             en: String,
             val: String,
         }],
+            meats: [{
+        de: String,
+        en: String,
+        val: String,
+    }],
+
     }],
    meals: [{
     alert: Boolean,
@@ -262,6 +279,11 @@ var createSchema = mongoose.Schema({
         val: String,
     }],
         adds: [{
+        de: String,
+        en: String,
+        val: String,
+    }],
+        meats: [{
         de: String,
         en: String,
         val: String,
