@@ -433,6 +433,27 @@ module.exports = {
 				return res.end();
 			}
 			if (!!data) {
+
+			} else {
+				var now = new user(req.body);
+				if (req.user!=undefined) { now.userid= req.user._id}
+				else now.deviceid = req.params.id;
+				now.meals=[];
+				now.save(function(err){
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					res.status(204).end();
+				})
+				data=now;
+				// console.log("send leer2 weil id nicht gefunden")
+				// res.send({list:now.meals});
+				// res.status(200).end();
+			}
+			if (!!data) {
 				meals.findOne({_id:req.params.mealid}).exec(function(err,data2) {
 					if (err) {
 						console.log("error" + err.toString());
@@ -468,9 +489,7 @@ module.exports = {
 
 				})
 			} else {
-				console.log("send leer2 weil id nicht gefunden")
-				res.send({});
-				res.status(200).end();
+				
 			}
 		})
 	},
