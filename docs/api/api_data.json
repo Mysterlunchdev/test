@@ -1,5 +1,174 @@
 [
   {
+    "type": "POST",
+    "url": "/api/beacon",
+    "title": "create Beacon",
+    "version": "0.1.0",
+    "name": "createBeacon",
+    "group": "Beacons",
+    "description": "<p>Creating new Beacon</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 204 No Content",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Error",
+            "description": "<p>when couldnt save</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "application/server/controller/users.js",
+    "groupTitle": "Beacons"
+  },
+  {
+    "type": "GET",
+    "url": "/api/beacon",
+    "title": "get beacons",
+    "version": "0.1.0",
+    "name": "getBeacon",
+    "group": "Beacons",
+    "description": "<p>get all beacons</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK \n\t{\n\t\tlist: [BeaconsObject]\n\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Error",
+            "description": "<p>when database problems</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "application/server/controller/users.js",
+    "groupTitle": "Beacons"
+  },
+  {
+    "type": "POST",
+    "url": "/api/canteen",
+    "title": "creating new canteen",
+    "version": "0.1.0",
+    "name": "createCanteen",
+    "group": "Canteens",
+    "description": "<p>creating new canteen</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "name",
+            "description": "<p>name of the canteen</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 204 No Content",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Error",
+            "description": "<p>when saving problem</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "application/server/controller/users.js",
+    "groupTitle": "Canteens"
+  },
+  {
+    "type": "GET",
+    "url": "/api/canteen",
+    "title": "get all canteens",
+    "version": "0.1.0",
+    "name": "getCanteens",
+    "group": "Canteens",
+    "description": "<p>get all canteens</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK \n\t{\n\t\tlist: [{name: String}],\n\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Error",
+            "description": "<p>When form is wrong</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "application/server/controller/users.js",
+    "groupTitle": "Canteens"
+  },
+  {
     "type": "post",
     "url": "/api/days/:id",
     "title": "create new day with meal",
@@ -96,6 +265,58 @@
     },
     "filename": "application/server/controller/users.js",
     "groupTitle": "Days"
+  },
+  {
+    "type": "POST",
+    "url": "/api/feedback",
+    "title": "send feedback",
+    "version": "0.1.0",
+    "name": "sendFeedback",
+    "group": "Feedback",
+    "description": "<p>send users feedback to server</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "text",
+            "description": "<p>Text of the feedback</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 204 No Content",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "Error",
+            "description": "<p>When form is wrong</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "application/server/controller/users.js",
+    "groupTitle": "Feedback"
   },
   {
     "type": "post",

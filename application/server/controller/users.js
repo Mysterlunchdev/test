@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 	ingredients = mongoose.model('ingredients'),
 	days = mongoose.model('days'),
 	user = mongoose.model('alldevices'),
+	beacons = mongoose.model('beacons'),
 	meals = mongoose.model('meals'),
 	news = mongoose.model('news'),
 	crowd = mongoose.model('crowdflow'),
@@ -29,6 +30,74 @@ var mongoose = require('mongoose'),
 
 
 module.exports = {
+// 	session_id (number), uuid (varchar), major (number), minor (number), datetime, user_id (number)
+
+// Ich bräuchte einen Call zum Eintragen (also POST) und einen zum Auslesen (also GET).
+	/**
+	 * @api {POST} /api/beacon create Beacon
+	 * @apiVersion 0.1.0
+	 * @apiName createBeacon
+	 * @apiGroup Beacons
+	 * @apiDescription Creating new Beacon
+	 *
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 204 No Content 
+	 *
+	 * @apiError Error when couldnt save
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
+	createBeacon: function(req,res) {
+		var now = new beacons(req.body);
+		now.save(function(err){
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			res.status(204).end();
+		})
+	},
+	/**
+	 * @api {GET} /api/beacon get beacons
+	 * @apiVersion 0.1.0
+	 * @apiName getBeacon
+	 * @apiGroup Beacons
+	 * @apiDescription get all beacons
+	 *
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list: [BeaconsObject]
+	 *		}
+	 *
+	 * @apiError Error when database problems
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
+	getBeacon: function(req,res) {
+		beacons.find({}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send({list:data});
+			} else {
+				res.send({list:[]});
+				res.status(200).end();
+			}
+		})
+	},
 	getNumber: function(req,res){
 		crowd.find({}).exec(function(err,data) {
 			if (err) {
@@ -77,6 +146,24 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {POST} /api/canteen creating new canteen
+	 * @apiVersion 0.1.0
+	 * @apiName createCanteen
+	 * @apiGroup Canteens
+	 * @apiDescription creating new canteen
+	 *
+	 *
+	 * @apiParam {string} name name of the canteen
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 204 No Content 
+	 *
+	 * @apiError Error when saving problem
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	createCanteen: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -91,6 +178,25 @@ module.exports = {
 			res.status(204).end();
 		});
 	},
+	/**
+	 * @api {GET} /api/canteen get all canteens
+	 * @apiVersion 0.1.0
+	 * @apiName getCanteens
+	 * @apiGroup Canteens
+	 * @apiDescription get all canteens 
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list: [{name: String}],
+	 *		}
+	 *
+	 * @apiError Error When form is wrong
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getCanteens: function(req,res ){
 		canteen.find({}).exec(function(err,data) {
 			if (err) {
@@ -107,6 +213,24 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {POST} /api/feedback send feedback
+	 * @apiVersion 0.1.0
+	 * @apiName sendFeedback
+	 * @apiGroup Feedback
+	 * @apiDescription send users feedback to server
+	 *
+	 *
+	 * @apiParam {String} text Text of the feedback
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 204 No Content 
+	 *
+	 * @apiError Error When form is wrong
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	sendFeedback: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
