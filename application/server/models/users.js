@@ -96,6 +96,26 @@ var createSchema = mongoose.Schema({
 
 // createSchema.index({email:1})
 var create = mongoose.model('count', createSchema);
+var createSchema = mongoose.Schema({
+    session_id: String, 
+    uuid: String,
+    major: Number,
+    minor:Number, 
+    datetime: {
+        type:Date,
+        default: Date.now
+    }, 
+    user_id: String,
+    userid: mongoose.Schema.ObjectId,
+});
+
+
+
+// createSchema.index({email:1})
+var create = mongoose.model('beacons', createSchema);
+
+
+
 
 var createSchema = mongoose.Schema({
     title: String,

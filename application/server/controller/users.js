@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 	ingredients = mongoose.model('ingredients'),
 	days = mongoose.model('days'),
 	user = mongoose.model('alldevices'),
+	beacons = mongoose.model('beacons'),
 	meals = mongoose.model('meals'),
 	news = mongoose.model('news'),
 	crowd = mongoose.model('crowdflow'),
@@ -29,6 +30,74 @@ var mongoose = require('mongoose'),
 
 
 module.exports = {
+// 	session_id (number), uuid (varchar), major (number), minor (number), datetime, user_id (number)
+
+// Ich bräuchte einen Call zum Eintragen (also POST) und einen zum Auslesen (also GET).
+	/**
+	 * @api {POST} /api/beacon create Beacon
+	 * @apiVersion 0.1.0
+	 * @apiName createBeacon
+	 * @apiGroup Beacons
+	 * @apiDescription Creating new Beacon
+	 *
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 204 No Content 
+	 *
+	 * @apiError Error when couldnt save
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
+	createBeacon: function(req,res) {
+		var now = new beacons(req.body);
+		now.save(function(err){
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			res.status(204).end();
+		})
+	},
+	/**
+	 * @api {GET} /api/beacon get beacons
+	 * @apiVersion 0.1.0
+	 * @apiName getBeacon
+	 * @apiGroup Beacons
+	 * @apiDescription get all beacons
+	 *
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list: [BeaconsObject]
+	 *		}
+	 *
+	 * @apiError Error when database problems
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
+	getBeacon: function(req,res) {
+		beacons.find({}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send({list:data});
+			} else {
+				res.send({list:[]});
+				res.status(200).end();
+			}
+		})
+	},
 	getNumber: function(req,res){
 		crowd.find({}).exec(function(err,data) {
 			if (err) {
@@ -77,6 +146,24 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {POST} /api/canteen creating new canteen
+	 * @apiVersion 0.1.0
+	 * @apiName createCanteen
+	 * @apiGroup Canteens
+	 * @apiDescription creating new canteen
+	 *
+	 *
+	 * @apiParam {string} name name of the canteen
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 204 No Content 
+	 *
+	 * @apiError Error when saving problem
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	createCanteen: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -91,6 +178,25 @@ module.exports = {
 			res.status(204).end();
 		});
 	},
+	/**
+	 * @api {GET} /api/canteen get all canteens
+	 * @apiVersion 0.1.0
+	 * @apiName getCanteens
+	 * @apiGroup Canteens
+	 * @apiDescription get all canteens 
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list: [{name: String}],
+	 *		}
+	 *
+	 * @apiError Error When form is wrong
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getCanteens: function(req,res ){
 		canteen.find({}).exec(function(err,data) {
 			if (err) {
@@ -107,12 +213,51 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {POST} /api/feedback send feedback
+	 * @apiVersion 0.1.0
+	 * @apiName sendFeedback
+	 * @apiGroup Feedback
+	 * @apiDescription send users feedback to server
+	 *
+	 *
+	 * @apiParam {String} text Text of the feedback
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 204 No Content 
+	 *
+	 * @apiError Error When form is wrong
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	sendFeedback: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
 		mailer.inform(req.body.text);
 		res.status(204).end();
 	},
+	/**
+	 * @api {GET} /api/twitter get Socialfeed
+	 * @apiVersion 0.1.0
+	 * @apiName getTwitter
+	 * @apiGroup Social
+	 * @apiDescription getting instagram und social feed
+	 *
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list:[{}],
+	 *			insta: [{}]
+	 *		}
+	 *
+	 * @apiError Error When form is wrong
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getTwitter:function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -154,6 +299,25 @@ module.exports = {
 		  }
 		});
 	},
+	/**
+	 * @api {POST} /api/news create news
+	 * @apiVersion 0.1.0
+	 * @apiName createNews
+	 * @apiGroup News
+	 * @apiDescription creating new news
+	 *
+	 *
+	 * @apiParam {string} title title
+	 * @apiParam {string} picture url of picture
+	 * @apiParam {string} text description or text
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 204 No Content 
+	 * @apiError Error When form is wrong
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	createNews: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -168,6 +332,25 @@ module.exports = {
 			res.status(204).end();
 		})
 	},
+	/**
+	 * @api {GET} /api/news getting news
+	 * @apiVersion 0.1.0
+	 * @apiName getNews
+	 * @apiGroup News
+	 * @apiDescription getting all news for client
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list:[{title, picture, text, date}],
+	 *		}
+	 *
+	 * @apiError Error When form is wrong
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getNews: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -187,6 +370,27 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {GET} /api/news/:id get specific news
+	 * @apiVersion 0.1.0
+	 * @apiName getNewsDetail
+	 * @apiGroup News
+	 * @apiDescription getting one specific news
+	 *
+	 *
+	 * @apiParam {Id} id id of news
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			news: News
+	 *		}
+	 *
+	 * @apiError Error When form is wrong
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getNewsDetail: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -206,6 +410,24 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {GET} /api/fav get Favorites
+	 * @apiVersion 0.1.0
+	 * @apiName getFavorites
+	 * @apiGroup Favorites
+	 * @apiDescription getting all favorites
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list: data.meals,likes: data.likes, menu: data.menuplan
+	 *		}
+	 *
+	 * @apiError Error When form is wrong
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getFavorites: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -230,6 +452,25 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {GET} /api/favdetail/:id get favdetail
+	 * @apiVersion 0.1.0
+	 * @apiName getFavoritesDetail
+	 * @apiGroup FavoritesDetail
+	 * @apiDescription get details for favorites
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list: [Meal]
+	 *		}
+	 *
+	 * @apiError Error When form is wrong
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getFavoritesDetail: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -269,6 +510,28 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {GET} /api/menu/:id getting menu
+	 * @apiVersion 0.1.0
+	 * @apiName getMenu
+	 * @apiGroup Menu
+	 * @apiDescription getting menu, likes and meals
+	 *
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list:data.meals,
+	 			likes:data.likes, 
+	 			menu: data.menuplan
+	 *		}
+	 *
+	 * @apiError Error when query wrong or db error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getMenu: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -289,6 +552,28 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {GET} /api/all/:id getting menu
+	 * @apiVersion 0.1.0
+	 * @apiName getAll
+	 * @apiGroup Menu
+	 * @apiDescription same as getMenu getting menu, likes and meals
+	 *
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list:data.meals,
+	 			likes:data.likes, 
+	 			menu: data.menuplan
+	 *		}
+	 *
+	 * @apiError Error when query wrong or db error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getAll: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -309,6 +594,27 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {POST} /api/fav/:id create device
+	 * @apiVersion 0.1.0
+	 * @apiName createUserMeal
+	 * @apiGroup Favorites
+	 * @apiDescription old method to create a deviceid when v2 is on. inserted new parameter into db to get that going.
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list:data.meals,
+	 			likes:data.likes, 
+	 			menu: data.menuplan
+	 *		}
+	 *
+	 * @apiError Error when query wrong or db error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	createUserMeal: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -340,6 +646,27 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {GET} /api/days/:id get likes
+	 * @apiVersion 0.1.0
+	 * @apiName getLikes
+	 * @apiGroup Days
+	 * @apiDescription getting likes for a meal
+	 *
+	 *
+	 * @apiParam {Id} id id of meal
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			likes: Number,
+	 *		}
+	 *
+	 * @apiError Error Database error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getLikes: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -359,6 +686,30 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {POST} /api/like/:id/:mealid like a meal
+	 * @apiVersion 0.1.0
+	 * @apiName likeMeal
+	 * @apiGroup Like
+	 * @apiDescription like a meal and count, then save
+	 *
+	 *
+	 * @apiParam {Id} id Device ID
+	 * @apiParam {Id} id Meal ID
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list:data.meals,
+	 			likes:data.likes, 
+	 			menu: data.menuplan
+	 *		}
+	 *
+	 * @apiError Error Database error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	likeMeal: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -418,7 +769,28 @@ module.exports = {
 			}
 		})
 	},
-
+	/**
+	 * @api {POST} /api/fav/:id/:mealid favorize item
+	 * @apiVersion 0.1.0
+	 * @apiName addMealToFavorite
+	 * @apiGroup Favorites
+	 * @apiDescription adding meal to favorites of user
+	 *
+	 *
+	 * @apiParam {Id} id Deviceid
+	 * @apiParam {Id} id Mealid
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list: data.meals
+	 *		}
+	 *
+	 * @apiError Error Database error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	addMealToFavorite: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -493,6 +865,28 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {DELETE} /api/fav/:id/:mealid delete favorite
+	 * @apiVersion 0.1.0
+	 * @apiName deleteMealToFavorite
+	 * @apiGroup Favorites
+	 * @apiDescription deleting meal of users favorites
+	 *
+	 *
+	 * @apiParam {Id} id Deviceid
+	 * @apiParam {Id} mealid Mealid
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			_id: String,
+	 *		}
+	 *
+	 * @apiError Error Database error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	deleteMealToFavorite: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -550,6 +944,28 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {POST} /api/menu/:id/:mealid add to menu
+	 * @apiVersion 0.1.0
+	 * @apiName addMealToMenu
+	 * @apiGroup Menus
+	 * @apiDescription adding meal to menu
+	 *
+	 *
+	 * @apiParam {Id} id Deviceid
+	 * @apiParam {Id} mealid Mealid
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list: data.menuplan
+	 *		}
+	 *
+	 * @apiError Error Database error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	addMealToMenu: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -624,6 +1040,28 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {GET} /api/meal/:id getting specific meal
+	 * @apiVersion 0.1.0
+	 * @apiName getSpecMeal
+	 * @apiGroup Meals
+	 * @apiDescription getting a specific meal
+	 *
+	 *
+	 * @apiParam {Id} id Deviceid
+	 * @apiParam {Id} mealid Mealid
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			meal
+	 *		}
+	 *
+	 * @apiError Error Database error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getSpecMeal: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -642,6 +1080,26 @@ module.exports = {
 			}
 		})
 	},
+	/**
+	 * @api {GET} /api/spec getting allergens
+	 * @apiVersion 0.1.0
+	 * @apiName getSpec
+	 * @apiGroup Allergens
+	 * @apiDescription getting all allergens
+	 *
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			specs: req.user.specs, veggie:req.user.veggie, vegan:req.user.vegan
+	 *		}
+	 *
+	 * @apiError Error Database error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	getSpec: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -649,6 +1107,26 @@ module.exports = {
 		res.send({specs: req.user.specs, veggie:req.user.veggie, vegan:req.user.vegan});
 		res.status(200).end();
 	},
+	/**
+	 * @api {Put} /api/specs change specs
+	 * @apiVersion 0.1.0
+	 * @apiName changeSpecs
+	 * @apiGroup Allergens
+	 * @apiDescription changing specs after call, just give a body with the db object
+	 *
+	 *
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			list: []
+	 *		}
+	 *
+	 * @apiError Error Database error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	changeSpec: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -678,6 +1156,28 @@ module.exports = {
 		res.send({specs: req.user.specs});
 		res.status(200).end();
 	},
+	/**
+	 * @api {DELETE} /api/menu/:id/:mealid deleting meal in menu
+	 * @apiVersion 0.1.0
+	 * @apiName deleteMenuToMeal
+	 * @apiGroup Menus
+	 * @apiDescription deleting meal from menu
+	 *
+	 *
+	 * @apiParam {Id} id Deviceid
+	 * @apiParam {Id} mealid Mealid
+	 *
+	 * @apiSuccessExample Success-Response:
+	 *	HTTP/1.1 200 OK 
+	 *		{
+	 *			_id: String,
+	 *		}
+	 *
+	 * @apiError Error Database error
+	 *
+	 * @apiErrorExample Error-Response:
+	 *	HTTP/1.1 400 Bad Request
+	 */
 	deleteMealToMenu: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -1295,13 +1795,13 @@ module.exports = {
 				if (req.params.code==data.code) {
 					data.activated=true;
 					data.save();
-					return req.logIn(data, function(err) {
-						console.log("login");
-						if (err) { return console.log(err.toString());}
-						res.redirect('https://www.eon.de/de/pk.html');
-						return res.end();
-					});
-					res.render('login')
+					res.redirect('http://www.mahlzeit.co');
+					// return req.logIn(data, function(err) {
+					// 	console.log("login");
+					// 	if (err) { return console.log(err.toString());}
+					// 	return res.end();
+					// });
+					// res.render('login')
 					// return res.render('promoFulfill', {code: data.code, mail:data.email})
 					
 				}
