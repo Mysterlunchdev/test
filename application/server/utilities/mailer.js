@@ -49,6 +49,7 @@ module.exports = {
 				var mailfrom = 'willkommen@mahlzeit.co';
 				console.log(mailfrom);
 				console.log("sending mail", user.email);
+				console.log("code", "https://mahlzeitbmw-env.eu-central-1.elasticbeanstalk.com/activation/"+user.email+"/"+user.code+"")
 				var transporter = nodemailer.createTransport(smtpTransport(options));
 				transporter.sendMail({
 					from: mailfrom,
