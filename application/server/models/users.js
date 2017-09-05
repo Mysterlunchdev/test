@@ -22,11 +22,23 @@ var createSchema = mongoose.Schema({
     veggie: Boolean,
     vegan: Boolean,
     official: String,
+    imprint: String,
     lastName: String,
     code: String,
     url: String,
     deviceid: String,
     specs: [{
+        de: String,
+        en: String,
+        val: String,
+    }],
+    adds: [{
+        de: String,
+        en: String,
+        val: String,
+    }],
+    ampel: String,
+    meats: [{
         de: String,
         en: String,
         val: String,
@@ -80,6 +92,9 @@ var create = mongoose.model('crowdflow', createSchema);
 var createSchema = mongoose.Schema({
     name: String,
     official: String,
+    days: [{
+        name: String,
+    }]
 });
 
 
@@ -114,8 +129,19 @@ var createSchema = mongoose.Schema({
 // createSchema.index({email:1})
 var create = mongoose.model('beacons', createSchema);
 
+var createSchema = mongoose.Schema({
+    Beacon_UUID: String,
+    Beacon_Minor: String,
+    Beacon_Major: String,
+    Role_ID: String,
+    Role_Description: String,
+    CanteenID: String,
+});
 
 
+
+// createSchema.index({email:1})
+var create = mongoose.model('beaonsuuid', createSchema);
 
 var createSchema = mongoose.Schema({
     title: String,

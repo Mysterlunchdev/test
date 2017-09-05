@@ -104,6 +104,12 @@ module.exports = function(router) {
 	router.post('/api/crowd/', users.createNumber)
 
 
+	router.get('/api/beacon/', users.getBeacon)
+	router.post('/api/beacon/', users.createBeacon)
+
+	router.get('/api/beaconuuid/', users.getBeaconUUID)
+	router.post('/api/beaconuuid/', users.createBeaconUUID)
+
 
 	router.get('/activation/:email/:code', users.checkCodeAndRedirect)
 	router.get('/activation/', users.sendtestmail)

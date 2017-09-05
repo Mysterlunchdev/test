@@ -8,6 +8,7 @@ var mongoose = require('mongoose'),
 	days = mongoose.model('days'),
 	user = mongoose.model('alldevices'),
 	beacons = mongoose.model('beacons'),
+	beaconsuuid = mongoose.model('beaconsuuid'),
 	meals = mongoose.model('meals'),
 	news = mongoose.model('news'),
 	crowd = mongoose.model('crowdflow'),
@@ -62,6 +63,18 @@ module.exports = {
 			res.status(204).end();
 		})
 	},
+	createBeaconUUID: function(req,res) {
+		var now = new beaconsuuid(req.body);
+		now.save(function(err){
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			res.status(204).end();
+		})
+	},
 	/**
 	 * @api {GET} /api/beacon get beacons
 	 * @apiVersion 0.1.0
@@ -84,6 +97,22 @@ module.exports = {
 	 */
 	getBeacon: function(req,res) {
 		beacons.find({}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send({list:data});
+			} else {
+				res.send({list:[]});
+				res.status(200).end();
+			}
+		})
+	},
+	getBeaconUUID: function(req,res) {
+		beaconsuuid.find({}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -168,6 +197,7 @@ module.exports = {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
 		var now = new canteen(req.body);
+		canteen.official = req.user.official;
 		now.save(function(err){
 			if (err) {
 				console.log("error" + err.toString());
@@ -198,7 +228,9 @@ module.exports = {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	getCanteens: function(req,res ){
-		canteen.find({}).exec(function(err,data) {
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
+		canteen.find({official:official}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -1329,6 +1361,7 @@ module.exports = {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
 		var now = new meals(req.body);
+		now.official = req.user.official;
 		now.save(function(err){
 			if (err) {
 				console.log("error" + err.toString());
@@ -1508,6 +1541,7 @@ module.exports = {
 					var now = new days({
 						day: new Date(req.body.day),
 						_mealid:req.params.id,
+						official: data.official,
 						_canteenid: req.body._canteenid,
 						 name: {
 							de: data.name.de,
