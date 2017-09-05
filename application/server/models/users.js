@@ -141,7 +141,7 @@ var createSchema = mongoose.Schema({
 
 
 // createSchema.index({email:1})
-var create = mongoose.model('beaonsuuid', createSchema);
+var create = mongoose.model('beaconsuuid', createSchema);
 
 var createSchema = mongoose.Schema({
     title: String,
