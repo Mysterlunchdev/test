@@ -18,7 +18,7 @@ module.exports = {
 		db: 'mongodb://user:usertest@ds161793.mlab.com:61793/ronmahlzeit',
 		rootPath: rootPath,
 		mails: true,
-		port:  process.env.PORT || 6060,
+		port:  process.env.PORT || 3030,
 	}
 }
 
