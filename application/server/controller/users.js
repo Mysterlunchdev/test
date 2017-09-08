@@ -230,7 +230,10 @@ module.exports = {
 	getCanteens: function(req,res ){
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
-		canteen.find({official:official}).exec(function(err,data) {
+		if (official!='') var query = {official:official}
+		else var query = {}
+		console.log("canteensearch", query)
+		canteen.find(query).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
