@@ -1822,6 +1822,7 @@ module.exports = {
 		})
 	},
 	checkCodeAndRedirect: function(req,res) {
+		console.log("activate user", req.params)
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
 		userModel.findOne({email:req.params.email}).exec(function(err,data) {
@@ -1839,8 +1840,10 @@ module.exports = {
 					// return res.render('promoFulfill', {code: data.code, mail:data.email})
 					
 				}
+			} else {
+					res.redirect('http://www.mahlzeit.co');
 			}
-			res.status(404).end();
+			// res.status(404).end();
 		});
 	},
 	updateUser: function(req,res) {
