@@ -798,9 +798,16 @@ module.exports = {
 		var index = helper.findInArray(req.user.specs, req.body.val, "val");
 		if (index==-1) req.user.specs.push(req.body);
 		else req.user.specs.splice(index,1);
-		req.user.save();
-		res.send({specs: req.user.specs});
-		res.status(200).end();
+		req.user.save(function(err){
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			res.send({specs: req.user.specs});
+			res.status(200).end();
+		});
 	},
 	deleteMealToMenu: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
