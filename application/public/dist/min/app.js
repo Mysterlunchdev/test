@@ -713,151 +713,179 @@ angular.module('ui.tinymce', [])
  *
  */
 
-app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "Ingredients", "Days", "$window", "$location", "mvIdentity", "mvNotifier", function($scope, Canteen, News, delegator, Meals, Ingredients, Days, $window, $location, mvIdentity, mvNotifier) {
+app.controller('MainCtrl', ["$scope", "Official", "Canteen", "News", "delegator", "Meals", "Ingredients", "Days", "$window", "$location", "mvIdentity", "mvNotifier", function($scope, Official, Canteen, News, delegator, Meals, Ingredients, Days, $window, $location, mvIdentity, mvNotifier) {
 	// 1) Gluten, 2) Krebstiere, 3) Eier, 4) Fisch, 5) Erdnüsse, 6) Soja, 
 	// 7) Milchlaktose, 8) Schalenfrüchte, 9) Sellerie, 10) Senf, 11) Sesam, 
 	// 12) Schwefeldioxid, 13) Lupinen, 14) Weichtiere
 // a) Konservierungsstoff, b) Antioxidationsmittel, c) Geschmacksverstärker, d) Süßungsmittel, e) Farbstoff, f) Phosphat
 	
-	$scope.meats = [{
-		de: 'Geflügel',
-		en: '',
-		val: 'G'
-	},{
-		de: 'Kalb',
-		en: '',
-		val: 'K'
-	},{
-		de: 'Lamm',
-		en: '',
-		val: 'L'
-	},{
-		de: 'Rind',
-		en: '',
-		val: 'R'
-	},{
-		de: 'Schwein',
-		en: '',
-		val: 'S'
-	},{
-		de: 'Wild',
-		en: '',
-		val: 'W'
-	}]
-	$scope.adds = [{
-		de: 'mit Farbstoff',
-		en: '',
-		val: '01'
-	},{
-		de: 'mit Konservierungsstoff',
-		en: '',
-		val: '02'
-	},{
-		de: 'mit Antioxidationsmittel',
-		en: '',
-		val: '03'
-	},{
-		de: 'mit Geschmacksverstärker',
-		en: '',
-		val: '04'
-	},{
-		de: 'geschwefelt',
-		en: '',
-		val: '05'
-	},{
-		de: 'geschwärzt',
-		en: '',
-		val: '06'
-	},{
-		de: 'mit Süßungsmittel(n)',
-		en: '',
-		val: '07'
-	},{
-		de: 'mit einer Zuckerart und Süßungsmittel(n)',
-		en: '',
-		val: '08'
-	},{
-		de: 'koffeinhaltig',
-		en: '',
-		val: '09'
-	},{
-		de: 'chininhaltig',
-		en: '',
-		val: '10'
-	},{
-		de: 'mit Phosphat',
-		en: '',
-		val: '11'
-	},{
-		de: 'gewachst',
-		en: '',
-		val: '12'
-	},{
-		de: 'enthält eine Phenylalaninquelle',
-		en: '',
-		val: '13'
-	},{
-		de: 'genetisch verändert',
-		en: '',
-		val: '14'
-	},]
-	$scope.specs = [{
-		de: 'Gluten',
-		en: 'Gluten',
-		val: 'a'
-	},{
-		de: 'Milch',
-		en: 'Milch',
-		val: 'b'
-	},{
-		de: 'Krebstiere',
-		en: 'Krebstiere',
-		val: 'c'
-	},{
-		de: 'Eier',
-		en: 'Eier',
-		val: 'd'
-	},{
-		de: 'Fisch',
-		en: 'Fisch',
-		val: 'e'
-	},{
-		de: 'Erdnüsse',
-		en: 'Erdnüsse',
-		val: 'f'
-	},{
-		de: 'Soja',
-		en: 'Soja',
-		val: 'g'
-	},{
-		de: 'Schalenfrüchte',
-		en: 'Schalenfrüchte',
-		val: 'h'
-	},{
-		de: 'Sellerie',
-		en: 'Sellerie',
-		val: 'i'
-	},{
-		de: 'Senf',
-		en: 'Senf',
-		val: 'k'
-	},{
-		de: 'Sesam',
-		en: 'Sesam',
-		val: 'l'
-	},{
-		de: 'Schwefeldioxid',
-		en: 'Schwefeldioxid',
-		val: 'm'
-	},{
-		de: 'Lupinen',
-		en: 'Lupinen',
-		val: 'n'
-	},{
-		de: 'Weichtiere',
-		en: 'Weichtiere',
-		val: 'o'
-	}]
+	$scope.officialuser = function() {
+		delegator.PUT($scope.identity, Official, {}).then(function(data) {
+			
+		}, function(reason) {
+			mvNotifier.error(reason);
+		})
+	} 
+
+	$scope.update = function() {
+		delegator.PUT($scope.identity, Official, {}).then(function(data) {
+			console.log(data)
+		}, function(reason) {
+			mvNotifier.error(reason);
+		})
+	} 
+
+	$scope.identity = mvIdentity.currentUser;
+	console.log("$scope.", $scope.identity)
+
+	$scope.meats = $scope.identity.meats;
+	$scope.adds = $scope.identity.adds;
+	$scope.specs = $scope.identity.specs;
+
+	if (false==true)
+	if ($scope.identity.specs.length==0) {
+
+		$scope.identity.meats = [{
+			de: 'Geflügel',
+			en: '',
+			val: 'G'
+		},{
+			de: 'Kalb',
+			en: '',
+			val: 'K'
+		},{
+			de: 'Lamm',
+			en: '',
+			val: 'L'
+		},{
+			de: 'Rind',
+			en: '',
+			val: 'R'
+		},{
+			de: 'Schwein',
+			en: '',
+			val: 'S'
+		},{
+			de: 'Wild',
+			en: '',
+			val: 'W'
+		}]
+		$scope.identity.adds = [{
+			de: 'mit Farbstoff',
+			en: '',
+			val: '01'
+		},{
+			de: 'mit Konservierungsstoff',
+			en: '',
+			val: '02'
+		},{
+			de: 'mit Antioxidationsmittel',
+			en: '',
+			val: '03'
+		},{
+			de: 'mit Geschmacksverstärker',
+			en: '',
+			val: '04'
+		},{
+			de: 'geschwefelt',
+			en: '',
+			val: '05'
+		},{
+			de: 'geschwärzt',
+			en: '',
+			val: '06'
+		},{
+			de: 'mit Süßungsmittel(n)',
+			en: '',
+			val: '07'
+		},{
+			de: 'mit einer Zuckerart und Süßungsmittel(n)',
+			en: '',
+			val: '08'
+		},{
+			de: 'koffeinhaltig',
+			en: '',
+			val: '09'
+		},{
+			de: 'chininhaltig',
+			en: '',
+			val: '10'
+		},{
+			de: 'mit Phosphat',
+			en: '',
+			val: '11'
+		},{
+			de: 'gewachst',
+			en: '',
+			val: '12'
+		},{
+			de: 'enthält eine Phenylalaninquelle',
+			en: '',
+			val: '13'
+		},{
+			de: 'genetisch verändert',
+			en: '',
+			val: '14'
+		},]
+		$scope.identity.specs = [{
+			de: 'Gluten',
+			en: 'Gluten',
+			val: 'a'
+		},{
+			de: 'Milch',
+			en: 'Milch',
+			val: 'b'
+		},{
+			de: 'Krebstiere',
+			en: 'Krebstiere',
+			val: 'c'
+		},{
+			de: 'Eier',
+			en: 'Eier',
+			val: 'd'
+		},{
+			de: 'Fisch',
+			en: 'Fisch',
+			val: 'e'
+		},{
+			de: 'Erdnüsse',
+			en: 'Erdnüsse',
+			val: 'f'
+		},{
+			de: 'Soja',
+			en: 'Soja',
+			val: 'g'
+		},{
+			de: 'Schalenfrüchte',
+			en: 'Schalenfrüchte',
+			val: 'h'
+		},{
+			de: 'Sellerie',
+			en: 'Sellerie',
+			val: 'i'
+		},{
+			de: 'Senf',
+			en: 'Senf',
+			val: 'k'
+		},{
+			de: 'Sesam',
+			en: 'Sesam',
+			val: 'l'
+		},{
+			de: 'Schwefeldioxid',
+			en: 'Schwefeldioxid',
+			val: 'm'
+		},{
+			de: 'Lupinen',
+			en: 'Lupinen',
+			val: 'n'
+		},{
+			de: 'Weichtiere',
+			en: 'Weichtiere',
+			val: 'o'
+		}]
+	}
+
 
 	$scope.news = {
 		title: '',
@@ -1161,6 +1189,18 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 	
 app.factory('Days', ["$resource", function($resource) {
 	var res = $resource('/api/days/:id', {id:"@id"},
+	{
+		get: {method: 'GET', isArray:false},
+		getSingle: {method: 'GET', isArray: true},
+		update: {method:'PUT', isArray:false},
+	});
+
+	
+
+	return res;
+}]);
+app.factory('Official', ["$resource", function($resource) {
+	var res = $resource('/api/user/:id', {id:"@id"},
 	{
 		get: {method: 'GET', isArray:false},
 		getSingle: {method: 'GET', isArray: true},

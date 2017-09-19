@@ -10,6 +10,18 @@ app.factory('Days', function($resource) {
 
 	return res;
 });
+app.factory('Official', function($resource) {
+	var res = $resource('/api/user/:id', {id:"@id"},
+	{
+		get: {method: 'GET', isArray:false},
+		getSingle: {method: 'GET', isArray: true},
+		update: {method:'PUT', isArray:false},
+	});
+
+	
+
+	return res;
+});
 
 app.factory('Meals', function($resource) {
 	var res = $resource('/api/meal/:id', {id:"@id"},

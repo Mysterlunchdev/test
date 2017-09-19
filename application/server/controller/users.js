@@ -31,6 +31,23 @@ var mongoose = require('mongoose'),
 
 
 module.exports = {
+	getCustom: function(req,res) {
+		userModel.findOne({official:req.params.official}, 'adds specs meats').exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				console.log("found", data)
+				res.send(data);
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 // 	session_id (number), uuid (varchar), major (number), minor (number), datetime, user_id (number)
 
 // Ich bräuchte einen Call zum Eintragen (also POST) und einen zum Auslesen (also GET).
@@ -228,12 +245,17 @@ module.exports = {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	getCanteens: function(req,res ){
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
-		if (official!='') var query = {official:official}
-		else var query = {}
-		console.log("canteensearch", query)
-		canteen.find(query).exec(function(err,data) {
+		console.log("getCanteens")
+		// if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		// else 
+		// 	if (req.user.official!=undefined) 
+		// 		var official = req.user.official;
+		// 	else
+		// 		var official = '';
+		// if (official!='') var query = {official:official}
+		// else var query = {}
+		// console.log("canteensearch", query)
+		canteen.find({}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
 				res.status(400);
@@ -242,6 +264,28 @@ module.exports = {
 			}
 			if (!!data) {
 				res.send({list:data});
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
+	getCanteen: function(req,res ){
+		console.log("getCanteen")
+		if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
+		if (official!='') var query = {official:official}
+		else var query = {}
+		console.log("canteensearch", query)
+		canteen.findOne({_id:req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send(data);
 			} else {
 				res.send({});
 				res.status(200).end();
@@ -296,6 +340,7 @@ module.exports = {
 	getTwitter:function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
+		res.status(204).end();
 		// var ig = require('instagram-node').instagram({});
 		//   ig.use({ access_token: '2062016626.00fa5e6.17c1d1132fc04a0bacffd0c4a6d28454' });
 		// //  	ig.media_popular(function(err, medias, remaining, limit) {
@@ -310,29 +355,29 @@ module.exports = {
 		//   	console.log(result)
 		//   });
 		// // id for instagram 1740cfa0d0bc415eb1512d1e7151f750
-		var Twitter = require('twitter');
+		// var Twitter = require('twitter');
 		 
-		var client = new Twitter({
-		  consumer_key: 'wCehWNgy1tUVXEEBDFNHdWWjK',
-		  consumer_secret: '5VpKLS6FAVzXOiZPeiyoRqsDCFifmFohTX03NPtBPAWXXnXenS',
-		  access_token_key: '707214981419421696-lPEqdQ2wjxHhOoGui7lPzZe0UyFxq0A',
-		  access_token_secret: 'hPb6CGt4tFYxrvck3VfZvI4xMNimVaaHizZo1iKKxsDa9'
-		});
+		// var client = new Twitter({
+		//   consumer_key: 'wCehWNgy1tUVXEEBDFNHdWWjK',
+		//   consumer_secret: '5VpKLS6FAVzXOiZPeiyoRqsDCFifmFohTX03NPtBPAWXXnXenS',
+		//   access_token_key: '707214981419421696-lPEqdQ2wjxHhOoGui7lPzZe0UyFxq0A',
+		//   access_token_secret: 'hPb6CGt4tFYxrvck3VfZvI4xMNimVaaHizZo1iKKxsDa9'
+		// });
 		 
-		var params = {screen_name: 'eon_de'};
-		client.get('statuses/user_timeline', params, function(error, tweets, response) {
-		 	console.log("twitternews", response)
-		  if (!error) {
-		  		request('https://api.instagram.com/v1/users/self/media/recent/?access_token=2062016626.00fa5e6.17c1d1132fc04a0bacffd0c4a6d28454', function(error, response, body) {
-		  			// console.log(JSON.stringify(res, censor(response)))
-					  res.send({list:tweets, insta: JSON.parse(body)})
-		  		})
-		  } else {
+		// var params = {screen_name: 'eon_de'};
+		// client.get('statuses/user_timeline', params, function(error, tweets, response) {
+		//  	console.log("twitternews", response)
+		//   if (!error) {
+		//   		request('https://api.instagram.com/v1/users/self/media/recent/?access_token=2062016626.00fa5e6.17c1d1132fc04a0bacffd0c4a6d28454', function(error, response, body) {
+		//   			// console.log(JSON.stringify(res, censor(response)))
+		// 			  res.send({list:tweets, insta: JSON.parse(body)})
+		//   		})
+		//   } else {
 		  	
-			console.log("error witter", error)
-			  res.send(error)
-		  }
-		});
+		// 	console.log("error witter", error)
+		// 	  res.send(error)
+		//   }
+		// });
 	},
 	/**
 	 * @api {POST} /api/news create news
@@ -1313,8 +1358,14 @@ module.exports = {
 	 */
 	getMeal: function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
-		meals.find({}).exec(function(err,data) {
+		else
+			if (req.user.official!=undefined) 
+				var official = req.user.official;
+			else
+				var official = '';
+		if (official!='') var query = {official:official}
+		else var query = {}
+		meals.find(query).exec(function(err,data) {
 			console.log("inside")
 			if (err) {
 				console.log("error" + err.toString());
@@ -1774,13 +1825,29 @@ module.exports = {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	getDay: function(req,res) {
+		console.log("getDays")
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
+		else 
+			if (req.user.official!=undefined) 
+				var official = req.user.official;
+			else
+				var official = '';
 		console.log("getMeals")
 		var cutoff = new Date();
 		cutoff.setDate(cutoff.getDate());
-		if (req.params.canteen!=undefined) var query = {_canteenid:req.params.id};
-		else var query = {};
+		if (req.params.canteen!=undefined) {
+			if (official!='')
+				var query = {_canteenid:req.params.id, official: official};
+			else
+				var query = {_canteenid:req.params.id};
+		} 
+		else {
+			if (official!='')
+				var query = {official: official};
+			else
+				var query = {};
+
+		} 
 		days.find(query).sort({ day: 'asc' }).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -1850,8 +1917,10 @@ module.exports = {
 		});
 	},
 	updateUser: function(req,res) {
+		console.log("update user")
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
+		// req.user.official=req.params.official;
 		for (var key in req.body) {
 			req.user[key] = req.body[key];
 		}

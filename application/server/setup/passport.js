@@ -13,6 +13,7 @@ module.exports = function(passport) {
 	console.log("local");
 	passport.use(new LocalStrategy(
 		function(username, password, done) {
+			console.log("searching for user", username)
 			User.findOne({email: username}).exec(function(err,user) {
 				console.log(user);
 				if (!!user && user.authenticate(password)) {

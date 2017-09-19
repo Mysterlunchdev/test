@@ -4,6 +4,7 @@ var jwt = require('jsonwebtoken');
 var user = mongoose.model('user');
 
 exports.authenticate = function(req, res, next) {
+	console.log("finding user in auth", req.body)
 	if (req.body.username!=undefined) {
 		console.log("username")
 		passport.authenticate('local', function(err,user) {
