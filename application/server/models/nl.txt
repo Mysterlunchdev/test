@@ -1,0 +1,130 @@
+{ LOGIN_1:'LOGIN', LOGIN
+
+    LOGIN_2:' of ', of 
+
+    LOGIN_3:'Registreer', 
+
+    SAVED1: "Opgeslagen.", 
+
+    SAVED2: "Dank je wel!", 
+
+    SAVED3: "Uw voorkeuren zijn opgeslagen.", 
+
+    SAVED4: "Oké!", 
+
+    PROFILE_2: "Reageer je allergisch? Of wat zijn je voorkeuren?", 
+
+    LOGIN_4:' Foutief wachtwoord!',
+
+    LOGIN_5:"Gebruiker niet bekend!", 
+    VEGG1: "Vegan",
+
+    VEGG3: "Vegetarisch", 
+
+    VEGG4: "Zonder vlees", 
+
+    LOGIN_6:'Log In',
+
+    PASSWORD:'wachtwoord', 
+
+    REGISTER:'Registreer', 
+
+    REGISTER_BUTTON:'Registreer',
+
+    REGISTER_ERROR:'Er heeft zich een registratie probleem voorgedaan. Probeer het later a.u.b. opnieuw.', 
+
+    PROFILE_SELECTION:'Wat zijn uw dieetvoorkeuren?', 
+
+
+   AVAILABLE: 'Beschikbaar in de volgende update', 
+
+    Okay: 'Okay',
+
+    SAVED:'Saved',
+
+    SAVED_2:'saved',
+
+    THANKS:'Dank je wel!', 
+
+    SETTINGS_SAVED:'Je voorkeuren zijn succesvol opgeslagen.', 
+
+    SAVED_BUTTON:'Okay!', 
+
+        MENUPLAN1: 'Menu', 
+
+        PROFILE: 'Profiel', 
+
+        DETAILS: 'Details',  
+
+        WELCOME: 'Welkom', 
+
+        STAFF: 'SHG Community', 
+        MENU: 'INFORMATIE',
+
+        PLAN: 'Menu',
+
+        FAVORITES: 'Favorieten',
+
+        FEEDBACK: 'Feedback',
+
+        IMPRINT: 'Afdruk',
+
+        GERECHT: 'Gerecht',
+
+        CANTEEN: 'SHG Restaurant',
+
+        KANTINE: 'Aanbevelingen van de cateraar
+', 
+        SERVICE: 'Openingstijden', 
+
+        OPEN: 'Monday-Friday | 8-9 am Breakfast | 11:30-14:30 Lunch, Maandag-Vrijdag | 8-9 uur ontbijt | 11:30-14:30 lunch',
+
+        TEAM: 'Maak kennis met het team!', 
+
+        M3: 'We believe in customer centric thinking so the end users are greeted with a friendly user interface and associated services that ensure positive and always improving experiences.',
+
+        M2: 'Mahlzeit is an application based system which is an integrated Content Management Platform for catering operators and their hosting organizations.',
+
+        M1: 'Smart workplace solutions',
+
+        M0: 'Smart Workplaces',
+
+        HOME: '',
+,
+        Speiseplan: 'Menu',
+
+        RECOMM: 'aanbevelingen van de cateraar', 
+
+        WRITE: 'Contact ons', 
+
+        F1: ‚Deel hier uw feedback’, 
+
+        submit: 'Indienen', 
+
+        FAVHEAD: 'Favorieten', 
+
+        FAV1: 'Al je opgeslagen voorkeuren', 
+
+        FAV4:'Meldingen', 
+
+        FAV5: 'Meal meldingen', 
+        FAV6: 'Zet meal meldingen aan/uit', 
+}
+Menu plan screen
+
+Image (will replace later)
+
+Text beneath
+
+Openingstijden
+Ontbijt
+
+08:00 uur tot 11:30 uur
+Lunch
+11:30 uur tot 13:30 uur
+De coffee corner is geopend
+van  08:30 uur tot 11:30 uur
+en van  13:30 uur  tot 17:00 uur
+op Vrijdag van  13:30 uur  tot 14:30 uur
+Wijzigingen voorbehouden
+

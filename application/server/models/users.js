@@ -24,10 +24,12 @@ var createSchema = mongoose.Schema({
     official: String,
     lastName: String,
     code: String,
+        nl: String,
     url: String,
     deviceid: String,
     specs: [{
         de: String,
+        nl: String,
         en: String,
         val: String,
     }],
@@ -49,6 +51,7 @@ var create = mongoose.model('user', createSchema);
 var createSchema = mongoose.Schema({
     name: {
         de: String,
+        nl: String,
         en: String
     }
 });
@@ -140,35 +143,45 @@ var createSchema = mongoose.Schema({
     official: String,
     name: {
         de: String,
+        nl: String,
         en: String
     },
     ingredients: [{
         de: String,
+        nl: String,
         en: String
     }],
     description: {
         de: String,
+        nl: String,
         en: String
     },
     specs: [{
         de: String,
+        nl: String,
         en: String,
         val: String,
     }],
     adds: [{
         de: String,
+        nl: String,
         en: String,
         val: String,
     }],
     ampel: String,
     meats: [{
         de: String,
+        nl: String,
         en: String,
         val: String,
     }],
     picture: String,
     price: [{
         de: {
+            name: String,
+            price: String,
+        },
+        nl: {
             name: String,
             price: String,
         },
@@ -199,15 +212,18 @@ var createSchema = mongoose.Schema({
    number: Number,
     name: {
         de: String,
+        nl: String,
         en: String
     },
         adds: [{
         de: String,
+        nl: String,
         en: String,
         val: String,
     }],
         meats: [{
         de: String,
+        nl: String,
         en: String,
         val: String,
     }],
@@ -215,14 +231,17 @@ var createSchema = mongoose.Schema({
 
     ingredients: [{
         de: String,
+        nl: String,
         en: String
     }],
     description: {
         de: String,
+        nl: String,
         en: String
     },
     specs: [{
         de: String,
+        nl: String,
         en: String,
         val: String,
     }],
@@ -230,6 +249,10 @@ var createSchema = mongoose.Schema({
     picture: String,
     price: [{
         de: {
+            name: String,
+            price: String,
+        },
+        nl: {
             name: String,
             price: String,
         },
@@ -258,25 +281,30 @@ var createSchema = mongoose.Schema({
         ampel: String,
         description: {
             de: String,
+        nl: String,
             en: String
         },
             name: {
             de: String,
+        nl: String,
             en: String
         },
            picture: String,
            specs: [{
             de: String,
+        nl: String,
             en: String,
             val: String,
         }],
             adds: [{
             de: String,
+        nl: String,
             en: String,
             val: String,
         }],
             meats: [{
         de: String,
+        nl: String,
         en: String,
         val: String,
     }],
@@ -290,25 +318,30 @@ var createSchema = mongoose.Schema({
         ampel: String,
         description: {
         de: String,
+        nl: String,
         en: String
     },
         name: {
         de: String,
+        nl: String,
         en: String
     },
        picture: String,
        specs: [{
         de: String,
+        nl: String,
         en: String,
         val: String,
     }],
         adds: [{
         de: String,
+        nl: String,
         en: String,
         val: String,
     }],
         meats: [{
         de: String,
+        nl: String,
         en: String,
         val: String,
     }],
