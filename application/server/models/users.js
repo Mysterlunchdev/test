@@ -60,7 +60,19 @@ var createSchema = mongoose.Schema({
 
 // createSchema.index({email:1})
 var create = mongoose.model('ingredients', createSchema);
+var createSchema = mongoose.Schema({
+    Beacon_UUID: String,
+    Beacon_Minor: String,
+    Beacon_Major: String,
+    Role_ID: String,
+    Role_Description: String,
+    CanteenID: String,
+});
 
+
+
+// createSchema.index({email:1})
+var create = mongoose.model('beaconsuuid', createSchema);
 
 
 var createSchema = mongoose.Schema({

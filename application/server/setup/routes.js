@@ -66,6 +66,8 @@ module.exports = function(router) {
 	router.put('/api/meal/:id', users.updateMeal)
 	router.get('/api/days/:id', users.getLikes)
 	router.get('/api/days/:id/:canteen', users.getDay)
+		router.get('/api/beaconuuid/', users.getBeaconUUID)
+	router.post('/api/beaconuuid/', users.createBeaconUUID)
 	router.post('/api/meal', auth.isAuth, users.createMeal)
 	router.put('/api/meal/:id', auth.isAuth, users.changeMeal)
 	router.delete('/api/meal/:id', auth.isAuth, users.deleteMeal)

@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 	ingredients = mongoose.model('ingredients'),
 	days = mongoose.model('days'),
 	user = mongoose.model('alldevices'),
+beaconsuuid = mongoose.model('beaconsuuid'),
 	beacons = mongoose.model('beacons'),
 	meals = mongoose.model('meals'),
 	news = mongoose.model('news'),
@@ -62,6 +63,36 @@ module.exports = {
 			res.status(204).end();
 		})
 	},
+	createBeaconUUID: function(req,res) {
+		var now = new beaconsuuid(req.body);
+		now.save(function(err){
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			res.status(204).end();
+		})
+	},
+
+getBeaconUUID: function(req,res) {
+		beaconsuuid.find({}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send({list:data});
+			} else {
+				res.send({list:[]});
+				res.status(200).end();
+			}
+		})
+	},
+
 	/**
 	 * @api {GET} /api/beacon get beacons
 	 * @apiVersion 0.1.0
