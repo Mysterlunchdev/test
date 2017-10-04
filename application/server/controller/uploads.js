@@ -84,7 +84,7 @@ module.exports = {
 		// 		//   if (!err)
 				//     console.log(size.width > size.height ? 'wider' : 'taller than you');
 				// })
-			}
+			// }
 	},
 	uploadPicture: function(req,res) {
 		// AWS.config.region = 'eu-central-1';

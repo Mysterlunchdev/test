@@ -1,9 +1,9 @@
 branch-defaults:
   master:
-    environment: null
+    environment: mahlzeitdev-env
     group_suffix: null
 global:
-  application_name: mahlzeitbmw
+  application_name: mahlzeitdev
   branch: null
   default_ec2_keyname: null
   default_platform: Node.js
@@ -11,7 +11,7 @@ global:
   instance_profile: null
   platform_name: null
   platform_version: null
-  profile: '360'
+  profile: mahlzeit
   repository: null
   sc: git
   workspace_type: Application
