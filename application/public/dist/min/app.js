@@ -735,6 +735,14 @@ app.controller('MainCtrl', ["$scope", "Official", "Canteen", "News", "delegator"
 		})
 	} 
 
+	$scope.saveCanteen = function(item) {
+		delegator.PUT(item, Canteen, {id:item._id}).then(function(data) {
+			
+		}, function(reason) {
+			mvNotifier.error(reason);
+		})
+	}	
+
 	$scope.identity = mvIdentity.currentUser;
 	console.log("$scope.", $scope.identity)
 

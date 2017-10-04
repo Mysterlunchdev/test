@@ -24,10 +24,20 @@
 					input.form-control(ng-model="identity.official" Placeholder="Kantine name")
 					button(ng-click="officialuser(identity.official);")
 	.row
-		h5 Alle Kantinen
-		p
-			span(ng-repeat="item in canteens") {{item.name}}
-				//- i.fa.fa-times(ng-click="deleteIngredient(item)")
+		.col-md-12
+			h5 Alle Kantinen
+			.row(ng-repeat="item in canteens") 
+				.col-md-12
+					p {{item}}
+					p(ng-click="saveCanteen(item)") Save
+					span(ng-repeat="item in item.days") {{item.name}}
+						span(ng-click="$parent.item.days.splice($index,1)")  -  
+					form
+						.form-group
+							input.form-control(ng-model="newname" Placeholder="Tag name")
+						.form-group
+							button.btn.btn-default(ng-click="item.days.push({name:newname})") Hinzufügen
+					//- i.fa.fa-times(ng-click="deleteIngredient(item)")
 	.row
 		.col-sm-12
 			form
@@ -197,6 +207,9 @@
 					input.form-control(ng-model="news.picture" Placeholder='EN pic')
 				.form-group
 					button.btn.btn-default(ng-click="addNews()") Hinzufügen
+	.row
+		.col-md-12
+			input.form-control(ng-model="identity.imprint")
 	.row
 		h5 Alle Allergene
 		p

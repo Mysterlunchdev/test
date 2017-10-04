@@ -292,6 +292,31 @@ module.exports = {
 			}
 		})
 	},
+	updateCanteen: function(req,res){
+		canteen.findOne({_id:req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				data.days = req.body.days;
+				data.save(function(err){
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					res.status(204).end();
+				})
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 	/**
 	 * @api {POST} /api/feedback send feedback
 	 * @apiVersion 0.1.0
@@ -337,6 +362,27 @@ module.exports = {
 	 * @apiErrorExample Error-Response:
 	 *	HTTP/1.1 400 Bad Request
 	 */
+	 getImprint: function(req,res) {
+	 	if (req.headers["official"]!=undefined) var official = req.headers["official"];
+		else var official = '';
+		if (official!='') var query = {official:official}
+		else var query = {}
+		userModel.findOne(query).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send({imprint: data.imprint})
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+
+	 },
 	getTwitter:function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
@@ -1215,16 +1261,29 @@ module.exports = {
 			if (req.user.veggie==undefined) req.user.veggie=true;
 			else req.user.veggie=!req.user.veggie;
 			console.log(req.user.veggie, "veggie")
-			req.user.save();
-			res.send({veggie:req.user.veggie, vegan: req.user.vegan});
-			return res.status(204).end();
+			req.user.save(function(err){
+				if (err) {
+					console.log("error" + err.toString());
+					res.status(400);
+					res.send({reason:err.toString()});
+					return res.end();
+				}
+				res.send({veggie:req.user.veggie, vegan: req.user.vegan});
+				return res.status(200).end();
+			})
 		}
 		if (req.body.vegan!=undefined) {
 			if (req.user.vegan==undefined) req.user.vegan=true;
 			else req.user.vegan=!req.user.vegan;
-			req.user.save();
-			res.send({veggie:req.user.veggie, vegan: req.user.vegan});
-			return res.status(204).end();
+			req.user.save(function(err){
+				if (err) {
+					console.log("error" + err.toString());
+					res.status(400);
+					res.send({reason:err.toString()});
+					return res.end();
+				}
+				res.send({veggie:req.user.veggie, vegan: req.user.vegan});
+			})
 		}
 		if (req.user.specs==undefined) {
 			req.user.specs = [];
@@ -1232,9 +1291,16 @@ module.exports = {
 		var index = helper.findInArray(req.user.specs, req.body.val, "val");
 		if (index==-1) req.user.specs.push(req.body);
 		else req.user.specs.splice(index,1);
-		req.user.save();
-		res.send({specs: req.user.specs});
-		res.status(200).end();
+		req.user.save(function(err){
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			res.send({specs: req.user.specs});
+			res.status(200).end();
+		})
 	},
 	/**
 	 * @api {DELETE} /api/menu/:id/:mealid deleting meal in menu

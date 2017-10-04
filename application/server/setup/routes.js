@@ -51,12 +51,12 @@ module.exports = function(router) {
 
 	});
 
-	router.get('/language/:file', function(req,res) {
+	router.get('/language/', function(req,res) {
 		if (req.headers["official"]!=undefined) var official = req.headers["official"];
 		else var official = '';
 		console.log("getting ile ", official)
 		// request('https://s3.eu-central-1.amazonaws.com/allventures1/lang/investor/'+req.params.file).pipe(res)
-		fs.readFile('./server/controller/language/'+official+'-'+ req.params.file, function(err,data) {
+		fs.readFile('./application/server/controller/language/'+official+'-'+ req.query.lang+'.json', function(err,data) {
 			if(err) {
 				console.log(err.toString());
 			} 
@@ -117,9 +117,11 @@ module.exports = function(router) {
 	router.post('/api/like/:id/:mealid', users.likeMeal)
 
 	// Canteen pushing
+	router.get('/api/imprint/', users.getImprint)
 	router.get('/api/canteen/', users.getCanteens)
 	router.get('/api/canteen/:id', users.getCanteen)
 	router.post('/api/canteen/', users.createCanteen)
+	router.put('/api/canteen/:id', users.updateCanteen)
 
 	router.get('/api/crowd/', users.getNumber)
 	router.post('/api/crowd/', users.createNumber)
