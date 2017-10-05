@@ -718,145 +718,88 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 	// 7) Milchlaktose, 8) Schalenfrüchte, 9) Sellerie, 10) Senf, 11) Sesam, 
 	// 12) Schwefeldioxid, 13) Lupinen, 14) Weichtiere
 // a) Konservierungsstoff, b) Antioxidationsmittel, c) Geschmacksverstärker, d) Süßungsmittel, e) Farbstoff, f) Phosphat
-	
-	$scope.meats = [{
-		de: 'Geflügel',
-		en: '',
-		val: 'G'
-	},{
-		de: 'Kalb',
-		en: '',
-		val: 'K'
-	},{
-		de: 'Lamm',
-		en: '',
-		val: 'L'
-	},{
-		de: 'Rind',
-		en: '',
-		val: 'R'
-	},{
-		de: 'Schwein',
-		en: '',
-		val: 'S'
-	},{
-		de: 'Wild',
-		en: '',
-		val: 'W'
-	}]
+
 	$scope.adds = [{
-		de: 'mit Farbstoff',
-		en: '',
-		val: '01'
+		de: 'Konservierungsstoff',
+		en: 'Konservierungsstoff',
+		val: 'a'
 	},{
-		de: 'mit Konservierungsstoff',
-		en: '',
-		val: '02'
+		de: 'Antioxidationsmittel',
+		en: 'Antioxidationsmittel',
+		val: 'b'
 	},{
-		de: 'mit Antioxidationsmittel',
-		en: '',
-		val: '03'
+		de: 'Geschmacksverstärker',
+		en: 'Geschmacksverstärker',
+		val: 'c'
 	},{
-		de: 'mit Geschmacksverstärker',
-		en: '',
-		val: '04'
+		de: 'Süßungsmittel',
+		en: 'Süßungsmittel',
+		val: 'd'
 	},{
-		de: 'geschwefelt',
-		en: '',
-		val: '05'
+		de: 'Farbstoff',
+		en: 'Farbstoff',
+		val: 'e'
 	},{
-		de: 'geschwärzt',
-		en: '',
-		val: '06'
-	},{
-		de: 'mit Süßungsmittel(n)',
-		en: '',
-		val: '07'
-	},{
-		de: 'mit einer Zuckerart und Süßungsmittel(n)',
-		en: '',
-		val: '08'
-	},{
-		de: 'koffeinhaltig',
-		en: '',
-		val: '09'
-	},{
-		de: 'chininhaltig',
-		en: '',
-		val: '10'
-	},{
-		de: 'mit Phosphat',
-		en: '',
-		val: '11'
-	},{
-		de: 'gewachst',
-		en: '',
-		val: '12'
-	},{
-		de: 'enthält eine Phenylalaninquelle',
-		en: '',
-		val: '13'
-	},{
-		de: 'genetisch verändert',
-		en: '',
-		val: '14'
-	},]
+		de: 'Phosphat',
+		en: 'Phosphat',
+		val: 'f'
+	}]
 	$scope.specs = [{
 		de: 'Gluten',
 		en: 'Gluten',
-		val: 'a'
-	},{
-		de: 'Milch',
-		en: 'Milch',
-		val: 'b'
+		val: '1'
 	},{
 		de: 'Krebstiere',
 		en: 'Krebstiere',
-		val: 'c'
+		val: '2'
 	},{
 		de: 'Eier',
 		en: 'Eier',
-		val: 'd'
+		val: '3'
 	},{
 		de: 'Fisch',
 		en: 'Fisch',
-		val: 'e'
+		val: '4'
 	},{
 		de: 'Erdnüsse',
 		en: 'Erdnüsse',
-		val: 'f'
+		val: '5'
 	},{
 		de: 'Soja',
 		en: 'Soja',
-		val: 'g'
+		val: '6'
+	},{
+		de: 'Milchlaktose',
+		en: 'Milchlaktose',
+		val: '7'
 	},{
 		de: 'Schalenfrüchte',
 		en: 'Schalenfrüchte',
-		val: 'h'
+		val: '8'
 	},{
 		de: 'Sellerie',
 		en: 'Sellerie',
-		val: 'i'
+		val: '9'
 	},{
 		de: 'Senf',
 		en: 'Senf',
-		val: 'k'
+		val: '10'
 	},{
 		de: 'Sesam',
 		en: 'Sesam',
-		val: 'l'
+		val: '11'
 	},{
 		de: 'Schwefeldioxid',
 		en: 'Schwefeldioxid',
-		val: 'm'
+		val: '12'
 	},{
 		de: 'Lupinen',
 		en: 'Lupinen',
-		val: 'n'
+		val: '13'
 	},{
 		de: 'Weichtiere',
 		en: 'Weichtiere',
-		val: 'o'
+		val: '14'
 	}]
 
 	$scope.news = {
@@ -889,14 +832,12 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 			de:'',
 			en:''
 		},
-		ampel: '',
 		ingredients:[],
 		description: {
 			de: '',
 			en: ''
 		}, 
 		adds:[],
-		meats:[],
 		specs: [],
 		price: [{
 			de: {
@@ -1037,9 +978,6 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 			// success undefined - get new
 			$scope.meal = {
 				specs: [],
-				adds: [],
-				meats: [],
-				ampel: '',
 				price: [{
 			de: {
 				name: 'Mitarbeiter',
@@ -1082,23 +1020,6 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 		})
 	}
 
-	$scope.updateDay = function(item) {
-		// console.log("updat day")
-		delegator.PUT(item, Days, {id:item._id}).then(function(data) {
-			console.log("yes");
-		}, function(reason) {
-			mvNotifier.error(reason);
-		})
-	}
-	$scope.updateMeal = function(item) {
-		// console.log("updat day")
-		delegator.PUT(item, Meals, {id:item._id}).then(function(data) {
-			console.log("yes");
-		}, function(reason) {
-			mvNotifier.error(reason);
-		})
-	}
-
 
 	$scope.deleteDay = function(item) {
 		delegator.DELETE({}, Days, {id:item._id}).then(function(data) {
@@ -1123,11 +1044,6 @@ app.controller('MainCtrl', ["$scope", "Canteen", "News", "delegator", "Meals", "
 	// FILTEr
 	$scope.isInsideAdds = function( item ) {
 		var index = findInArray($scope.meal.adds, item.val, 'val');
-		if (index==-1) return true;
-		else return false;
-	};
-	$scope.isInsideMeats = function( item ) {
-		var index = findInArray($scope.meal.meats, item.val, 'val');
 		if (index==-1) return true;
 		else return false;
 	};

@@ -2,13 +2,28 @@
 	.row
 		.col-md-12.text-center
 			h1 Willkommen
-	
-	//- .row
+	.row
+		h5 Alle News
+		p
+			span(ng-repeat="item in allnews") {{item.text}} {{item.title}} {{item.date}} |\/| 
+				i.fa.fa-times(ng-click="deleteIngredient(item)")
+	.row
+		.col-sm-12
+			form
+				.form-group
+					input.form-control(ng-model="news.title" Placeholder='DE title')
+				.form-group
+					input.form-control(ng-model="news.text" Placeholder='EN text')
+				.form-group
+					input.form-control(ng-model="news.picture" Placeholder='EN pic')
+				.form-group
+					button.btn.btn-default(ng-click="addNews()") Hinzufügen
+	.row
 		h5 Alle Zutaten
 		p
 			span(ng-repeat="item in ingredients") DE: {{item.name.de}} / EN: {{item.name.en}} |\/|  
 				i.fa.fa-times(ng-click="deleteIngredient(item)")
-	//- .row
+	.row
 		.col-sm-12
 			form
 				.form-group
@@ -46,15 +61,13 @@
 		.col-sm-12
 			h4 Alle Tage
 		.col-sm-12(ng-repeat="item in days")
-			p Am Tag {{item.day | date : 'dd.MM.yyyy'}} gibt es:
-			input.form-control(ng-model="item.day") 
-			input.form-control(ng-model="item.day2" ng-init="item.day2=item.day" ng-enter="updateDay(item)") 
-			div(ng-repeat="item in item.meals")
-				b {{item.name.de}}  {{item._id}}
-				//- p {{item._canteenid}}
-				i.fa.fa-times(ng-click="deleteDay(item)")
-				p Zutaten: {{}} 
-					span(ng-repeat="item in item.specs") {{item.val}},
+			p Am Tag {{item.day | date : 'dd.MM.yyyy'}} gibt es: 
+				div(ng-repeat="item in item.meals")
+					b {{item.name.de}} 
+					//- p {{item._canteenid}}
+					i.fa.fa-times(ng-click="deleteDay(item)")
+					p Zutaten: {{}} 
+						span(ng-repeat="item in item.specs") {{item.val}},
 				//- p {{item.description.de}}
 				//- p
 				//- 	span(ng-repeat="item in item.price") {{item.de.name}}: {{item.de.price}}
@@ -68,16 +81,11 @@
 				b {{item.name.de}}
 				br
 				p {{item.description.de}}
-				input(ng-model="item.ampel" ng-enter="updateMeal(item)")
 				p
 					span(ng-repeat="item in item.price") {{item.de.name}}: {{item.de.price}}
 						br
 				p Zutaten: 
 					span(ng-repeat="item in item.specs") {{item.val}},
-				p Zutaten: 
-					span(ng-repeat="item in item.adds") {{item.val}},
-				p Zutaten: 
-					span(ng-repeat="item in item.meats") {{item.val}},
 
 		.col-sm-12
 			h4.text-center Mahlzeiten
@@ -94,48 +102,44 @@
 								.form-group
 									input.form-control(ng-model="meal.picture" Placeholder="picture link")
 						.row
-							.col-sm-12
+							.col-sm-6
 								.form-group
-									input.form-control(ng-model="meal.ampel" Placeholder="Ampelwert 1 grün 2 gelb 3 rot")
-						.row
-							.col-xs-6
-								.form-group
-									input.form-control(ng-model="meal.name.de" ng-change="meal.name.en=meal.name.de" Placeholder="DE Name")
-							.col-xs-6
+									input.form-control(ng-model="meal.name.de" Placeholder="DE Name")
+							.col-sm-6
 								.form-group
 									input.form-control(ng-model="meal.name.en" Placeholder="EN Name")
 						.row
-							.col-xs-6
+							.col-sm-6
 								.form-group
-									input.form-control(ng-model="meal.description.de" ng-change="meal.description.en=meal.description.de" Placeholder="DE description")
-							.col-xs-6
+									input.form-control(ng-model="meal.description.de" Placeholder="DE description")
+							.col-sm-6
 								.form-group
 									input.form-control(ng-model="meal.description.en" Placeholder="EN description")
-						//- .row
+						.row
 							.col-sm-12
 								.row
 									.col-sm-4(ng-repeat="item in meal.price")
 										p {{item}}
 											i.fa.fa-times(ng-click="meal.price.splice($index,1)")
-							//- .col-sm-12
+							.col-sm-12
 								h6 Preis hinzufügen
-						//- .row
-						//- 	.col-xs-6
-						//- 		.form-group
-						//- 			input.form-control(ng-model="price.de.name" Placeholder="DE name")
-						//- 	.col-xs-6
-						//- 		.form-group
-						//- 			input.form-control(ng-model="price.de.price" Placeholder="DE price")
-						//- .row
-						//- 	.col-xs-6
-						//- 		.form-group
-						//- 			input.form-control(ng-model="price.en.name" Placeholder="EN name")
-						//- 	.col-xs-6
-						//- 		.form-group
-						//- 			input.form-control(ng-model="price.en.price" Placeholder="EN price")
-						//- .row
-						//- 	.col-xs-6
-						//- 		button.btn.btn-default(ng-click="meal.price.push(price);price={};") Preis hinzufügen
+						.row
+							.col-sm-6
+								.form-group
+									input.form-control(ng-model="price.de.name" Placeholder="DE name")
+							.col-sm-6
+								.form-group
+									input.form-control(ng-model="price.de.price" Placeholder="DE price")
+						.row
+							.col-sm-6
+								.form-group
+									input.form-control(ng-model="price.en.name" Placeholder="EN name")
+							.col-sm-6
+								.form-group
+									input.form-control(ng-model="price.en.price" Placeholder="EN price")
+						.row
+							.col-sm-6
+								button.btn.btn-default(ng-click="meal.price.push(price);price={};") Preis hinzufügen
 						.row
 							h6 Zutaten hinzugefügt:
 							p
@@ -161,36 +165,11 @@
 									i.fa.fa-minus(ng-click="meal.adds.splice($index,1)") 
 							h6 Additives offen:
 							p
-								span(style="padding:2px;margin-right:4px" ng-repeat="item in adds | filter: isInsideAdds") {{item.val}} {{item.de}}
+								span(style="padding:2px;margin-right:4px" ng-repeat="item in adds | filter: isInsideAdds") {{item.de}}
 									i.fa.fa-plus(ng-click="meal.adds.push(item)") 
-						.row
-							h6 Meats hinzugefügt:
-							p
-								span(style="padding:2px;margin-right:4px" ng-repeat="item in meal.meats") {{item.de}}
-									i.fa.fa-minus(ng-click="meal.meats.splice($index,1)") 
-							h6 Meats offen:
-							p
-								span(style="padding:2px;margin-right:4px" ng-repeat="item in meats") {{item.val}} {{item.de}}
-									i.fa.fa-plus(ng-click="meal.meats.push(item)") 
 						.row
 							.col-sm-12
 								button.btn.btn-default(ng-click="addMeal()") Meal hinzufügen
-	.row
-		h5 Alle News
-		p
-			span(ng-repeat="item in allnews") {{item.text}} {{item.title}} {{item.date}} |\/| 
-				i.fa.fa-times(ng-click="deleteIngredient(item)")
-		.row
-		.col-sm-12
-			form
-				.form-group
-					input.form-control(ng-model="news.title" Placeholder='DE title')
-				.form-group
-					input.form-control(ng-model="news.text" Placeholder='EN text')
-				.form-group
-					input.form-control(ng-model="news.picture" Placeholder='EN pic')
-				.form-group
-					button.btn.btn-default(ng-click="addNews()") Hinzufügen
 //- .nopadding.prim-color.def-font-color.top-bg.padding50bottom
 //- 	.container.center
 //- 		.row
@@ -202,7 +181,7 @@
 //- 					span  Mitarbeiter
 //- 				.row.center
 //- 					i.fa.fa-sign-in.fa-5x.center
-//- 				.col-md-6.col-lg-4.col-xs-10.col-xs-6.col-md-offset-2.col-lg-offset-4
+//- 				.col-md-6.col-lg-4.col-xs-10.col-sm-6.col-md-offset-2.col-lg-offset-4
 //- 					form
 //- 						fieldset
 //- 							.input-group.margin10bottom

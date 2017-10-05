@@ -7,8 +7,6 @@ var mongoose = require('mongoose'),
 	ingredients = mongoose.model('ingredients'),
 	days = mongoose.model('days'),
 	user = mongoose.model('alldevices'),
-beaconsuuid = mongoose.model('beaconsuuid'),
-	beacons = mongoose.model('beacons'),
 	meals = mongoose.model('meals'),
 	news = mongoose.model('news'),
 	crowd = mongoose.model('crowdflow'),
@@ -31,104 +29,6 @@ beaconsuuid = mongoose.model('beaconsuuid'),
 
 
 module.exports = {
-// 	session_id (number), uuid (varchar), major (number), minor (number), datetime, user_id (number)
-
-// Ich bräuchte einen Call zum Eintragen (also POST) und einen zum Auslesen (also GET).
-	/**
-	 * @api {POST} /api/beacon create Beacon
-	 * @apiVersion 0.1.0
-	 * @apiName createBeacon
-	 * @apiGroup Beacons
-	 * @apiDescription Creating new Beacon
-	 *
-	 *
-	 *
-	 * @apiSuccessExample Success-Response:
-	 *	HTTP/1.1 204 No Content 
-	 *
-	 * @apiError Error when couldnt save
-	 *
-	 * @apiErrorExample Error-Response:
-	 *	HTTP/1.1 400 Bad Request
-	 */
-	createBeacon: function(req,res) {
-		var now = new beacons(req.body);
-		now.save(function(err){
-			if (err) {
-				console.log("error" + err.toString());
-				res.status(400);
-				res.send({reason:err.toString()});
-				return res.end();
-			}
-			res.status(204).end();
-		})
-	},
-	createBeaconUUID: function(req,res) {
-		var now = new beaconsuuid(req.body);
-		now.save(function(err){
-			if (err) {
-				console.log("error" + err.toString());
-				res.status(400);
-				res.send({reason:err.toString()});
-				return res.end();
-			}
-			res.status(204).end();
-		})
-	},
-
-getBeaconUUID: function(req,res) {
-		beaconsuuid.find({}).exec(function(err,data) {
-			if (err) {
-				console.log("error" + err.toString());
-				res.status(400);
-				res.send({reason:err.toString()});
-				return res.end();
-			}
-			if (!!data) {
-				res.send({list:data});
-			} else {
-				res.send({list:[]});
-				res.status(200).end();
-			}
-		})
-	},
-
-	/**
-	 * @api {GET} /api/beacon get beacons
-	 * @apiVersion 0.1.0
-	 * @apiName getBeacon
-	 * @apiGroup Beacons
-	 * @apiDescription get all beacons
-	 *
-	 *
-	 *
-	 * @apiSuccessExample Success-Response:
-	 *	HTTP/1.1 200 OK 
-	 *		{
-	 *			list: [BeaconsObject]
-	 *		}
-	 *
-	 * @apiError Error when database problems
-	 *
-	 * @apiErrorExample Error-Response:
-	 *	HTTP/1.1 400 Bad Request
-	 */
-	getBeacon: function(req,res) {
-		beacons.find({}).exec(function(err,data) {
-			if (err) {
-				console.log("error" + err.toString());
-				res.status(400);
-				res.send({reason:err.toString()});
-				return res.end();
-			}
-			if (!!data) {
-				res.send({list:data});
-			} else {
-				res.send({list:[]});
-				res.status(200).end();
-			}
-		})
-	},
 	getNumber: function(req,res){
 		crowd.find({}).exec(function(err,data) {
 			if (err) {
@@ -152,8 +52,6 @@ getBeaconUUID: function(req,res) {
 				res.status(204).end()
 	},
 	count: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		count.findOne({name: req.params.name}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -177,27 +75,7 @@ getBeaconUUID: function(req,res) {
 			}
 		})
 	},
-	/**
-	 * @api {POST} /api/canteen creating new canteen
-	 * @apiVersion 0.1.0
-	 * @apiName createCanteen
-	 * @apiGroup Canteens
-	 * @apiDescription creating new canteen
-	 *
-	 *
-	 * @apiParam {string} name name of the canteen
-	 *
-	 * @apiSuccessExample Success-Response:
-	 *	HTTP/1.1 204 No Content 
-	 *
-	 * @apiError Error when saving problem
-	 *
-	 * @apiErrorExample Error-Response:
-	 *	HTTP/1.1 400 Bad Request
-	 */
 	createCanteen: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		var now = new canteen(req.body);
 		now.save(function(err){
 			if (err) {
@@ -209,25 +87,6 @@ getBeaconUUID: function(req,res) {
 			res.status(204).end();
 		});
 	},
-	/**
-	 * @api {GET} /api/canteen get all canteens
-	 * @apiVersion 0.1.0
-	 * @apiName getCanteens
-	 * @apiGroup Canteens
-	 * @apiDescription get all canteens 
-	 *
-	 *
-	 * @apiSuccessExample Success-Response:
-	 *	HTTP/1.1 200 OK 
-	 *		{
-	 *			list: [{name: String}],
-	 *		}
-	 *
-	 * @apiError Error When form is wrong
-	 *
-	 * @apiErrorExample Error-Response:
-	 *	HTTP/1.1 400 Bad Request
-	 */
 	getCanteens: function(req,res ){
 		canteen.find({}).exec(function(err,data) {
 			if (err) {
@@ -244,33 +103,11 @@ getBeaconUUID: function(req,res) {
 			}
 		})
 	},
-	/**
-	 * @api {POST} /api/feedback send feedback
-	 * @apiVersion 0.1.0
-	 * @apiName sendFeedback
-	 * @apiGroup Feedback
-	 * @apiDescription send users feedback to server
-	 *
-	 *
-	 * @apiParam {String} text Text of the feedback
-	 *
-	 * @apiSuccessExample Success-Response:
-	 *	HTTP/1.1 204 No Content 
-	 *
-	 * @apiError Error When form is wrong
-	 *
-	 * @apiErrorExample Error-Response:
-	 *	HTTP/1.1 400 Bad Request
-	 */
 	sendFeedback: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		mailer.inform(req.body.text);
 		res.status(204).end();
 	},
 	getTwitter:function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		// var ig = require('instagram-node').instagram({});
 		//   ig.use({ access_token: '2062016626.00fa5e6.17c1d1132fc04a0bacffd0c4a6d28454' });
 		// //  	ig.media_popular(function(err, medias, remaining, limit) {
@@ -310,8 +147,6 @@ getBeaconUUID: function(req,res) {
 		});
 	},
 	createNews: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		var now = new news(req.body);
 		now.save(function(err){
 			if (err) {
@@ -324,8 +159,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	getNews: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		news.find({}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -343,8 +176,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	getNewsDetail: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		news.findOne({_id:req.params.id}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -362,8 +193,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	getFavorites: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		// var token = req.body.token || req.query.token || req.headers['x-access-token'];
 		// if (token!=undefined) {
 
@@ -386,8 +215,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	getFavoritesDetail: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -425,8 +252,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	getMenu: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -445,8 +270,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	getAll: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -465,8 +288,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	createUserMeal: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -496,8 +317,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	getLikes: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		console.log("getlikes",req.params.id)
 		meals.findOne({_id:req.params.id}).exec(function(err,data) {
 			console.log("insiede")
@@ -515,8 +334,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	likeMeal: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		console.log("addMealToFavorite")
 		user.findOne({deviceid: req.params.id}).exec(function(err,data) {
 			if (err) {
@@ -575,8 +392,6 @@ getBeaconUUID: function(req,res) {
 	},
 
 	addMealToFavorite: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		console.log("addMealToFavorite2")
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
@@ -586,27 +401,6 @@ getBeaconUUID: function(req,res) {
 				res.status(400);
 				res.send({reason:err.toString()});
 				return res.end();
-			}
-			if (!!data) {
-
-			} else {
-				var now = new user(req.body);
-				if (req.user!=undefined) { now.userid= req.user._id}
-				else now.deviceid = req.params.id;
-				now.meals=[];
-				now.save(function(err){
-					if (err) {
-						console.log("error" + err.toString());
-						res.status(400);
-						res.send({reason:err.toString()});
-						return res.end();
-					}
-					res.status(204).end();
-				})
-				data=now;
-				// console.log("send leer2 weil id nicht gefunden")
-				// res.send({list:now.meals});
-				// res.status(200).end();
 			}
 			if (!!data) {
 				meals.findOne({_id:req.params.mealid}).exec(function(err,data2) {
@@ -644,13 +438,13 @@ getBeaconUUID: function(req,res) {
 
 				})
 			} else {
-				
+				console.log("send leer2 weil id nicht gefunden")
+				res.send({});
+				res.status(200).end();
 			}
 		})
 	},
 	deleteMealToFavorite: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -706,10 +500,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	addMealToMenu: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -780,8 +570,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	getSpecMeal: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		meals.findOne({_id:req.params.id}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -798,15 +586,11 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	getSpec: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		console.log("getting spec", req.user.veggie, req.user.vegan)
 		res.send({specs: req.user.specs, veggie:req.user.veggie, vegan:req.user.vegan});
 		res.status(200).end();
 	},
 	changeSpec: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		console.log("changespecs", req.body);
 		if (req.body.veggie!=undefined) {
 			if (req.user.veggie==undefined) req.user.veggie=true;
@@ -829,20 +613,11 @@ getBeaconUUID: function(req,res) {
 		var index = helper.findInArray(req.user.specs, req.body.val, "val");
 		if (index==-1) req.user.specs.push(req.body);
 		else req.user.specs.splice(index,1);
-		req.user.save(function(err){
-			if (err) {
-				console.log("error" + err.toString());
-				res.status(400);
-				res.send({reason:err.toString()});
-				return res.end();
-			}
-			res.send({specs: req.user.specs});
-			res.status(200).end();
-		});
+		req.user.save();
+		res.send({specs: req.user.specs});
+		res.status(200).end();
 	},
 	deleteMealToMenu: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		if (req.user!=undefined) { var query = {userid: req.user._id}}
 		else var query = {deviceid:req.params.id}
 		user.findOne(query).exec(function(err,data) {
@@ -939,8 +714,6 @@ getBeaconUUID: function(req,res) {
 	 *     HTTP/1.1 400 Bad Request
 	 */
 	getMeal: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		meals.find({}).exec(function(err,data) {
 			console.log("inside")
 			if (err) {
@@ -988,8 +761,6 @@ getBeaconUUID: function(req,res) {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	createMeal: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		var now = new meals(req.body);
 		now.save(function(err){
 			if (err) {
@@ -1023,8 +794,6 @@ getBeaconUUID: function(req,res) {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	changeMeal: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		meals.get({_id:req.params.id}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -1070,8 +839,6 @@ getBeaconUUID: function(req,res) {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	deleteMeal: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		meals.remove({_id:req.params.id}).exec(function(err) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -1157,8 +924,6 @@ getBeaconUUID: function(req,res) {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	createDay: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		meals.findOne({_id:req.params.id}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -1179,8 +944,6 @@ getBeaconUUID: function(req,res) {
 						number: req.body.number,
 						description: data.description,
 						specs: data.specs,
-						meats: data.meats,
-						ampel: data.ampel,
 						adds: data.adds,
 						picture: data.picture,
 						price: data.price,
@@ -1203,84 +966,7 @@ getBeaconUUID: function(req,res) {
 			}
 		})
 	},
-	updateDay: function(req,res) {
-		// console.log(req.body)
-		// return ;
-		days.find({}).exec(function(err, data) {
-			if (err) {
-				console.log("error" + err.toString());
-				res.status(400);
-				res.send({reason:err.toString()});
-				return res.end();
-			} else {
-				console.log("okay")
-				for (var i = 0; i < req.body.meals.length; i++) {
-					console.log(req.body.meals[i])
-					var index = helper.findInArray(data, req.body.meals[i]._mealid, "_mealid");
-					if (index!=-1)
-						data[index].day=req.body.day2;
-					console.log(index)
-					data[index].save(function(err) {
-						if (err) {
-							console.log("error" + err.toString());
-							res.status(400);
-							res.send({reason:err.toString()});
-							return res.end();
-						} else {
-							res.status(204).end();
-						}
-					})
-				}
-			}
-			
-		})
-	},
-	updateMeal: function(req,res) {
-		meals.findOne({_id:req.params.id}).exec(function(err,data) {
-			if (err) {
-				console.log("error" + err.toString());
-				res.status(400);
-				res.send({reason:err.toString()});
-				return res.end();
-			}
-			if (!!data) {
-				data.ampel = req.body.ampel;
-				days.find({"_mealid":data._id}).exec(function(err,data2) {
-					if (err) {
-						console.log("error" + err.toString());
-						res.status(400);
-						res.send({reason:err.toString()});
-						return res.end();
-					}
-					if (!!data) {
-						for (var i = 0; i < data2.length; i++) {
-							console.log("updateDay")
-							data2[i].ampel = data.ampel;
-							data2[i].save();
-						}
-					} else {
-						res.send({});
-						res.status(200).end();
-					}
-				});
-				data.save(function(err){
-					if (err) {
-						console.log("error" + err.toString());
-						res.status(400);
-						res.send({reason:err.toString()});
-						return res.end();
-					}
-					res.status(204).end();
-				})
-			} else {
-				res.send({});
-				res.status(200).end();
-			}
-		})
-	},
 	changeDate: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 
 	},
 	/**
@@ -1308,8 +994,6 @@ getBeaconUUID: function(req,res) {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	getIngredients:function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		console.log("yo")
 		ingredients.find({}).exec(function(err,data) {
 			if (err) {
@@ -1346,8 +1030,6 @@ getBeaconUUID: function(req,res) {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	createIngredient: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		console.log(req.body)
 		var now = new ingredients(req.body);
 		now.save(function(err){
@@ -1361,8 +1043,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	deleteIngredient: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		ingredients.remove({_id:req.params.id}).exec(function(err) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -1374,8 +1054,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	changeIngredient: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 
 	},
 	/**
@@ -1399,8 +1077,6 @@ getBeaconUUID: function(req,res) {
 	 *	HTTP/1.1 400 Bad Request
 	 */
 	getDay: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		console.log("getMeals")
 		var cutoff = new Date();
 		cutoff.setDate(cutoff.getDate());
@@ -1450,30 +1126,28 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	checkCodeAndRedirect: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		userModel.findOne({email:req.params.email}).exec(function(err,data) {
 			if (!!data) {
 				if (req.params.code==data.code) {
 					data.activated=true;
 					data.save();
-					return req.logIn(data, function(err) {
-						console.log("login");
-						if (err) { return console.log(err.toString());}
-						res.redirect('https://www.eon.de/de/pk.html');
-						return res.end();
-					});
-					res.render('login')
+					res.redirect('http://www.mahlzeit.co');
+					// return req.logIn(data, function(err) {
+					// 	console.log("login");
+					// 	if (err) { return console.log(err.toString());}
+					// 	return res.end();
+					// });
+					// res.render('login')
 					// return res.render('promoFulfill', {code: data.code, mail:data.email})
 					
 				}
+			} else {
+					res.redirect('http://www.mahlzeit.co');
 			}
-			res.status(404).end();
+			// res.status(404).end();
 		});
 	},
 	updateUser: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		for (var key in req.body) {
 			req.user[key] = req.body[key];
 		}
@@ -1489,8 +1163,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	sendtestmail: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		userModel.find({"email": "markus.egon.kuhn@gmail.com"}).exec(function(err,data) {
 			if (err) {
 				console.log("error" + err.toString());
@@ -1509,11 +1181,10 @@ getBeaconUUID: function(req,res) {
 
 	},
 	createUser: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		console.log("createUser", req.body);
 		var user = new userModel(req.body);
 		user.email = req.body.email.toLowerCase();
+		if (user.email.indexOf('@eon')==-1) return res.status(400).end();
 		user.salt = crypt.createSalt();
 		user.code = generateUUID();
 		mailer.sendEmail('code', user);
@@ -1532,8 +1203,6 @@ getBeaconUUID: function(req,res) {
 		
 	}, 
 	fulfillUserClient: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 			AWS.config.region = 'eu-central-1';
 			var s3bucket = new AWS.S3({params: {Bucket: 'promoplattform'}});
 
@@ -1755,8 +1424,6 @@ getBeaconUUID: function(req,res) {
 			// })
 	},
 	fulfillUser: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		 userModel.findOne({email:req.params.mail}).exec(function(err,data) {
 				// if err print stacktrace and send status 400 to user
 				if (err) {
@@ -1850,8 +1517,6 @@ getBeaconUUID: function(req,res) {
 			})
 	},
 	newMail: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		userModel.findOne({email:req.params.email}).exec(function(err,data) {
 			if (!!data) {
 				mailer.sendEmail('activate', data);
@@ -1860,8 +1525,6 @@ getBeaconUUID: function(req,res) {
 		})
 	},
 	createUserRedirect: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		console.log("createUser", req.body);
 		var user = new userModel(req.body);
 		user.email = req.body.email.toLowerCase();
@@ -1889,8 +1552,6 @@ getBeaconUUID: function(req,res) {
 		res.status(200).end();
 	},
 	getUser: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		userModel.findOne({email:req.params.email}).exec(function(err,data) {
 			// if err print stacktrace and send status 400 to user
 			if (err) {
@@ -1910,8 +1571,6 @@ getBeaconUUID: function(req,res) {
 
 	},
 	getUserById: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 		userModel.findOne({_id:req.params.id}, '-salt -hashed_pwd').exec(function(err,data) {
 			// if err print stacktrace and send status 400 to user
 			if (err) {
@@ -1931,8 +1590,6 @@ getBeaconUUID: function(req,res) {
 
 	},
 	deleteUser: function(req,res) {
-		if (req.headers["official"]!=undefined) var official = req.headers["official"];
-		else var official = '';
 
 	}
 }
