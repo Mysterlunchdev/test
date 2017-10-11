@@ -61,6 +61,34 @@ module.exports = {
 			}
 		})
 	},
+	updateCrowdflow: function(req,res) {
+		crowdflow.findOne({_id:req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				for (var key in req.body) {
+					data[key] = req.body[key];
+				}
+				data.save(function(err){
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					res.send({object:data});
+					res.status(200).end();
+				})
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 // 	session_id (number), uuid (varchar), major (number), minor (number), datetime, user_id (number)
 
 // Ich bräuchte einen Call zum Eintragen (also POST) und einen zum Auslesen (also GET).
