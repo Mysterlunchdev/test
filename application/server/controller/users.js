@@ -31,7 +31,8 @@ beaconsuuid = mongoose.model('beaconsuuid'),
 
 
 module.exports = {
-	createCrowdflow: function(rq,res) {
+	createCrowdflow: function(req,res) {
+		console.log("create Crod flow", req.body)
 		var now = new crowdflow(req.body);
 		now.save(function(err){
 			if (err) {
