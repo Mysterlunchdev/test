@@ -60,6 +60,16 @@ var createSchema = mongoose.Schema({
 
 // createSchema.index({email:1})
 var create = mongoose.model('ingredients', createSchema);
+
+
+// var createSchema = mongoose.Schema({
+    
+// }, {strict: false});
+
+
+
+// // createSchema.index({email:1})
+// var create = mongoose.model('crowdflow', createSchema);
 var createSchema = mongoose.Schema({
     Beacon_UUID: String,
     Beacon_Minor: String,
@@ -82,7 +92,7 @@ var createSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     }
-});
+}, {strict: false});
 
 
 

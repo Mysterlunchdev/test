@@ -105,6 +105,8 @@ module.exports = function(router) {
 	router.get('/api/crowd/', users.getNumber)
 	router.post('/api/crowd/', users.createNumber)
 
+	router.get('/api/crowdflow/', users.getCrowdflow)
+	router.post('/api/crowdflow/', users.createCrowdflow)
 
 
 	router.get('/activation/:email/:code', users.checkCodeAndRedirect)

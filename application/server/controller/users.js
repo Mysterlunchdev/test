@@ -9,6 +9,7 @@ var mongoose = require('mongoose'),
 	user = mongoose.model('alldevices'),
 beaconsuuid = mongoose.model('beaconsuuid'),
 	beacons = mongoose.model('beacons'),
+	crowdflow = mongoose.model('crowdflow'),
 	meals = mongoose.model('meals'),
 	news = mongoose.model('news'),
 	crowd = mongoose.model('crowdflow'),
@@ -31,6 +32,35 @@ beaconsuuid = mongoose.model('beaconsuuid'),
 
 
 module.exports = {
+	createCrowdflow: function(rq,res) {
+		var now = new crowdflow(req.body);
+		now.save(function(err){
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			res.send({object:now});
+			res.status(200).end();
+		})
+	},
+	getCrowdflow: function(rq,res) {
+		crowdflow.find({}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				res.send({list:data})
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 // 	session_id (number), uuid (varchar), major (number), minor (number), datetime, user_id (number)
 
 // Ich bräuchte einen Call zum Eintragen (also POST) und einen zum Auslesen (also GET).
