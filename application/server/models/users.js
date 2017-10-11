@@ -86,12 +86,7 @@ var create = mongoose.model('beaconsuuid', createSchema);
 
 
 var createSchema = mongoose.Schema({
-    number: Number,
-    myid: Number,
-    stamp: {
-        type: Date,
-        default: Date.now
-    }
+    
 }, {strict: false});
 
 

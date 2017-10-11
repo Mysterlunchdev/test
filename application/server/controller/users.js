@@ -70,9 +70,15 @@ module.exports = {
 				return res.end();
 			}
 			if (!!data) {
+				console.log("req.ody", req.body)
+				// for (var key in data)
+					// console.log("data", data[key])
 				for (var key in req.body) {
-					data[key] = req.body[key];
+					console.log("key is", key)
+					console.log(data._doc[key], req.body[key], data["CFtitle"], data.CFtitle)
+					data._doc[key] = req.body[key];
 				}
+				console.log(data._canteenid)
 				data.save(function(err){
 					if (err) {
 						console.log("error" + err.toString());
