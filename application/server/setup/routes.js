@@ -101,6 +101,7 @@ module.exports = function(router) {
 	// Canteen pushing
 	router.get('/api/canteen/', users.getCanteens)
 	router.post('/api/canteen/', users.createCanteen)
+	router.put('/api/canteen/:id', users.updateCanteen)
 
 	router.get('/api/crowd/', users.getNumber)
 	router.post('/api/crowd/', users.createNumber)

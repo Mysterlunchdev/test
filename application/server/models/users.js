@@ -100,7 +100,7 @@ var create = mongoose.model('crowdflow', createSchema);
 var createSchema = mongoose.Schema({
     name: String,
     official: String,
-});
+}, {strict: false});
 
 
 

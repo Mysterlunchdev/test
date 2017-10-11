@@ -95,6 +95,40 @@ module.exports = {
 			}
 		})
 	},
+	updateCanteen: function(req,res) {
+		canteen.findOne({_id:req.params.id}).exec(function(err,data) {
+			if (err) {
+				console.log("error" + err.toString());
+				res.status(400);
+				res.send({reason:err.toString()});
+				return res.end();
+			}
+			if (!!data) {
+				console.log("req.ody", req.body)
+				// for (var key in data)
+					// console.log("data", data[key])
+				for (var key in req.body) {
+					console.log("key is", key)
+					console.log(data._doc[key], req.body[key], data["CFtitle"], data.CFtitle)
+					data.set(key, req.body[key]);
+				}
+				console.log(data._canteenid)
+				data.save(function(err){
+					if (err) {
+						console.log("error" + err.toString());
+						res.status(400);
+						res.send({reason:err.toString()});
+						return res.end();
+					}
+					res.send({object:data});
+					res.status(200).end();
+				})
+			} else {
+				res.send({});
+				res.status(200).end();
+			}
+		})
+	},
 // 	session_id (number), uuid (varchar), major (number), minor (number), datetime, user_id (number)
 
 // Ich bräuchte einen Call zum Eintragen (also POST) und einen zum Auslesen (also GET).
