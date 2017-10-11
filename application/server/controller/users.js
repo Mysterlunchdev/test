@@ -76,7 +76,7 @@ module.exports = {
 				for (var key in req.body) {
 					console.log("key is", key)
 					console.log(data._doc[key], req.body[key], data["CFtitle"], data.CFtitle)
-					data._doc[key] = req.body[key];
+					data.set(key, req.body[key]);
 				}
 				console.log(data._canteenid)
 				data.save(function(err){
