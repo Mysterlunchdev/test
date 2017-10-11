@@ -1235,10 +1235,7 @@ getBeaconUUID: function(req,res) {
 						day: new Date(req.body.day),
 						_mealid:req.params.id,
 						_canteenid: req.body._canteenid,
-						 name: {
-							de: data.name.de,
-							en: data.name.en
-						},
+						 name: data.name,
 						ingredients: data.ingredients,
 						number: req.body.number,
 						description: data.description,
